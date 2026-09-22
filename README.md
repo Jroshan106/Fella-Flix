@@ -5,13 +5,7 @@ Welcome to **FellaFLIX** — a beautifully designed, "movie nerd" style streamin
 ### Live Demo
 Check out the live website here: **[https://fellaflix.vercel.app/](https://fellaflix.vercel.app/)**
 
----
-
-<<<<<<< HEAD
 ## How It Works
-=======
-Open https://fellaflix.vercel.app/ with your browser to see the result.
->>>>>>> 0790acc6e8291a9b0fbfd0e79ba131b41d6ce21b
 
 FellaFLIX is entirely front-end driven and does not host any video files or media content on its own servers. Instead, we act as a sleek aggregator UI. 
 
