@@ -91,7 +91,6 @@ export default function WatchMovie() {
               className="absolute inset-0 w-full h-full"
               allowFullScreen
               title="Movie Player"
-              sandbox="allow-same-origin allow-scripts allow-presentation"
             />
           </div>
           
