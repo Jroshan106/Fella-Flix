@@ -27,7 +27,7 @@ export function Navbar() {
           
           <div className="flex items-center space-x-6">
             <Link href="/" className="text-foreground hover:text-primary transition-colors font-medium">Home</Link>
-            <Link href="/watch-id" className="text-foreground hover:text-primary transition-colors font-medium">Watch by ID</Link>
+            <Link href="/request" className="text-foreground hover:text-primary transition-colors font-medium">Request a Movie</Link>
             
             <button
               onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
