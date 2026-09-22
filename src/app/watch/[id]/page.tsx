@@ -96,7 +96,12 @@ export default function WatchMovie() {
           
           <div className="text-center text-sm text-foreground/50 mt-6 pb-8 space-y-2">
             <p>Streaming provided by third-party APIs. We do not host these files.</p>
-            <p className="text-xs">Tip: We strongly recommend using an adblocker like <a href="https://ublockorigin.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">uBlock Origin</a> when watching free streams to block those intrusive popups.</p>
+            <p className="text-xs max-w-2xl mx-auto">
+              <strong>Desktop Tip:</strong> We strongly recommend using an adblocker like <a href="https://ublockorigin.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-bold">uBlock Origin</a> to block intrusive popups.
+            </p>
+            <p className="text-xs max-w-2xl mx-auto">
+              <strong>Mobile Tip:</strong> Use the <a href="https://brave.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-bold">Brave Browser</a> on your phone for a seamless, ad-free streaming experience!
+            </p>
           </div>
         </motion.div>
       </div>
