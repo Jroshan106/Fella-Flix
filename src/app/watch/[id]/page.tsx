@@ -4,8 +4,14 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { mockMovies } from "@/app/data/movies";
-import { ArrowLeft } from "lucide-react";
-import Link from "next/link";
+import { ArrowLeft, Server } from "lucide-react";
+
+const SERVERS = [
+  { name: "Server 1 (Vidsrc)", url: (id: string) => `https://vidsrc.to/embed/movie/${id}` },
+  { name: "Server 2 (AutoEmbed)", url: (id: string) => `https://autoembed.to/movie/tmdb/${id}` },
+  { name: "Server 3 (SuperEmbed)", url: (id: string) => `https://multiembed.mov/?video_id=${id}&tmdb=1` },
+  { name: "Server 4 (Vidcore)", url: (id: string) => `https://vidcore.org/embed/movie/${id}` },
+];
 
 export default function WatchMovie() {
   const params = useParams();
@@ -14,6 +20,7 @@ export default function WatchMovie() {
   
   const movie = mockMovies.find(m => m.id.toString() === id);
   const [mounted, setMounted] = useState(false);
+  const [activeServer, setActiveServer] = useState(0);
 
   useEffect(() => setMounted(true), []);
 
@@ -35,7 +42,7 @@ export default function WatchMovie() {
         <motion.div 
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          className="mb-6"
+          className="mb-6 flex justify-between items-center"
         >
           <button 
             onClick={() => router.back()}
@@ -58,9 +65,29 @@ export default function WatchMovie() {
             </div>
           )}
 
+          <div className="mb-4 flex flex-wrap items-center gap-3 bg-card p-3 rounded-xl border border-primary/20">
+            <div className="flex items-center text-card-foreground/70 mr-2">
+              <Server className="w-4 h-4 mr-2" />
+              <span className="text-sm font-semibold">Change Server (If too many ads):</span>
+            </div>
+            {SERVERS.map((server, idx) => (
+              <button
+                key={server.name}
+                onClick={() => setActiveServer(idx)}
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                  activeServer === idx 
+                    ? "bg-primary text-background shadow-md scale-105" 
+                    : "bg-background text-foreground hover:bg-primary/20"
+                }`}
+              >
+                {server.name}
+              </button>
+            ))}
+          </div>
+
           <div className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-2xl bg-black border border-primary/20 flex-grow max-h-[80vh]">
             <iframe
-              src={`https://vidcore.org/embed/movie/${id}`}
+              src={SERVERS[activeServer].url(id)}
               className="absolute inset-0 w-full h-full"
               allowFullScreen
               title="Movie Player"
@@ -68,9 +95,10 @@ export default function WatchMovie() {
             />
           </div>
           
-          <p className="text-center text-sm text-foreground/50 mt-6 pb-8">
-            Streaming provided by Vidcore API. Enjoy the movie!
-          </p>
+          <div className="text-center text-sm text-foreground/50 mt-6 pb-8 space-y-2">
+            <p>Streaming provided by third-party APIs. We do not host these files.</p>
+            <p className="text-xs">Tip: We strongly recommend using an adblocker like <a href="https://ublockorigin.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">uBlock Origin</a> when watching free streams to block those intrusive popups.</p>
+          </div>
         </motion.div>
       </div>
     </div>
