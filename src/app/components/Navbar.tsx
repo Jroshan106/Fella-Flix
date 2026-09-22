@@ -5,13 +5,14 @@ import { useTheme } from "next-themes";
 import { Moon, Sun, Film, Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 export function Navbar() {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => setMounted(true), []);
 
@@ -37,18 +38,20 @@ export function Navbar() {
           </Link>
           
           <div className="flex items-center space-x-4 md:space-x-6 flex-grow justify-end max-w-lg ml-4">
-            <form onSubmit={handleSearch} className="relative w-full max-w-xs hidden sm:block">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Search className="h-4 w-4 text-foreground/40" />
-              </div>
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search movies..."
-                className="block w-full pl-9 pr-3 py-1.5 border border-primary/30 rounded-full bg-card text-sm text-foreground placeholder-foreground/40 focus:outline-none focus:ring-2 focus:ring-primary transition-all"
-              />
-            </form>
+            {pathname === '/' && (
+              <form onSubmit={handleSearch} className="relative w-full max-w-xs hidden sm:block">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <Search className="h-4 w-4 text-foreground/40" />
+                </div>
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search movies..."
+                  className="block w-full pl-9 pr-3 py-1.5 border border-primary/30 rounded-full bg-card text-sm text-foreground placeholder-foreground/40 focus:outline-none focus:ring-2 focus:ring-primary transition-all"
+                />
+              </form>
+            )}
 
             <Link href="/" className="text-foreground hover:text-primary transition-colors font-medium text-sm md:text-base">Home</Link>
             <Link href="/all" className="text-foreground hover:text-primary transition-colors font-medium text-sm md:text-base">Library</Link>
@@ -67,20 +70,22 @@ export function Navbar() {
         </div>
         
         {/* Mobile Search Bar */}
-        <div className="sm:hidden pb-3">
-          <form onSubmit={handleSearch} className="relative w-full">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Search className="h-4 w-4 text-foreground/40" />
-            </div>
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search movies..."
-              className="block w-full pl-9 pr-3 py-2 border border-primary/30 rounded-full bg-card text-sm text-foreground placeholder-foreground/40 focus:outline-none focus:ring-2 focus:ring-primary transition-all"
-            />
-          </form>
-        </div>
+        {pathname === '/' && (
+          <div className="sm:hidden pb-3">
+            <form onSubmit={handleSearch} className="relative w-full">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <Search className="h-4 w-4 text-foreground/40" />
+              </div>
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search movies..."
+                className="block w-full pl-9 pr-3 py-2 border border-primary/30 rounded-full bg-card text-sm text-foreground placeholder-foreground/40 focus:outline-none focus:ring-2 focus:ring-primary transition-all"
+              />
+            </form>
+          </div>
+        )}
       </div>
     </motion.nav>
   );
