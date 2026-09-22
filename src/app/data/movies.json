@@ -78,5 +78,355 @@
     "release_date": "1988-07-16",
     "vote_average": 7.9,
     "type": "anime"
+  },
+  {
+    "id": 299534,
+    "title": "Avengers: Endgame",
+    "poster_path": "https://placehold.co/500x750/111111/8fba96?text=Avengers%3A%20Endgame",
+    "backdrop_path": "https://image.tmdb.org/t/p/original/pbrkL804c8yAv3zBZR4QPEafpAR.jpg",
+    "overview": "Enjoy watching Avengers: Endgame instantly. Use the Admin Panel to update this poster with a real TMDB image link!",
+    "release_date": "2019-01-01",
+    "vote_average": 8.3,
+    "type": "movie"
+  },
+  {
+    "id": 299536,
+    "title": "Avengers: Infinity War",
+    "poster_path": "https://placehold.co/500x750/111111/8fba96?text=Avengers%3A%20Infinity%20War",
+    "backdrop_path": "https://image.tmdb.org/t/p/original/pbrkL804c8yAv3zBZR4QPEafpAR.jpg",
+    "overview": "Enjoy watching Avengers: Infinity War instantly. Use the Admin Panel to update this poster with a real TMDB image link!",
+    "release_date": "2018-01-01",
+    "vote_average": 8.3,
+    "type": "movie"
+  },
+  {
+    "id": 155,
+    "title": "The Dark Knight",
+    "poster_path": "https://placehold.co/500x750/111111/8fba96?text=The%20Dark%20Knight",
+    "backdrop_path": "https://image.tmdb.org/t/p/original/pbrkL804c8yAv3zBZR4QPEafpAR.jpg",
+    "overview": "Enjoy watching The Dark Knight instantly. Use the Admin Panel to update this poster with a real TMDB image link!",
+    "release_date": "2008-01-01",
+    "vote_average": 8.5,
+    "type": "movie"
+  },
+  {
+    "id": 27205,
+    "title": "Inception",
+    "poster_path": "https://placehold.co/500x750/111111/8fba96?text=Inception",
+    "backdrop_path": "https://image.tmdb.org/t/p/original/pbrkL804c8yAv3zBZR4QPEafpAR.jpg",
+    "overview": "Enjoy watching Inception instantly. Use the Admin Panel to update this poster with a real TMDB image link!",
+    "release_date": "2010-01-01",
+    "vote_average": 8.3,
+    "type": "movie"
+  },
+  {
+    "id": 603,
+    "title": "The Matrix",
+    "poster_path": "https://placehold.co/500x750/111111/8fba96?text=The%20Matrix",
+    "backdrop_path": "https://image.tmdb.org/t/p/original/pbrkL804c8yAv3zBZR4QPEafpAR.jpg",
+    "overview": "Enjoy watching The Matrix instantly. Use the Admin Panel to update this poster with a real TMDB image link!",
+    "release_date": "1999-01-01",
+    "vote_average": 8.2,
+    "type": "movie"
+  },
+  {
+    "id": 19995,
+    "title": "Avatar",
+    "poster_path": "https://placehold.co/500x750/111111/8fba96?text=Avatar",
+    "backdrop_path": "https://image.tmdb.org/t/p/original/pbrkL804c8yAv3zBZR4QPEafpAR.jpg",
+    "overview": "Enjoy watching Avatar instantly. Use the Admin Panel to update this poster with a real TMDB image link!",
+    "release_date": "2009-01-01",
+    "vote_average": 7.5,
+    "type": "movie"
+  },
+  {
+    "id": 597,
+    "title": "Titanic",
+    "poster_path": "https://placehold.co/500x750/111111/8fba96?text=Titanic",
+    "backdrop_path": "https://image.tmdb.org/t/p/original/pbrkL804c8yAv3zBZR4QPEafpAR.jpg",
+    "overview": "Enjoy watching Titanic instantly. Use the Admin Panel to update this poster with a real TMDB image link!",
+    "release_date": "1997-01-01",
+    "vote_average": 7.9,
+    "type": "movie"
+  },
+  {
+    "id": 238,
+    "title": "The Godfather",
+    "poster_path": "https://placehold.co/500x750/111111/8fba96?text=The%20Godfather",
+    "backdrop_path": "https://image.tmdb.org/t/p/original/pbrkL804c8yAv3zBZR4QPEafpAR.jpg",
+    "overview": "Enjoy watching The Godfather instantly. Use the Admin Panel to update this poster with a real TMDB image link!",
+    "release_date": "1972-01-01",
+    "vote_average": 8.7,
+    "type": "movie"
+  },
+  {
+    "id": 680,
+    "title": "Pulp Fiction",
+    "poster_path": "https://placehold.co/500x750/111111/8fba96?text=Pulp%20Fiction",
+    "backdrop_path": "https://image.tmdb.org/t/p/original/pbrkL804c8yAv3zBZR4QPEafpAR.jpg",
+    "overview": "Enjoy watching Pulp Fiction instantly. Use the Admin Panel to update this poster with a real TMDB image link!",
+    "release_date": "1994-01-01",
+    "vote_average": 8.5,
+    "type": "movie"
+  },
+  {
+    "id": 13,
+    "title": "Forrest Gump",
+    "poster_path": "https://placehold.co/500x750/111111/8fba96?text=Forrest%20Gump",
+    "backdrop_path": "https://image.tmdb.org/t/p/original/pbrkL804c8yAv3zBZR4QPEafpAR.jpg",
+    "overview": "Enjoy watching Forrest Gump instantly. Use the Admin Panel to update this poster with a real TMDB image link!",
+    "release_date": "1994-01-01",
+    "vote_average": 8.5,
+    "type": "movie"
+  },
+  {
+    "id": 120,
+    "title": "The Lord of the Rings: The Fellowship of the Ring",
+    "poster_path": "https://placehold.co/500x750/111111/8fba96?text=The%20Lord%20of%20the%20Rings%3A%20The%20Fellowship%20of%20the%20Ring",
+    "backdrop_path": "https://image.tmdb.org/t/p/original/pbrkL804c8yAv3zBZR4QPEafpAR.jpg",
+    "overview": "Enjoy watching The Lord of the Rings: The Fellowship of the Ring instantly. Use the Admin Panel to update this poster with a real TMDB image link!",
+    "release_date": "2001-01-01",
+    "vote_average": 8.4,
+    "type": "movie"
+  },
+  {
+    "id": 98,
+    "title": "Gladiator",
+    "poster_path": "https://placehold.co/500x750/111111/8fba96?text=Gladiator",
+    "backdrop_path": "https://image.tmdb.org/t/p/original/pbrkL804c8yAv3zBZR4QPEafpAR.jpg",
+    "overview": "Enjoy watching Gladiator instantly. Use the Admin Panel to update this poster with a real TMDB image link!",
+    "release_date": "2000-01-01",
+    "vote_average": 8.2,
+    "type": "movie"
+  },
+  {
+    "id": 329,
+    "title": "Jurassic Park",
+    "poster_path": "https://placehold.co/500x750/111111/8fba96?text=Jurassic%20Park",
+    "backdrop_path": "https://image.tmdb.org/t/p/original/pbrkL804c8yAv3zBZR4QPEafpAR.jpg",
+    "overview": "Enjoy watching Jurassic Park instantly. Use the Admin Panel to update this poster with a real TMDB image link!",
+    "release_date": "1993-01-01",
+    "vote_average": 8.2,
+    "type": "movie"
+  },
+  {
+    "id": 11,
+    "title": "Star Wars: Episode IV - A New Hope",
+    "poster_path": "https://placehold.co/500x750/111111/8fba96?text=Star%20Wars%3A%20Episode%20IV%20-%20A%20New%20Hope",
+    "backdrop_path": "https://image.tmdb.org/t/p/original/pbrkL804c8yAv3zBZR4QPEafpAR.jpg",
+    "overview": "Enjoy watching Star Wars: Episode IV - A New Hope instantly. Use the Admin Panel to update this poster with a real TMDB image link!",
+    "release_date": "1977-01-01",
+    "vote_average": 8.2,
+    "type": "movie"
+  },
+  {
+    "id": 8587,
+    "title": "The Lion King",
+    "poster_path": "https://placehold.co/500x750/111111/8fba96?text=The%20Lion%20King",
+    "backdrop_path": "https://image.tmdb.org/t/p/original/pbrkL804c8yAv3zBZR4QPEafpAR.jpg",
+    "overview": "Enjoy watching The Lion King instantly. Use the Admin Panel to update this poster with a real TMDB image link!",
+    "release_date": "1994-01-01",
+    "vote_average": 8.3,
+    "type": "movie"
+  },
+  {
+    "id": 12,
+    "title": "Finding Nemo",
+    "poster_path": "https://placehold.co/500x750/111111/8fba96?text=Finding%20Nemo",
+    "backdrop_path": "https://image.tmdb.org/t/p/original/pbrkL804c8yAv3zBZR4QPEafpAR.jpg",
+    "overview": "Enjoy watching Finding Nemo instantly. Use the Admin Panel to update this poster with a real TMDB image link!",
+    "release_date": "2003-01-01",
+    "vote_average": 8.2,
+    "type": "movie"
+  },
+  {
+    "id": 862,
+    "title": "Toy Story",
+    "poster_path": "https://placehold.co/500x750/111111/8fba96?text=Toy%20Story",
+    "backdrop_path": "https://image.tmdb.org/t/p/original/pbrkL804c8yAv3zBZR4QPEafpAR.jpg",
+    "overview": "Enjoy watching Toy Story instantly. Use the Admin Panel to update this poster with a real TMDB image link!",
+    "release_date": "1995-01-01",
+    "vote_average": 8.3,
+    "type": "movie"
+  },
+  {
+    "id": 293660,
+    "title": "Deadpool",
+    "poster_path": "https://placehold.co/500x750/111111/8fba96?text=Deadpool",
+    "backdrop_path": "https://image.tmdb.org/t/p/original/pbrkL804c8yAv3zBZR4QPEafpAR.jpg",
+    "overview": "Enjoy watching Deadpool instantly. Use the Admin Panel to update this poster with a real TMDB image link!",
+    "release_date": "2016-01-01",
+    "vote_average": 7.6,
+    "type": "movie"
+  },
+  {
+    "id": 475557,
+    "title": "Joker",
+    "poster_path": "https://placehold.co/500x750/111111/8fba96?text=Joker",
+    "backdrop_path": "https://image.tmdb.org/t/p/original/pbrkL804c8yAv3zBZR4QPEafpAR.jpg",
+    "overview": "Enjoy watching Joker instantly. Use the Admin Panel to update this poster with a real TMDB image link!",
+    "release_date": "2019-01-01",
+    "vote_average": 8.2,
+    "type": "movie"
+  },
+  {
+    "id": 634649,
+    "title": "Spider-Man: No Way Home",
+    "poster_path": "https://placehold.co/500x750/111111/8fba96?text=Spider-Man%3A%20No%20Way%20Home",
+    "backdrop_path": "https://image.tmdb.org/t/p/original/pbrkL804c8yAv3zBZR4QPEafpAR.jpg",
+    "overview": "Enjoy watching Spider-Man: No Way Home instantly. Use the Admin Panel to update this poster with a real TMDB image link!",
+    "release_date": "2021-01-01",
+    "vote_average": 8,
+    "type": "movie"
+  },
+  {
+    "id": 414906,
+    "title": "The Batman",
+    "poster_path": "https://placehold.co/500x750/111111/8fba96?text=The%20Batman",
+    "backdrop_path": "https://image.tmdb.org/t/p/original/pbrkL804c8yAv3zBZR4QPEafpAR.jpg",
+    "overview": "Enjoy watching The Batman instantly. Use the Admin Panel to update this poster with a real TMDB image link!",
+    "release_date": "2022-01-01",
+    "vote_average": 7.7,
+    "type": "movie"
+  },
+  {
+    "id": 1726,
+    "title": "Iron Man",
+    "poster_path": "https://placehold.co/500x750/111111/8fba96?text=Iron%20Man",
+    "backdrop_path": "https://image.tmdb.org/t/p/original/pbrkL804c8yAv3zBZR4QPEafpAR.jpg",
+    "overview": "Enjoy watching Iron Man instantly. Use the Admin Panel to update this poster with a real TMDB image link!",
+    "release_date": "2008-01-01",
+    "vote_average": 7.6,
+    "type": "movie"
+  },
+  {
+    "id": 284054,
+    "title": "Black Panther",
+    "poster_path": "https://placehold.co/500x750/111111/8fba96?text=Black%20Panther",
+    "backdrop_path": "https://image.tmdb.org/t/p/original/pbrkL804c8yAv3zBZR4QPEafpAR.jpg",
+    "overview": "Enjoy watching Black Panther instantly. Use the Admin Panel to update this poster with a real TMDB image link!",
+    "release_date": "2018-01-01",
+    "vote_average": 7.4,
+    "type": "movie"
+  },
+  {
+    "id": 284052,
+    "title": "Doctor Strange",
+    "poster_path": "https://placehold.co/500x750/111111/8fba96?text=Doctor%20Strange",
+    "backdrop_path": "https://image.tmdb.org/t/p/original/pbrkL804c8yAv3zBZR4QPEafpAR.jpg",
+    "overview": "Enjoy watching Doctor Strange instantly. Use the Admin Panel to update this poster with a real TMDB image link!",
+    "release_date": "2016-01-01",
+    "vote_average": 7.4,
+    "type": "movie"
+  },
+  {
+    "id": 118340,
+    "title": "Guardians of the Galaxy",
+    "poster_path": "https://placehold.co/500x750/111111/8fba96?text=Guardians%20of%20the%20Galaxy",
+    "backdrop_path": "https://image.tmdb.org/t/p/original/pbrkL804c8yAv3zBZR4QPEafpAR.jpg",
+    "overview": "Enjoy watching Guardians of the Galaxy instantly. Use the Admin Panel to update this poster with a real TMDB image link!",
+    "release_date": "2014-01-01",
+    "vote_average": 7.9,
+    "type": "movie"
+  },
+  {
+    "id": 635302,
+    "title": "Demon Slayer: Mugen Train",
+    "poster_path": "https://placehold.co/500x750/111111/8fba96?text=Demon%20Slayer%3A%20Mugen%20Train",
+    "backdrop_path": "https://image.tmdb.org/t/p/original/pbrkL804c8yAv3zBZR4QPEafpAR.jpg",
+    "overview": "Enjoy watching Demon Slayer: Mugen Train instantly. Use the Admin Panel to update this poster with a real TMDB image link!",
+    "release_date": "2020-01-01",
+    "vote_average": 8.3,
+    "type": "anime"
+  },
+  {
+    "id": 810693,
+    "title": "Jujutsu Kaisen 0",
+    "poster_path": "https://placehold.co/500x750/111111/8fba96?text=Jujutsu%20Kaisen%200",
+    "backdrop_path": "https://image.tmdb.org/t/p/original/pbrkL804c8yAv3zBZR4QPEafpAR.jpg",
+    "overview": "Enjoy watching Jujutsu Kaisen 0 instantly. Use the Admin Panel to update this poster with a real TMDB image link!",
+    "release_date": "2021-01-01",
+    "vote_average": 8.2,
+    "type": "anime"
+  },
+  {
+    "id": 4935,
+    "title": "Howl's Moving Castle",
+    "poster_path": "https://placehold.co/500x750/111111/8fba96?text=Howl's%20Moving%20Castle",
+    "backdrop_path": "https://image.tmdb.org/t/p/original/pbrkL804c8yAv3zBZR4QPEafpAR.jpg",
+    "overview": "Enjoy watching Howl's Moving Castle instantly. Use the Admin Panel to update this poster with a real TMDB image link!",
+    "release_date": "2004-01-01",
+    "vote_average": 8.4,
+    "type": "anime"
+  },
+  {
+    "id": 128,
+    "title": "Princess Mononoke",
+    "poster_path": "https://placehold.co/500x750/111111/8fba96?text=Princess%20Mononoke",
+    "backdrop_path": "https://image.tmdb.org/t/p/original/pbrkL804c8yAv3zBZR4QPEafpAR.jpg",
+    "overview": "Enjoy watching Princess Mononoke instantly. Use the Admin Panel to update this poster with a real TMDB image link!",
+    "release_date": "1997-01-01",
+    "vote_average": 8.4,
+    "type": "anime"
+  },
+  {
+    "id": 8392,
+    "title": "My Neighbor Totoro",
+    "poster_path": "https://placehold.co/500x750/111111/8fba96?text=My%20Neighbor%20Totoro",
+    "backdrop_path": "https://image.tmdb.org/t/p/original/pbrkL804c8yAv3zBZR4QPEafpAR.jpg",
+    "overview": "Enjoy watching My Neighbor Totoro instantly. Use the Admin Panel to update this poster with a real TMDB image link!",
+    "release_date": "1988-01-01",
+    "vote_average": 8.1,
+    "type": "anime"
+  },
+  {
+    "id": 12477,
+    "title": "Grave of the Fireflies",
+    "poster_path": "https://placehold.co/500x750/111111/8fba96?text=Grave%20of%20the%20Fireflies",
+    "backdrop_path": "https://image.tmdb.org/t/p/original/pbrkL804c8yAv3zBZR4QPEafpAR.jpg",
+    "overview": "Enjoy watching Grave of the Fireflies instantly. Use the Admin Panel to update this poster with a real TMDB image link!",
+    "release_date": "1988-01-01",
+    "vote_average": 8.4,
+    "type": "anime"
+  },
+  {
+    "id": 568160,
+    "title": "Weathering with You",
+    "poster_path": "https://placehold.co/500x750/111111/8fba96?text=Weathering%20with%20You",
+    "backdrop_path": "https://image.tmdb.org/t/p/original/pbrkL804c8yAv3zBZR4QPEafpAR.jpg",
+    "overview": "Enjoy watching Weathering with You instantly. Use the Admin Panel to update this poster with a real TMDB image link!",
+    "release_date": "2019-01-01",
+    "vote_average": 7.9,
+    "type": "anime"
+  },
+  {
+    "id": 378064,
+    "title": "A Silent Voice",
+    "poster_path": "https://placehold.co/500x750/111111/8fba96?text=A%20Silent%20Voice",
+    "backdrop_path": "https://image.tmdb.org/t/p/original/pbrkL804c8yAv3zBZR4QPEafpAR.jpg",
+    "overview": "Enjoy watching A Silent Voice instantly. Use the Admin Panel to update this poster with a real TMDB image link!",
+    "release_date": "2016-01-01",
+    "vote_average": 8.4,
+    "type": "anime"
+  },
+  {
+    "id": 10494,
+    "title": "Perfect Blue",
+    "poster_path": "https://placehold.co/500x750/111111/8fba96?text=Perfect%20Blue",
+    "backdrop_path": "https://image.tmdb.org/t/p/original/pbrkL804c8yAv3zBZR4QPEafpAR.jpg",
+    "overview": "Enjoy watching Perfect Blue instantly. Use the Admin Panel to update this poster with a real TMDB image link!",
+    "release_date": "1997-01-01",
+    "vote_average": 8.3,
+    "type": "anime"
+  },
+  {
+    "id": 9323,
+    "title": "Ghost in the Shell",
+    "poster_path": "https://placehold.co/500x750/111111/8fba96?text=Ghost%20in%20the%20Shell",
+    "backdrop_path": "https://image.tmdb.org/t/p/original/pbrkL804c8yAv3zBZR4QPEafpAR.jpg",
+    "overview": "Enjoy watching Ghost in the Shell instantly. Use the Admin Panel to update this poster with a real TMDB image link!",
+    "release_date": "1995-01-01",
+    "vote_average": 7.9,
+    "type": "anime"
   }
 ]
