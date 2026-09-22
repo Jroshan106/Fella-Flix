@@ -492,8 +492,6 @@ For information about the governance of the Node.js project, see
 
 <summary>Emeriti</summary>
 
-<!-- find-inactive-collaborators.mjs depends on the format of the emeriti list.
-     If the format changes, those utilities need to be tested and updated. -->
 
 ### Collaborator emeriti
 
