@@ -1,14 +1,14 @@
-# FellaFLIX 🍿
+# FellaFLIX 
 
 Welcome to **FellaFLIX** — a beautifully designed, "movie nerd" style streaming platform. Built for cinema enthusiasts, FellaFLIX provides a sleek, dark-themed cinematic interface to discover and watch your favorite movies and anime.
 
-### 🌐 Live Demo
+### Live Demo
 Check out the live website here: **[https://fellaflix.vercel.app/](https://fellaflix.vercel.app/)**
 
 ---
 
 <<<<<<< HEAD
-## 🎬 How It Works
+## How It Works
 =======
 Open https://fellaflix.vercel.app/ with your browser to see the result.
 >>>>>>> 0790acc6e8291a9b0fbfd0e79ba131b41d6ce21b
@@ -17,7 +17,7 @@ FellaFLIX is entirely front-end driven and does not host any video files or medi
 
 We utilize free, third-party **Streaming APIs** (such as Vidcore, Vidsrc, and AutoEmbed) to embed video players seamlessly into our application. By passing a movie's TMDB (The Movie Database) ID to these APIs, the player automatically serves the corresponding stream.
 
-## ✨ Features
+## Features
 
 - **Cinematic UI:** A highly polished, responsive grid layout built with Tailwind CSS, featuring smooth page transitions powered by Framer Motion.
 - **Dark/Light Mode:** Full theme support tailored for late-night binge-watching or daytime browsing.
@@ -25,7 +25,7 @@ We utilize free, third-party **Streaming APIs** (such as Vidcore, Vidsrc, and Au
 - **Request a Movie:** A dedicated public page for users to submit requests for movies they want added to the library.
 - **Hidden Admin Panel:** A secure, unlisted `/admin` dashboard that allows site administrators to quickly append new movies to the database via TMDB IDs.
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Framework:** Next.js (App Router)
 - **Styling:** Tailwind CSS
