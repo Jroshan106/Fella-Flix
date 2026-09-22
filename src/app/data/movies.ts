@@ -23,7 +23,7 @@ export const mockMovies: Movie[] = [
   {
     id: 693134,
     title: "Dune: Part Two",
-    poster_path: "https://image.tmdb.org/t/p/w500/1pdfLvkbY9ohJlCjQH2TDpiO9JC.jpg",
+    poster_path: "https://m.media-amazon.com/images/M/MV5BODdjMjM3NGQtZDA5OC00NGE4LWIyZDQtZjYwOGZlMTM5ZTQ1XkEyXkFqcGdeQXVyODE5NzE3OTE@._V1_FMjpg_UX1000_.jpg",
     backdrop_path: "https://image.tmdb.org/t/p/original/xOMo8BRK7PfcJv9JCnx7s5hj0PX.jpg",
     overview: "Follow the mythic journey of Paul Atreides as he unites with Chani and the Fremen while on a warpath of revenge against the conspirators who destroyed his family.",
     release_date: "2024-02-27",
@@ -43,7 +43,7 @@ export const mockMovies: Movie[] = [
   {
     id: 129,
     title: "Spirited Away",
-    poster_path: "https://image.tmdb.org/t/p/w500/39wmItIWsg5sZMyRUHLkBg8tzKL.jpg",
+    poster_path: "https://m.media-amazon.com/images/M/MV5BMjlmZmI5MDctNDE2YS00YWE0LWE5ZWItZDBhYWQ0NTcxNTEhXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_FMjpg_UX1000_.jpg",
     backdrop_path: "https://image.tmdb.org/t/p/original/Ab8mkHcgI5EFjf6bPxND8qxgW8.jpg",
     overview: "A young girl, Chihiro, becomes trapped in a strange new world of spirits. When her parents undergo a mysterious transformation, she must call upon the courage she never knew she had to free her family.",
     release_date: "2001-07-20",
@@ -83,7 +83,7 @@ export const mockMovies: Movie[] = [
   {
     id: 149,
     title: "Akira",
-    poster_path: "https://image.tmdb.org/t/p/w500/uF63O3yJjHymzEqQhF54u9bS7x1.jpg",
+    poster_path: "https://m.media-amazon.com/images/M/MV5BM2ZiZTk1ODgtMTZkNS00NTYxLWI4ZWUtNWQwZTFhZjUzYWQwXkEyXkFqcGdeQXVyNTAyODkwOQ@@._V1_.jpg",
     backdrop_path: "https://image.tmdb.org/t/p/original/tYtA8qGvwS3w4T2O13eAWJj2m3I.jpg",
     overview: "A secret military project endangers Neo-Tokyo when it turns a biker gang member into a rampaging psychic psychopath that only two teenagers and a group of psychics can stop.",
     release_date: "1988-07-16",
