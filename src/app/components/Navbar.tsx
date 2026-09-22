@@ -51,6 +51,7 @@ export function Navbar() {
             </form>
 
             <Link href="/" className="text-foreground hover:text-primary transition-colors font-medium text-sm md:text-base">Home</Link>
+            <Link href="/all" className="text-foreground hover:text-primary transition-colors font-medium text-sm md:text-base">Library</Link>
             <Link href="/request" className="text-foreground hover:text-primary transition-colors font-medium text-sm md:text-base whitespace-nowrap">Request</Link>
             
             <button

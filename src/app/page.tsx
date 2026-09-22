@@ -22,12 +22,19 @@ const item = {
 };
 
 export default function Home() {
-  const movies = mockMovies.filter(m => m.type === "movie");
-  const anime = mockMovies.filter(m => m.type === "anime");
+  const movies = mockMovies.filter(m => m.type === "movie").slice(0, 10);
+  const anime = mockMovies.filter(m => m.type === "anime").slice(0, 10);
 
-  const MovieGrid = ({ title, items }: { title: string, items: typeof mockMovies }) => (
+  const MovieGrid = ({ title, items, viewAllLink }: { title: string, items: typeof mockMovies, viewAllLink?: string }) => (
     <div className="mb-12">
-      <h2 className="text-3xl font-bold mb-6 text-foreground tracking-tight border-l-4 border-primary pl-4">{title}</h2>
+      <div className="flex items-center justify-between mb-6 border-l-4 border-primary pl-4">
+        <h2 className="text-3xl font-bold text-foreground tracking-tight">{title}</h2>
+        {viewAllLink && (
+          <Link href={viewAllLink} className="text-primary font-semibold hover:underline text-sm mr-2">
+            View All →
+          </Link>
+        )}
+      </div>
       <motion.div 
         variants={container}
         initial="hidden"
@@ -80,8 +87,14 @@ export default function Home() {
         </p>
       </motion.div>
 
-      <MovieGrid title="Popular & Latest Movies" items={movies} />
-      <MovieGrid title="Trending Anime" items={anime} />
+      <MovieGrid title="Featured Movies" items={movies} viewAllLink="/all" />
+      <MovieGrid title="Trending Anime" items={anime} viewAllLink="/all" />
+      
+      <div className="text-center mt-8">
+        <Link href="/all" className="inline-block px-8 py-4 bg-primary text-background font-black rounded-full hover:bg-primary/90 hover:scale-105 transition-all shadow-lg shadow-primary/20">
+          BROWSE FULL LIBRARY
+        </Link>
+      </div>
     </div>
   );
 }
