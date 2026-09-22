@@ -3,6 +3,7 @@
 import fs from 'fs';
 import path from 'path';
 import { Movie } from './data/movies';
+import { headers } from 'next/headers';
 
 const filePath = path.join(process.cwd(), 'src', 'app', 'data', 'movies.json');
 
@@ -11,7 +12,27 @@ function getMoviesData(): Movie[] {
   return JSON.parse(fileContents);
 }
 
+async function verifyAuth() {
+  const headersList = await headers();
+  const basicAuth = headersList.get('authorization');
+  if (!basicAuth) throw new Error("Unauthorized");
+  
+  const authValue = basicAuth.split(' ')[1];
+  const [user, pwd] = atob(authValue).split(':');
+  const validPassword = process.env.ADMIN_PASSWORD;
+  
+  if (!validPassword || user !== 'admin' || pwd !== validPassword) {
+    throw new Error("Unauthorized");
+  }
+}
+
 export async function addMovie(formData: FormData) {
+  try {
+    await verifyAuth();
+  } catch {
+    return { success: false, message: "Unauthorized access." };
+  }
+
   const newMovie: Movie = {
     id: Number(formData.get("id")),
     title: formData.get("title") as string,
@@ -39,6 +60,12 @@ export async function addMovie(formData: FormData) {
 }
 
 export async function updateMovie(formData: FormData) {
+  try {
+    await verifyAuth();
+  } catch {
+    return { success: false, message: "Unauthorized access." };
+  }
+
   const updatedMovie: Movie = {
     id: Number(formData.get("id")),
     title: formData.get("title") as string,
@@ -67,6 +94,12 @@ export async function updateMovie(formData: FormData) {
 }
 
 export async function deleteMovie(id: number) {
+  try {
+    await verifyAuth();
+  } catch {
+    return { success: false, message: "Unauthorized access." };
+  }
+
   try {
     const movies = getMoviesData();
     const newMovies = movies.filter(m => m.id !== id);
