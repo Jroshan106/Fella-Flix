@@ -1,36 +1,34 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# FellaFLIX 🍿
 
-## Getting Started
+Welcome to **FellaFLIX** — a beautifully designed, "movie nerd" style streaming platform. Built for cinema enthusiasts, FellaFLIX provides a sleek, dark-themed cinematic interface to discover and watch your favorite movies and anime.
 
-First, run the development server:
+### 🌐 Live Demo
+Check out the live website here: **[https://fellaflix.vercel.app/](https://fellaflix.vercel.app/)**
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🎬 How It Works
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+FellaFLIX is entirely front-end driven and does not host any video files or media content on its own servers. Instead, we act as a sleek aggregator UI. 
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+We utilize free, third-party **Streaming APIs** (such as Vidcore, Vidsrc, and AutoEmbed) to embed video players seamlessly into our application. By passing a movie's TMDB (The Movie Database) ID to these APIs, the player automatically serves the corresponding stream.
 
-## Learn More
+## ✨ Features
 
-To learn more about Next.js, take a look at the following resources:
+- **Cinematic UI:** A highly polished, responsive grid layout built with Tailwind CSS, featuring smooth page transitions powered by Framer Motion.
+- **Dark/Light Mode:** Full theme support tailored for late-night binge-watching or daytime browsing.
+- **Multiple Streaming Servers:** Because third-party streaming APIs can be unreliable or riddled with ads, we provide an instant "Server Switcher" so users can hop between providers (Vidcore, Vidsrc, etc.) if one goes down.
+- **Request a Movie:** A dedicated public page for users to submit requests for movies they want added to the library.
+- **Hidden Admin Panel:** A secure, unlisted `/admin` dashboard that allows site administrators to quickly append new movies to the database via TMDB IDs.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🛠️ Tech Stack
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Framework:** Next.js (App Router)
+- **Styling:** Tailwind CSS
+- **Icons:** Lucide React
+- **Animations:** Framer Motion
+- **Database:** Local JSON File (`movies.json`)
 
-## Deploy on Vercel
+## ⚠️ Disclaimer
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+FellaFLIX is a UI concept and educational project. **We do not host, upload, or control any of the video content.** All media is streamed directly from third-party APIs and services. We highly recommend using an ad-blocker (like uBlock Origin or the Brave Browser) when interacting with free third-party embeds to prevent intrusive popups.
