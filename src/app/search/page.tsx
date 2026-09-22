@@ -4,7 +4,9 @@ import { useSearchParams } from "next/navigation";
 import { mockMovies } from "../data/movies";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Star, PlayCircle, SearchX } from "lucide-react";
+import { Star, PlayCircle, SearchX, Search } from "lucide-react";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Suspense } from "react";
 
 const container = {
@@ -23,14 +25,41 @@ const item = {
 function SearchResults() {
   const searchParams = useSearchParams();
   const query = searchParams.get("q")?.toLowerCase() || "";
+  const router = useRouter();
+  const [localQuery, setLocalQuery] = useState(query);
 
   const results = mockMovies.filter(movie => 
     movie.title.toLowerCase().includes(query) || 
     movie.overview.toLowerCase().includes(query)
   );
 
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (localQuery.trim()) {
+      router.push(`/search?q=${encodeURIComponent(localQuery.trim())}`);
+    }
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
+      
+      {/* Local Search Bar */}
+      <form onSubmit={handleSearch} className="mb-8 relative max-w-2xl">
+        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+          <Search className="h-5 w-5 text-foreground/40" />
+        </div>
+        <input
+          type="text"
+          value={localQuery}
+          onChange={(e) => setLocalQuery(e.target.value)}
+          placeholder="Search for another movie..."
+          className="block w-full pl-12 pr-4 py-4 border border-primary/30 rounded-2xl bg-card text-foreground placeholder-foreground/40 focus:outline-none focus:ring-2 focus:ring-primary shadow-lg text-lg transition-all"
+        />
+        <button type="submit" className="absolute inset-y-2 right-2 px-6 bg-primary text-background font-bold rounded-xl hover:bg-primary/90 transition-colors">
+          Search
+        </button>
+      </form>
+
       <div className="mb-8 border-l-4 border-primary pl-4">
         <h1 className="text-3xl font-bold text-foreground">
           Search Results for <span className="text-primary">"{query}"</span>
