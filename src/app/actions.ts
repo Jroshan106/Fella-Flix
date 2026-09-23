@@ -78,9 +78,11 @@ export async function updateMovie(formData: FormData) {
     type: formData.get("type") as "movie" | "anime"
   };
 
+  const originalId = formData.get("original_id") ? Number(formData.get("original_id")) : updatedMovie.id;
+
   try {
     const movies = getMoviesData();
-    const index = movies.findIndex(m => m.id === updatedMovie.id);
+    const index = movies.findIndex(m => m.id === originalId);
     
     if (index !== -1) {
       movies[index] = updatedMovie;
@@ -144,6 +146,67 @@ export async function submitRequest(formData: FormData) {
     return { success: true };
   } catch (err) {
     return { success: false };
+  }
+}
+
+export async function fetchMovieFromTMDB(tmdbId: string) {
+  try {
+    await verifyAuth();
+  } catch {
+    return { success: false, message: "Unauthorized access." };
+  }
+
+  try {
+    const res = await fetch(`https://www.themoviedb.org/movie/${tmdbId}`, {
+      headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)' }
+    });
+    
+    if (res.status === 404) {
+      return { success: false, message: "Movie not found on TMDB with that ID." };
+    }
+    
+    const html = await res.text();
+    
+    // Very basic regex extraction for the missing API key
+    const titleMatch = html.match(/<title>(.*?)\s\(/) || html.match(/<title>(.*?)<\/title>/);
+    const title = titleMatch ? titleMatch[1].trim() : "";
+    
+    const overviewMatch = html.match(/<div class="overview" dir="auto">\s*<p>(.*?)<\/p>/);
+    const overview = overviewMatch ? overviewMatch[1].trim() : "";
+    
+    const posterMatch = html.match(/<img class="poster lazyload" data-src="([^"]+)"/);
+    let poster_path = posterMatch ? posterMatch[1] : "";
+    if (poster_path && !poster_path.startsWith('http')) {
+      poster_path = `https://image.tmdb.org${poster_path}`;
+    }
+    // Convert to w500
+    if (poster_path) poster_path = poster_path.replace(/\/w\d+_and_h\d+_bestv2/, '/w500');
+
+    const backdropMatch = html.match(/data-images="([^"]+)"/) || html.match(/background-image: url\('([^']+)'\)/);
+    let backdrop_path = backdropMatch ? backdropMatch[1] : "";
+    if (backdrop_path && !backdrop_path.startsWith('http')) {
+      backdrop_path = `https://image.tmdb.org${backdrop_path}`;
+    }
+    
+    const dateMatch = html.match(/<span class="release">.*?(\d{4}-\d{2}-\d{2}|\d{2}\/\d{2}\/\d{4})[\s\S]*?/);
+    let release_date = "";
+    if (dateMatch) {
+      release_date = dateMatch[1];
+    }
+
+    return { 
+      success: true, 
+      data: {
+        title,
+        overview,
+        poster_path,
+        backdrop_path,
+        release_date
+      } 
+    };
+  } catch (error) {
+    console.error(error);
+    return { success: false, message: "Failed to scrape TMDB." };
   }
 }
 

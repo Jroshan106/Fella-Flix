@@ -1,11 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import { ShieldAlert, Plus, Edit, Trash2, Search, X, Inbox, Film } from "lucide-react";
-import { addMovie, updateMovie, deleteMovie, getRequests, deleteRequest, MovieRequest } from "../actions";
+import { ShieldAlert, Plus, Edit, Trash2, Search, X, Inbox, Film, Download } from "lucide-react";
+import { addMovie, updateMovie, deleteMovie, getRequests, deleteRequest, fetchMovieFromTMDB, MovieRequest } from "../actions";
 import { mockMovies, Movie } from "../data/movies";
-import { useEffect } from "react";
 
 export default function AdminPage() {
   const [status, setStatus] = useState<{ type: 'success' | 'error', msg: string } | null>(null);
@@ -18,6 +17,35 @@ export default function AdminPage() {
   // Tab state
   const [activeTab, setActiveTab] = useState<'library' | 'requests'>('library');
   const [requests, setRequests] = useState<MovieRequest[]>([]);
+  const formRef = useRef<HTMLFormElement>(null);
+  const [isFetching, setIsFetching] = useState(false);
+
+  const handleAutoFill = async () => {
+    if (!formRef.current) return;
+    const idField = formRef.current.id as unknown as HTMLInputElement;
+    const tmdbId = idField.value;
+    if (!tmdbId) {
+      setStatus({ type: 'error', msg: "Please enter a TMDB ID first." });
+      return;
+    }
+    
+    setIsFetching(true);
+    setStatus(null);
+    const res = await fetchMovieFromTMDB(tmdbId);
+    setIsFetching(false);
+    
+    if (res.success && res.data) {
+      const form = formRef.current;
+      (form.elements.namedItem('title') as HTMLInputElement).value = res.data.title;
+      (form.elements.namedItem('overview') as HTMLTextAreaElement).value = res.data.overview;
+      (form.elements.namedItem('poster_path') as HTMLInputElement).value = res.data.poster_path;
+      (form.elements.namedItem('backdrop_path') as HTMLInputElement).value = res.data.backdrop_path;
+      (form.elements.namedItem('release_date') as HTMLInputElement).value = res.data.release_date;
+      setStatus({ type: 'success', msg: "Successfully auto-filled from TMDB!" });
+    } else {
+      setStatus({ type: 'error', msg: res.message || "Failed to fetch from TMDB." });
+    }
+  };
 
   useEffect(() => {
     if (activeTab === 'requests') {
@@ -112,7 +140,8 @@ export default function AdminPage() {
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-5" key={editingMovie ? editingMovie.id : 'new'}>
+        <form ref={formRef} onSubmit={handleSubmit} className="space-y-5" key={editingMovie ? editingMovie.id : 'new'}>
+          {editingMovie && <input type="hidden" name="original_id" value={editingMovie.id} />}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             <div>
               <label className="block text-sm font-medium text-card-foreground mb-1">Title *</label>
@@ -120,8 +149,19 @@ export default function AdminPage() {
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-card-foreground mb-1">TMDB ID *</label>
-              <input name="id" defaultValue={editingMovie?.id} readOnly={!!editingMovie} required type="number" className={`w-full px-3 py-2 border border-primary/30 rounded-lg text-foreground ${editingMovie ? 'bg-foreground/10 cursor-not-allowed' : 'bg-background'}`} placeholder="e.g. 27205" />
+              <div className="flex justify-between items-end mb-1">
+                <label className="block text-sm font-medium text-card-foreground">TMDB ID *</label>
+                <button 
+                  type="button" 
+                  onClick={handleAutoFill}
+                  disabled={isFetching}
+                  className="text-xs bg-primary/20 text-primary px-2 py-1 rounded hover:bg-primary/30 transition flex items-center gap-1"
+                >
+                  <Download className="w-3 h-3" />
+                  {isFetching ? "Fetching..." : "Auto Fill"}
+                </button>
+              </div>
+              <input name="id" defaultValue={editingMovie?.id} required type="number" className="w-full px-3 py-2 border border-primary/30 rounded-lg text-foreground bg-background focus:ring-2 focus:ring-primary focus:outline-none" placeholder="e.g. 27205" />
             </div>
 
             <div className="md:col-span-2">

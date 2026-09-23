@@ -2,21 +2,11 @@
   {
     "id": 997614,
     "title": "Suzume",
-    "poster_path": "https://image.tmdb.org/t/p/w500/vIeu8WysGznr24ALr3xP8Vb1vF.jpg",
-    "backdrop_path": "https://image.tmdb.org/t/p/original/a0xZ8J7m4fC83YfL7HqE6847P2u.jpg",
+    "poster_path": "https://image.tmdb.org/t/p/original/oNbCAM3UVJamxRFd5hUt686aqb2.jpg",
+    "backdrop_path": "https://image.tmdb.org/t/p/original/4tdV5AeojEdbvn6VpeQrbuDlmzs.jpg",
     "overview": "Suzume, 17, lost her mother as a little girl. On her way to school, she meets a mysterious young man. But her curiosity unleashes a calamity that endangers the entire population of Japan, and so Suzume embarks on a journey to set things right.",
     "release_date": "2022-11-11",
     "vote_average": 7.9,
-    "type": "anime"
-  },
-  {
-    "id": 923186,
-    "title": "The Boy and the Heron",
-    "poster_path": "https://image.tmdb.org/t/p/w500/jDQPkgzerGophKRRn7MKm071vCU.jpg",
-    "backdrop_path": "https://image.tmdb.org/t/p/original/p3HqC4qWqKkE1bXbQ2V7X6b4q7V.jpg",
-    "overview": "While the Second World War rages, the teenage Mahito, haunted by his mother's tragic death, is relocated from Tokyo to the serene rural home of his new stepmother Natsuko, a woman who bears a striking resemblance to the boy's mother.",
-    "release_date": "2023-07-14",
-    "vote_average": 7.4,
     "type": "anime"
   },
   {
@@ -122,8 +112,8 @@
   {
     "id": 603692,
     "title": "John Wick: Chapter 4",
-    "poster_path": "https://image.tmdb.org/t/p/w500/vZloFAK7NmvMGKE7VkF5Uqd0k2W.jpg",
-    "backdrop_path": "https://image.tmdb.org/t/p/original/7I6V7b5K2qD0q8D9dEa5uP5y5m.jpg",
+    "poster_path": "https://image.tmdb.org/t/p/original/3BcrJT9AHR9SKerlY3WQAXgisfu.jpg",
+    "backdrop_path": "https://image.tmdb.org/t/p/original/zcZBlpCeuaFCHHsgGAd6yB5RxZV.jpg",
     "overview": "With the price on his head ever increasing, John Wick uncovers a path to defeating The High Table. But before he can earn his freedom, Wick must face off against a new enemy with powerful alliances across the globe and forces that turn old friends into foes.",
     "release_date": "2023-03-22",
     "vote_average": 7.8,
@@ -132,8 +122,8 @@
   {
     "id": 76600,
     "title": "Avatar: The Way of Water",
-    "poster_path": "https://image.tmdb.org/t/p/w500/t6HIqrHe2w8kH2y0H7R24P1hX9J.jpg",
-    "backdrop_path": "https://image.tmdb.org/t/p/original/8rpDcsfLJypbO6vtec0iO1s5nCq.jpg",
+    "poster_path": "https://image.tmdb.org/t/p/original/v5M7vduYnWtdKaBP1jyjD5FyOdA.jpg",
+    "backdrop_path": "https://image.tmdb.org/t/p/original/zENT3sNfL2HONYS99sFEYlE6R28.jpg",
     "overview": "Set more than a decade after the events of the first film, learn the story of the Sully family (Jake, Neytiri, and their kids), the trouble that follows them, the lengths they go to keep each other safe, the battles they fight to stay alive, and the tragedies they endure.",
     "release_date": "2022-12-14",
     "vote_average": 7.6,
@@ -142,8 +132,8 @@
   {
     "id": 361743,
     "title": "Top Gun: Maverick",
-    "poster_path": "https://image.tmdb.org/t/p/w500/62HCnUTziyWcpDaBO2i1VNoj13n.jpg",
-    "backdrop_path": "https://image.tmdb.org/t/p/original/jsoz1HlxczSuZ8x2Cg1G5B1q7q3.jpg",
+    "poster_path": "https://image.tmdb.org/t/p/original/n0YuM4f5lvGAP6MAW2kBIzugXnc.jpg",
+    "backdrop_path": "https://image.tmdb.org/t/p/original/u9tWvLMKCRryraFCoLhDdLC0gP1.jpg",
     "overview": "After more than thirty years of service as one of the Navy’s top aviators, and dodging the advancement in rank that would ground him, Pete “Maverick” Mitchell finds himself training a detachment of TOPGUN graduates for a specialized mission.",
     "release_date": "2022-05-24",
     "vote_average": 8.3,
@@ -372,7 +362,7 @@
   {
     "id": 329,
     "title": "Jurassic Park",
-    "poster_path": "https://image.tmdb.org/t/p/w500/d9mtMGQDLANKieb9PbD3yK7xxzo.jpg",
+    "poster_path": "https://image.tmdb.org/t/p/original/maFjKnJ62hDQ9E66dKqDZgbUy0H.jpg",
     "backdrop_path": "https://c4.wallpaperflare.com/wallpaper/626/102/458/1993-year-jurassic-park-dinosaurs-movies-car-hd-wallpaper-preview.jpg",
     "overview": "Enjoy watching Jurassic Park instantly.",
     "release_date": "1993-01-01",
@@ -597,6 +587,16 @@
     "overview": "Enjoy watching Ghost in the Shell instantly.",
     "release_date": "1995-01-01",
     "vote_average": 7.9,
+    "type": "anime"
+  },
+  {
+    "id": 508883,
+    "title": "The Boy and the Heron",
+    "poster_path": "https://image.tmdb.org/t/p/original/f4oZTcfGrVTXKTWg157AwikXqmP.jpg",
+    "backdrop_path": "https://image.tmdb.org/t/p/original/75nSb1fbWooipwcSU5bUttiOriI.jpg",
+    "overview": "While the Second World War rages, the teenage Mahito, haunted by his mother's tragic death, is relocated from Tokyo to the serene rural home of his new stepmother Natsuko, a woman who bears a striking resemblance to the boy's mother.",
+    "release_date": "2023-07-14",
+    "vote_average": 8.8,
     "type": "anime"
   }
 ]
