@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { mockMovies } from "./data/movies";
@@ -24,6 +25,17 @@ const item = {
 export default function Home() {
   const movies = mockMovies.filter(m => m.type === "movie").slice(0, 10);
   const anime = mockMovies.filter(m => m.type === "anime").slice(0, 10);
+  const sliderMovies = mockMovies.filter(m => m.backdrop_path && m.backdrop_path.includes("tmdb.org")).slice(0, 5);
+
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  useEffect(() => {
+    if (sliderMovies.length === 0) return;
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % sliderMovies.length);
+    }, 6000);
+    return () => clearInterval(timer);
+  }, [sliderMovies.length]);
 
   const MovieGrid = ({ title, items, viewAllLink }: { title: string, items: typeof mockMovies, viewAllLink?: string }) => (
     <div className="mb-12">
@@ -73,19 +85,77 @@ export default function Home() {
   );
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="mb-12 text-center"
-      >
-        <h1 className="text-4xl md:text-6xl font-black text-foreground mb-4 tracking-tighter">
-          Welcome to <span className="text-primary">FellaFLIX</span>
-        </h1>
-        <p className="text-lg text-foreground/80 max-w-2xl mx-auto">
-          Discover popular blockbusters, critically acclaimed masterpieces, the best of anime and more.
-        </p>
-      </motion.div>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+      {sliderMovies.length > 0 && (
+        <div className="relative w-full h-[400px] md:h-[500px] lg:h-[600px] rounded-3xl overflow-hidden mb-12 shadow-2xl border border-primary/20 group">
+          {sliderMovies.map((movie, index) => (
+            <motion.div
+              key={movie.id}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: index === currentSlide ? 1 : 0 }}
+              transition={{ duration: 0.8 }}
+              className="absolute inset-0 z-0"
+              style={{ pointerEvents: index === currentSlide ? 'auto' : 'none' }}
+            >
+              <img 
+                src={movie.backdrop_path} 
+                alt={movie.title} 
+                className="w-full h-full object-cover transform scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-background via-background/40 to-transparent"></div>
+              
+              <div className="absolute bottom-0 left-0 p-8 md:p-16 w-full md:w-2/3">
+                <motion.h1 
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: index === currentSlide ? 0 : 20, opacity: index === currentSlide ? 1 : 0 }}
+                  transition={{ delay: 0.2 }}
+                  className="text-4xl md:text-6xl font-black text-white mb-4 drop-shadow-lg tracking-tighter"
+                >
+                  {movie.title}
+                </motion.h1>
+                <motion.div 
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: index === currentSlide ? 0 : 20, opacity: index === currentSlide ? 1 : 0 }}
+                  transition={{ delay: 0.3 }}
+                  className="flex items-center space-x-4 mb-4 text-white/90 font-medium"
+                >
+                  <span className="flex items-center text-primary"><Star className="w-5 h-5 mr-1 fill-current" /> {movie.vote_average.toFixed(1)}</span>
+                  <span>{movie.release_date.split('-')[0]}</span>
+                  <span className="px-2 py-1 bg-primary/20 text-primary border border-primary/30 rounded text-xs uppercase tracking-wider">{movie.type}</span>
+                </motion.div>
+                <motion.p 
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: index === currentSlide ? 0 : 20, opacity: index === currentSlide ? 1 : 0 }}
+                  transition={{ delay: 0.4 }}
+                  className="text-white/80 text-sm md:text-base line-clamp-3 mb-8 max-w-xl drop-shadow"
+                >
+                  {movie.overview}
+                </motion.p>
+                <motion.div
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: index === currentSlide ? 0 : 20, opacity: index === currentSlide ? 1 : 0 }}
+                  transition={{ delay: 0.5 }}
+                >
+                  <Link href={`/watch/${movie.id}`} className="inline-flex items-center px-8 py-3 bg-primary text-background font-bold rounded-xl hover:bg-primary/90 hover:scale-105 transition-all shadow-lg shadow-primary/30">
+                    <PlayCircle className="w-5 h-5 mr-2" /> Watch Now
+                  </Link>
+                </motion.div>
+              </div>
+            </motion.div>
+          ))}
+          
+          <div className="absolute bottom-6 right-6 z-10 flex space-x-2">
+            {sliderMovies.map((_, idx) => (
+              <button 
+                key={idx}
+                onClick={() => setCurrentSlide(idx)}
+                className={`w-3 h-3 rounded-full transition-all ${idx === currentSlide ? 'bg-primary scale-125' : 'bg-white/30 hover:bg-white/50'}`}
+              />
+            ))}
+          </div>
+        </div>
+      )}
 
       <MovieGrid title="Featured Movies" items={movies} viewAllLink="/all" />
       <MovieGrid title="Trending Anime" items={anime} viewAllLink="/all" />
