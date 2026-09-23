@@ -95,7 +95,7 @@ export default function WatchMovie() {
           </div>
           
           <div className="text-center text-sm text-foreground/50 mt-6 pb-8 space-y-2">
-            <p>Streaming provided by third-party APIs. We do not host these files.</p>
+            <p>Streaming provided by third-party APIs. FellaFLIX does not host or own these files.</p>
             <p className="text-xs max-w-2xl mx-auto">
               <strong>Desktop Tip:</strong> We strongly recommend using an adblocker like <a href="https://ublockorigin.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-bold">uBlock Origin</a> to block intrusive popups.
             </p>

@@ -5,7 +5,7 @@ import { Navbar } from "./components/Navbar";
 
 export const metadata: Metadata = {
   title: "FellaFLIX",
-  description: "A beautiful movie nerd style streaming website",
+  description: "Watch Flic with FellaFLIX, a free movie streaming platform.",
 };
 
 export default function RootLayout({
