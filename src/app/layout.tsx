@@ -18,7 +18,7 @@ export default function RootLayout({
       <body className="antialiased min-h-screen flex flex-col">
         <Providers>
           <Navbar />
-          <main className="flex-grow flex flex-col pt-[130px] sm:pt-16 pb-24 sm:pb-0">
+          <main className="flex-grow flex flex-col pt-[130px] sm:pt-28 pb-24 sm:pb-0">
             {children}
           </main>
         </Providers>

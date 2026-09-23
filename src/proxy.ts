@@ -8,9 +8,9 @@ export function proxy(req: NextRequest) {
     const authValue = basicAuth.split(' ')[1];
     const [user, pwd] = atob(authValue).split(':');
 
-    // HIGHLY SECURE: Password is now strictly loaded from environment variables.
-    // Make sure to set ADMIN_PASSWORD in your Vercel dashboard or .env file!
-    const validUser = 'admin';
+    // HIGHLY SECURE: Password and Username are loaded from environment variables.
+    // Make sure to set ADMIN_PASSWORD (and optionally ADMIN_USERNAME) in your Vercel dashboard or .env file!
+    const validUser = process.env.ADMIN_USERNAME || 'admin';
     const validPassword = process.env.ADMIN_PASSWORD;
 
     // If no password is set in the environment, we block all access to be safe.

@@ -20,8 +20,9 @@ async function verifyAuth() {
   const authValue = basicAuth.split(' ')[1];
   const [user, pwd] = atob(authValue).split(':');
   const validPassword = process.env.ADMIN_PASSWORD;
+  const validUser = process.env.ADMIN_USERNAME || 'admin';
   
-  if (!validPassword || user !== 'admin' || pwd !== validPassword) {
+  if (!validPassword || user !== validUser || pwd !== validPassword) {
     throw new Error("Unauthorized");
   }
 }

@@ -33,16 +33,16 @@ export function Navbar() {
         className="hidden sm:block fixed w-full z-50 top-0 border-b border-primary/20 bg-background/80 backdrop-blur-md"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
+          <div className="flex items-center justify-between py-3">
             <Link href="/" className="flex items-center space-x-2 group">
               {mounted ? (
                 <img 
                   src={theme === 'dark' ? '/images/dark_logo.png' : '/images/light_logo.png'} 
                   alt="FellaFLIX" 
-                  className="h-14 w-auto transform group-hover:scale-105 transition-transform"
+                  className="h-20 w-auto transform group-hover:scale-105 transition-transform"
                 />
               ) : (
-                <div className="h-14 w-40 bg-foreground/10 animate-pulse rounded-md"></div>
+                <div className="h-20 w-56 bg-foreground/10 animate-pulse rounded-md"></div>
               )}
             </Link>
             
@@ -88,10 +88,10 @@ export function Navbar() {
               <img 
                 src={theme === 'dark' ? '/images/dark_logo.png' : '/images/light_logo.png'} 
                 alt="FellaFLIX" 
-                className="h-10 w-auto"
+                className="h-14 w-auto"
               />
             ) : (
-              <div className="h-10 w-28 bg-foreground/10 animate-pulse rounded-md"></div>
+              <div className="h-14 w-40 bg-foreground/10 animate-pulse rounded-md"></div>
             )}
           </Link>
           <button
