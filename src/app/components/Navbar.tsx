@@ -136,7 +136,7 @@ export function Navbar() {
           </Link>
 
           <Link href="/anime" className={`flex flex-col items-center justify-center w-16 h-12 rounded-xl transition-all ${pathname === '/anime' ? 'bg-primary/20 text-primary' : 'text-foreground/60 hover:text-primary hover:bg-primary/5'}`}>
-            <img src="/images/anime.png" alt="Anime" className={`w-5 h-5 mb-1 ${pathname === '/anime' ? 'opacity-100' : 'opacity-60 grayscale'}`} />
+            <img src={theme === 'dark' ? '/images/anime_dark.png' : '/images/anime_light.png'} alt="Anime" className={`w-5 h-5 mb-1 ${pathname === '/anime' ? 'opacity-100' : 'opacity-60 grayscale'}`} />
             <span className="text-[10px] font-medium">Anime</span>
           </Link>
 
