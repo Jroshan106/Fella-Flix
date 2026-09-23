@@ -11,6 +11,7 @@ const SERVERS = [
   { name: "Server 2 (VidPhantom)", url: (id: string) => `https://vidphantom.com/movie/${id}` },
   { name: "Server 3 (NHD Embed)", url: (id: string) => `https://nhdapi.st/movie/${id}?key=YOUR_API_KEY` },
   { name: "Server 4 (CineSrc)", url: (id: string) => `https://cinesrc.st/embed/movie/${id}` },
+  { name: "Server 5 (Peachify)", url: (id: string) => `https://peachify.pro/embed/movie/${id}` },
 ];
 
 export default function WatchMovie() {
