@@ -22,6 +22,44 @@ export default function RootLayout({
             {children}
           </main>
         </Providers>
+        
+        {/* Built-in basic AdBlocker */}
+        <script dangerouslySetInnerHTML={{
+          __html: `
+            const blockedPatterns = [
+                'doubleclick.net',
+                'googlesyndication.com',
+                'googleadservices.com',
+                'adservice.google.com',
+                'popads.net',
+                'propellerads.com'
+            ];
+
+            function blockAds() {
+                document.querySelectorAll('iframe, script, img').forEach(element => {
+                    const src = element.src || '';
+
+                    if (blockedPatterns.some(domain => src.includes(domain))) {
+                        element.remove();
+                    }
+                });
+
+                document.querySelectorAll(
+                    '.ad, .ads, .advertisement, .advert, [id*="ad-"], [class*="ad-"]'
+                ).forEach(element => {
+                    element.remove();
+                });
+            }
+
+            blockAds();
+
+            const observer = new MutationObserver(blockAds);
+            observer.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
+          `
+        }} />
       </body>
     </html>
   );
