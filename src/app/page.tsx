@@ -124,18 +124,11 @@ export default function Home() {
                   <span>{movie.release_date.split('-')[0]}</span>
                   <span className="px-2 py-1 bg-primary/20 text-primary border border-primary/30 rounded text-xs uppercase tracking-wider">{movie.type}</span>
                 </motion.div>
-                <motion.p 
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: index === currentSlide ? 0 : 20, opacity: index === currentSlide ? 1 : 0 }}
-                  transition={{ delay: 0.4 }}
-                  className="text-white/80 text-sm md:text-base line-clamp-3 mb-8 max-w-xl drop-shadow"
-                >
-                  {movie.overview}
-                </motion.p>
                 <motion.div
                   initial={{ y: 20, opacity: 0 }}
                   animate={{ y: index === currentSlide ? 0 : 20, opacity: index === currentSlide ? 1 : 0 }}
-                  transition={{ delay: 0.5 }}
+                  transition={{ delay: 0.4 }}
+                  className="mt-6"
                 >
                   <Link href={`/watch/${movie.id}`} className="inline-flex items-center px-8 py-3 bg-primary text-background font-bold rounded-xl hover:bg-primary/90 hover:scale-105 transition-all shadow-lg shadow-primary/30">
                     <PlayCircle className="w-5 h-5 mr-2" /> Watch Now
