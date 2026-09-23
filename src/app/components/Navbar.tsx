@@ -39,10 +39,10 @@ export function Navbar() {
                 <img 
                   src={theme === 'dark' ? '/images/dark_logo.png' : '/images/light_logo.png'} 
                   alt="FellaFLIX" 
-                  className="h-20 w-auto transform group-hover:scale-105 transition-transform"
+                  className="h-16 w-auto transform group-hover:scale-105 transition-transform"
                 />
               ) : (
-                <div className="h-20 w-56 bg-foreground/10 animate-pulse rounded-md"></div>
+                <div className="h-16 w-48 bg-foreground/10 animate-pulse rounded-md"></div>
               )}
             </Link>
             
@@ -88,10 +88,10 @@ export function Navbar() {
               <img 
                 src={theme === 'dark' ? '/images/dark_logo.png' : '/images/light_logo.png'} 
                 alt="FellaFLIX" 
-                className="h-14 w-auto"
+                className="h-12 w-auto"
               />
             ) : (
-              <div className="h-14 w-40 bg-foreground/10 animate-pulse rounded-md"></div>
+              <div className="h-12 w-32 bg-foreground/10 animate-pulse rounded-md"></div>
             )}
           </Link>
           <button
