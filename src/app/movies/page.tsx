@@ -19,11 +19,12 @@ const item = {
   show: { opacity: 1, y: 0 }
 };
 
-export default function AllMoviesPage() {
+export default function MoviesPage() {
   const [localSearch, setLocalSearch] = useState("");
 
-  // Sort alphabetically by title
-  const sortedMovies = [...mockMovies].sort((a, b) => a.title.localeCompare(b.title));
+  // Filter for movies and sort alphabetically
+  const allTypeMovies = mockMovies.filter(m => m.type === "movie");
+  const sortedMovies = [...allTypeMovies].sort((a, b) => a.title.localeCompare(b.title));
 
   // Filter based on local search
   const filteredMovies = sortedMovies.filter(movie => 
@@ -35,9 +36,9 @@ export default function AllMoviesPage() {
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
         <div className="border-l-4 border-primary pl-4">
           <h1 className="text-4xl font-black text-foreground tracking-tight">
-            The Library
+            Movies
           </h1>
-          <p className="text-foreground/70 mt-2">All movies and anime in alphabetical order ({mockMovies.length} total)</p>
+          <p className="text-foreground/70 mt-2">All cinematic movies in alphabetical order ({allTypeMovies.length} total)</p>
         </div>
         
         <div className="relative w-full md:w-72">

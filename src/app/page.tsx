@@ -150,19 +150,22 @@ export default function Home() {
               <button 
                 key={idx}
                 onClick={() => setCurrentSlide(idx)}
-                className={`w-3 h-3 rounded-full transition-all ${idx === currentSlide ? 'bg-primary scale-125' : 'bg-white/30 hover:bg-white/50'}`}
+                className={`w-2 h-2 rounded-full transition-all ${idx === currentSlide ? 'bg-primary scale-125' : 'bg-white/30 hover:bg-white/50'}`}
               />
             ))}
           </div>
         </div>
       )}
 
-      <MovieGrid title="Featured Movies" items={movies} viewAllLink="/all" />
-      <MovieGrid title="Trending Anime" items={anime} viewAllLink="/all" />
+      <MovieGrid title="Featured Movies" items={movies} viewAllLink="/movies" />
+      <MovieGrid title="Trending Anime" items={anime} viewAllLink="/anime" />
       
-      <div className="text-center mt-8">
-        <Link href="/all" className="inline-block px-8 py-4 bg-primary text-background font-black rounded-full hover:bg-primary/90 hover:scale-105 transition-all shadow-lg shadow-primary/20">
-          BROWSE FULL LIBRARY
+      <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mt-8">
+        <Link href="/movies" className="w-full sm:w-auto px-8 py-4 bg-primary text-background font-black rounded-full hover:bg-primary/90 hover:scale-105 transition-all shadow-lg shadow-primary/20 text-center">
+          BROWSE MOVIES
+        </Link>
+        <Link href="/anime" className="w-full sm:w-auto px-8 py-4 bg-card text-foreground font-black rounded-full border-2 border-primary/20 hover:border-primary/60 hover:scale-105 transition-all shadow-lg text-center">
+          BROWSE ANIME
         </Link>
       </div>
     </div>

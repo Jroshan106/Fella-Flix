@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useTheme } from "next-themes";
-import { Moon, Sun, Search, Home, FolderOpen, MessageSquarePlus } from "lucide-react";
+import { Moon, Sun, Search, Home, Film, Tv, MessageSquarePlus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { usePathname, useRouter } from "next/navigation";
@@ -63,7 +63,8 @@ export function Navbar() {
               )}
 
               <Link href="/" className={`text-sm font-medium transition-colors ${pathname === '/' ? 'text-primary font-bold' : 'text-foreground hover:text-primary'}`}>Home</Link>
-              <Link href="/all" className={`text-sm font-medium transition-colors ${pathname === '/all' ? 'text-primary font-bold' : 'text-foreground hover:text-primary'}`}>Library</Link>
+              <Link href="/movies" className={`text-sm font-medium transition-colors ${pathname === '/movies' ? 'text-primary font-bold' : 'text-foreground hover:text-primary'}`}>Movies</Link>
+              <Link href="/anime" className={`text-sm font-medium transition-colors ${pathname === '/anime' ? 'text-primary font-bold' : 'text-foreground hover:text-primary'}`}>Anime</Link>
               <Link href="/request" className={`text-sm font-medium whitespace-nowrap transition-colors ${pathname === '/request' ? 'text-primary font-bold' : 'text-foreground hover:text-primary'}`}>Request</Link>
               
               <button
@@ -129,9 +130,14 @@ export function Navbar() {
             <span className="text-[10px] font-medium">Home</span>
           </Link>
           
-          <Link href="/all" className={`flex flex-col items-center justify-center w-16 h-12 rounded-xl transition-all ${pathname === '/all' ? 'bg-primary/20 text-primary' : 'text-foreground/60 hover:text-primary hover:bg-primary/5'}`}>
-            <FolderOpen className={`w-5 h-5 mb-1 ${pathname === '/all' ? 'fill-primary/20' : ''}`} />
-            <span className="text-[10px] font-medium">Library</span>
+          <Link href="/movies" className={`flex flex-col items-center justify-center w-16 h-12 rounded-xl transition-all ${pathname === '/movies' ? 'bg-primary/20 text-primary' : 'text-foreground/60 hover:text-primary hover:bg-primary/5'}`}>
+            <Film className={`w-5 h-5 mb-1 ${pathname === '/movies' ? 'fill-primary/20' : ''}`} />
+            <span className="text-[10px] font-medium">Movies</span>
+          </Link>
+
+          <Link href="/anime" className={`flex flex-col items-center justify-center w-16 h-12 rounded-xl transition-all ${pathname === '/anime' ? 'bg-primary/20 text-primary' : 'text-foreground/60 hover:text-primary hover:bg-primary/5'}`}>
+            <Tv className={`w-5 h-5 mb-1 ${pathname === '/anime' ? 'fill-primary/20' : ''}`} />
+            <span className="text-[10px] font-medium">Anime</span>
           </Link>
 
           <Link href="/request" className={`flex flex-col items-center justify-center w-16 h-12 rounded-xl transition-all ${pathname === '/request' ? 'bg-primary/20 text-primary' : 'text-foreground/60 hover:text-primary hover:bg-primary/5'}`}>
