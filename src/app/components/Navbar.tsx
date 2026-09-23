@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useTheme } from "next-themes";
-import { Moon, Sun, Film, Search, Home, FolderOpen, MessageSquarePlus } from "lucide-react";
+import { Moon, Sun, Search, Home, FolderOpen, MessageSquarePlus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { usePathname, useRouter } from "next/navigation";
@@ -35,8 +35,15 @@ export function Navbar() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <Link href="/" className="flex items-center space-x-2 group">
-              <Film className="w-8 h-8 text-primary transform group-hover:scale-110 transition-transform" />
-              <span className="font-bold text-2xl tracking-tighter text-primary">FellaFLIX</span>
+              {mounted ? (
+                <img 
+                  src={theme === 'dark' ? '/images/dark_logo.png' : '/images/light_logo.png'} 
+                  alt="FellaFLIX" 
+                  className="h-10 w-auto transform group-hover:scale-105 transition-transform"
+                />
+              ) : (
+                <div className="h-10 w-32 bg-foreground/10 animate-pulse rounded-md"></div>
+              )}
             </Link>
             
             <div className="flex items-center space-x-6 flex-grow justify-end max-w-lg ml-4">
@@ -77,8 +84,15 @@ export function Navbar() {
       <div className="sm:hidden fixed top-0 w-full z-40 bg-background/90 backdrop-blur-lg border-b border-primary/20 pb-3 pt-4 px-4 shadow-sm">
         <div className="flex justify-between items-center mb-3">
           <Link href="/" className="flex items-center space-x-2">
-            <Film className="w-7 h-7 text-primary" />
-            <span className="font-bold text-xl tracking-tighter text-primary">FellaFLIX</span>
+            {mounted ? (
+              <img 
+                src={theme === 'dark' ? '/images/dark_logo.png' : '/images/light_logo.png'} 
+                alt="FellaFLIX" 
+                className="h-8 w-auto"
+              />
+            ) : (
+              <div className="h-8 w-24 bg-foreground/10 animate-pulse rounded-md"></div>
+            )}
           </Link>
           <button
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}

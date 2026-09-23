@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { ShieldAlert, Plus, Edit, Trash2, Search, X } from "lucide-react";
-import { addMovie, updateMovie, deleteMovie } from "../actions";
+import { ShieldAlert, Plus, Edit, Trash2, Search, X, Inbox, Film } from "lucide-react";
+import { addMovie, updateMovie, deleteMovie, getRequests, deleteRequest, MovieRequest } from "../actions";
 import { mockMovies, Movie } from "../data/movies";
+import { useEffect } from "react";
 
 export default function AdminPage() {
   const [status, setStatus] = useState<{ type: 'success' | 'error', msg: string } | null>(null);
@@ -13,6 +14,16 @@ export default function AdminPage() {
   // Edit mode state
   const [editingMovie, setEditingMovie] = useState<Movie | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
+  
+  // Tab state
+  const [activeTab, setActiveTab] = useState<'library' | 'requests'>('library');
+  const [requests, setRequests] = useState<MovieRequest[]>([]);
+
+  useEffect(() => {
+    if (activeTab === 'requests') {
+      getRequests().then(setRequests);
+    }
+  }, [activeTab]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -49,6 +60,14 @@ export default function AdminPage() {
       window.location.reload();
     } else {
       alert(result.message);
+    }
+  };
+
+  const handleDeleteRequest = async (id: string) => {
+    if (!window.confirm("Delete this request?")) return;
+    const result = await deleteRequest(id);
+    if (result.success) {
+      setRequests(requests.filter(r => r.id !== id));
     }
   };
 
@@ -151,56 +170,105 @@ export default function AdminPage() {
         </form>
       </motion.div>
 
-      {/* Right: Library List */}
+      {/* Right: Library / Requests Panel */}
       <motion.div 
         initial={{ opacity: 0, x: 20 }}
         animate={{ opacity: 1, x: 0 }}
         className="flex-1 bg-card rounded-2xl shadow-xl border border-primary/20 flex flex-col max-h-[850px]"
       >
         <div className="p-6 border-b border-primary/20">
-          <h2 className="text-xl font-bold text-card-foreground mb-4">Manage Library ({mockMovies.length})</h2>
-          <div className="relative">
-            <Search className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-foreground/40" />
-            <input 
-              type="text" 
-              placeholder="Search by title or TMDB ID..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 border border-primary/30 rounded-lg bg-background text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-primary"
-            />
+          <div className="flex space-x-2 mb-6 p-1 bg-background rounded-xl">
+            <button 
+              onClick={() => setActiveTab('library')}
+              className={`flex-1 flex items-center justify-center py-2 rounded-lg text-sm font-semibold transition-all ${activeTab === 'library' ? 'bg-card text-primary shadow-sm' : 'text-foreground/60 hover:text-foreground'}`}
+            >
+              <Film className="w-4 h-4 mr-2" /> Library ({mockMovies.length})
+            </button>
+            <button 
+              onClick={() => setActiveTab('requests')}
+              className={`flex-1 flex items-center justify-center py-2 rounded-lg text-sm font-semibold transition-all ${activeTab === 'requests' ? 'bg-card text-primary shadow-sm' : 'text-foreground/60 hover:text-foreground'}`}
+            >
+              <Inbox className="w-4 h-4 mr-2" /> User Requests
+            </button>
           </div>
+
+          {activeTab === 'library' && (
+            <div className="relative">
+              <Search className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-foreground/40" />
+              <input 
+                type="text" 
+                placeholder="Search by title or TMDB ID..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-9 pr-4 py-2 border border-primary/30 rounded-lg bg-background text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-primary"
+              />
+            </div>
+          )}
         </div>
         
-        <div className="overflow-y-auto p-4 flex-grow space-y-2">
-          {filteredMovies.map(m => (
-            <div key={m.id} className={`flex items-center justify-between p-3 rounded-lg border transition-colors ${editingMovie?.id === m.id ? 'bg-primary/10 border-primary' : 'bg-background border-primary/10 hover:border-primary/30'}`}>
-              <div className="flex items-center space-x-3 overflow-hidden">
-                <img src={m.poster_path} alt="" className="w-10 h-14 object-cover rounded shadow-sm" />
-                <div className="truncate">
-                  <p className="font-semibold text-sm text-foreground truncate">{m.title}</p>
-                  <p className="text-xs text-foreground/50">ID: {m.id} • {m.type}</p>
+        <div className="overflow-y-auto p-4 flex-grow space-y-3">
+          {activeTab === 'library' && (
+            <>
+              {filteredMovies.map(m => (
+                <div key={m.id} className={`flex items-center justify-between p-3 rounded-lg border transition-colors ${editingMovie?.id === m.id ? 'bg-primary/10 border-primary' : 'bg-background border-primary/10 hover:border-primary/30'}`}>
+                  <div className="flex items-center space-x-3 overflow-hidden">
+                    <img src={m.poster_path} alt="" className="w-10 h-14 object-cover rounded shadow-sm" />
+                    <div className="truncate">
+                      <p className="font-semibold text-sm text-foreground truncate">{m.title}</p>
+                      <p className="text-xs text-foreground/50">ID: {m.id} • {m.type}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center space-x-2 ml-4">
+                    <button 
+                      onClick={() => setEditingMovie(m)}
+                      className="p-2 text-primary hover:bg-primary/20 rounded-lg transition-colors"
+                      title="Edit"
+                    >
+                      <Edit className="w-4 h-4" />
+                    </button>
+                    <button 
+                      onClick={() => handleDelete(m.id, m.title)}
+                      className="p-2 text-red-500 hover:bg-red-500/20 rounded-lg transition-colors"
+                      title="Delete"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
                 </div>
-              </div>
-              <div className="flex items-center space-x-2 ml-4">
-                <button 
-                  onClick={() => setEditingMovie(m)}
-                  className="p-2 text-primary hover:bg-primary/20 rounded-lg transition-colors"
-                  title="Edit"
-                >
-                  <Edit className="w-4 h-4" />
-                </button>
-                <button 
-                  onClick={() => handleDelete(m.id, m.title)}
-                  className="p-2 text-red-500 hover:bg-red-500/20 rounded-lg transition-colors"
-                  title="Delete"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-          ))}
-          {filteredMovies.length === 0 && (
-            <p className="text-center text-sm text-foreground/50 py-10">No movies found.</p>
+              ))}
+              {filteredMovies.length === 0 && (
+                <p className="text-center text-sm text-foreground/50 py-10">No movies found.</p>
+              )}
+            </>
+          )}
+
+          {activeTab === 'requests' && (
+            <>
+              {requests.map(req => (
+                <div key={req.id} className="bg-background border border-primary/20 p-4 rounded-xl relative group">
+                  <button 
+                    onClick={() => handleDeleteRequest(req.id)}
+                    className="absolute top-4 right-4 text-red-500 opacity-0 group-hover:opacity-100 transition-opacity p-1 hover:bg-red-500/20 rounded"
+                    title="Dismiss Request"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                  <h3 className="font-bold text-primary mb-1 pr-8">{req.title}</h3>
+                  <p className="text-xs text-foreground/50 mb-3">{req.date}</p>
+                  {req.details ? (
+                    <p className="text-sm text-foreground/80 bg-card p-3 rounded-lg border border-foreground/5">{req.details}</p>
+                  ) : (
+                    <p className="text-sm text-foreground/40 italic">No additional details provided.</p>
+                  )}
+                </div>
+              ))}
+              {requests.length === 0 && (
+                <div className="flex flex-col items-center justify-center py-20 opacity-50">
+                  <Inbox className="w-12 h-12 mb-4" />
+                  <p className="text-sm font-medium">No pending requests!</p>
+                </div>
+              )}
+            </>
           )}
         </div>
       </motion.div>
