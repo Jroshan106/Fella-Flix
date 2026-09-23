@@ -103,8 +103,8 @@ function SearchResults() {
           ))}
         </motion.div>
       ) : (
-        <div className="flex flex-col items-center justify-center py-20 text-center">
-          <SearchX className="w-16 h-16 text-foreground/20 mb-4" />
+        <div className="flex flex-col items-center justify-center py-10 text-center">
+          <img src="/images/no-results.png" alt="No Results Found" className="w-48 h-auto mb-6 drop-shadow-2xl" />
           <h2 className="text-2xl font-bold text-foreground mb-2">No results found</h2>
           <p className="text-foreground/60 max-w-md">
             We couldn't find any movies matching "{query}". Try checking your spelling or use the Request page to ask us to add it!

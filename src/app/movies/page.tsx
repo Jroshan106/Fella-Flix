@@ -91,8 +91,9 @@ export default function MoviesPage() {
           ))}
         </motion.div>
       ) : (
-        <div className="text-center py-20">
-          <p className="text-foreground/60 text-lg">No movies found matching "{localSearch}".</p>
+        <div className="flex flex-col items-center justify-center py-20 text-center">
+          <img src="/images/no-results.png" alt="No Results" className="w-40 h-auto mb-6 drop-shadow-xl" />
+          <p className="text-foreground/60 text-lg font-medium">No movies found matching "{localSearch}".</p>
         </div>
       )}
     </div>
