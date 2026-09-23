@@ -4,7 +4,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { mockMovies } from "@/app/data/movies";
-import { ArrowLeft, Server } from "lucide-react";
+import { ArrowLeft, Server, PlayCircle } from "lucide-react";
 
 const SERVERS = [
   { name: "Server 1 (Stellar)", url: (id: string) => `https://stellar.rip/en/watch/embed/movie/${id}` },
@@ -22,6 +22,7 @@ export default function WatchMovie() {
   const movie = mockMovies.find(m => m.id.toString() === id);
   const [mounted, setMounted] = useState(false);
   const [activeServer, setActiveServer] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => setMounted(true), []);
 
@@ -74,7 +75,10 @@ export default function WatchMovie() {
             {SERVERS.map((server, idx) => (
               <button
                 key={server.name}
-                onClick={() => setActiveServer(idx)}
+                onClick={() => {
+                  setActiveServer(idx);
+                  setIsPlaying(false); // Reset to overlay when changing servers
+                }}
                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                   activeServer === idx 
                     ? "bg-primary text-background shadow-md scale-105" 
@@ -86,14 +90,30 @@ export default function WatchMovie() {
             ))}
           </div>
 
-          <div className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-2xl bg-black border border-primary/20 flex-grow max-h-[80vh]">
-            <iframe
-              src={SERVERS[activeServer].url(id)}
-              className="absolute inset-0 w-full h-full"
-              allowFullScreen
-              allow="autoplay; fullscreen; picture-in-picture"
-              title="Movie Player"
-            />
+          <div className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-2xl bg-black border border-primary/20 flex-grow max-h-[80vh] group">
+            {!isPlaying ? (
+              <div 
+                className="absolute inset-0 w-full h-full cursor-pointer"
+                onClick={() => setIsPlaying(true)}
+              >
+                <div 
+                  className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
+                  style={movie ? { backgroundImage: `url(${movie.backdrop_path || movie.poster_path})` } : undefined}
+                />
+                <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center transition-colors group-hover:bg-black/40">
+                  <PlayCircle className="w-24 h-24 text-primary opacity-90 transform transition-transform duration-300 group-hover:scale-110 drop-shadow-2xl" />
+                  <p className="mt-4 text-white font-bold text-lg drop-shadow-md">Click to Play on {SERVERS[activeServer].name}</p>
+                </div>
+              </div>
+            ) : (
+              <iframe
+                src={SERVERS[activeServer].url(id)}
+                className="absolute inset-0 w-full h-full"
+                allowFullScreen
+                allow="autoplay; fullscreen; picture-in-picture"
+                title="Movie Player"
+              />
+            )}
           </div>
           
           <div className="text-center text-sm text-foreground/50 mt-6 pb-8 space-y-2">
