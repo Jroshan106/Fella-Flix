@@ -7,10 +7,10 @@ import { mockMovies } from "@/app/data/movies";
 import { ArrowLeft, Server } from "lucide-react";
 
 const SERVERS = [
-  { name: "Server 1 (Stellar)", url: (id: string) => `https://stellar.gdn/embed/movie/${id}` },
-  { name: "Server 2 (Cinezo)", url: (id: string) => `https://cinezo.org/embed/movie/${id}` },
-  { name: "Server 3 (NHD Embed)", url: (id: string) => `https://nhdapi.com/embed/movie/${id}` },
-  { name: "Server 4 (CineSrc)", url: (id: string) => `https://cinesrc.to/embed/movie/${id}` },
+  { name: "Server 1 (Stellar)", url: (id: string) => `https://stellar.rip/en/watch/embed/movie/${id}` },
+  { name: "Server 2 (VidPhantom)", url: (id: string) => `https://vidphantom.com/movie/${id}` },
+  { name: "Server 3 (NHD Embed)", url: (id: string) => `https://nhdapi.st/movie/${id}?key=YOUR_API_KEY` },
+  { name: "Server 4 (CineSrc)", url: (id: string) => `https://cinesrc.st/embed/movie/${id}` },
 ];
 
 export default function WatchMovie() {
@@ -90,6 +90,7 @@ export default function WatchMovie() {
               src={SERVERS[activeServer].url(id)}
               className="absolute inset-0 w-full h-full"
               allowFullScreen
+              allow="autoplay; fullscreen; picture-in-picture"
               title="Movie Player"
             />
           </div>
