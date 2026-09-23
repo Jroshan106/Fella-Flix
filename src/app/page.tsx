@@ -83,7 +83,7 @@ export default function Home() {
           Welcome to <span className="text-primary">FellaFLIX</span>
         </h1>
         <p className="text-lg text-foreground/80 max-w-2xl mx-auto">
-          Your cinematic journey starts here. Discover popular blockbusters, critically acclaimed masterpieces, and the best of anime.
+          Discover popular blockbusters, critically acclaimed masterpieces, the best of anime and more.
         </p>
       </motion.div>
 
