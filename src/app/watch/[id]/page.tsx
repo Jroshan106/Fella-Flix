@@ -7,10 +7,10 @@ import { mockMovies } from "@/app/data/movies";
 import { ArrowLeft, Server } from "lucide-react";
 
 const SERVERS = [
-  { name: "Server 1 (SuperEmbed Custom)", url: (id: string) => `/api/superembed?id=${id}` },
-  { name: "Server 2 (Peachify)", url: (id: string) => `https://peachify.pro/embed/movie/${id}` },
-  { name: "Server 3 (VidSrc SBS)", url: (id: string) => `https://vidsrc.sbs/embed/movie/${id}` },
-  { name: "Server 4 (EmbedMaster)", url: (id: string) => `https://embedmaster.link/movie/${id}` },
+  { name: "Server 1 (Peachify)", url: (id: string) => `https://peachify.pro/embed/movie/${id}` },
+  { name: "Server 2 (SmashyStream)", url: (id: string) => `https://player.smashy.stream/movie/${id}` },
+  { name: "Server 3 (VidLink)", url: (id: string) => `https://vidlink.pro/movie/${id}` },
+  { name: "Server 4 (AutoEmbed)", url: (id: string) => `https://autoembed.co/movie/tmdb/${id}` },
 ];
 
 export default function WatchMovie() {
