@@ -8,7 +8,6 @@ import { ArrowLeft, Server } from "lucide-react";
 
 const SERVERS = [
   { name: "Server 1 (Peachify)", url: (id: string) => `https://peachify.pro/embed/movie/${id}` },
-  { name: "Server 2 (2Embed)", url: (id: string) => `https://www.2embed.cc/embed/${id}` },
   { name: "Server 3 (VidSrc.me)", url: (id: string) => `https://vidsrc.me/embed/movie?tmdb=${id}` },
   { name: "Server 4 (AutoEmbed)", url: (id: string) => `https://autoembed.co/movie/tmdb/${id}` },
   { name: "Server 5 (Asia Fast CDN)", url: (id: string) => `https://vidsrc.in/embed/movie/${id}` },
@@ -23,7 +22,21 @@ export default function WatchMovie() {
   const [mounted, setMounted] = useState(false);
   const [activeServer, setActiveServer] = useState(0);
 
-  useEffect(() => setMounted(true), []);
+  useEffect(() => {
+    setMounted(true);
+    const savedServer = localStorage.getItem("fellaflix_preferred_server");
+    if (savedServer !== null) {
+      const parsed = parseInt(savedServer, 10);
+      if (!isNaN(parsed) && parsed >= 0 && parsed < SERVERS.length) {
+        setActiveServer(parsed);
+      }
+    }
+  }, []);
+
+  const handleServerChange = (index: number) => {
+    setActiveServer(index);
+    localStorage.setItem("fellaflix_preferred_server", index.toString());
+  };
 
   if (!mounted) return null;
 
@@ -74,7 +87,7 @@ export default function WatchMovie() {
             {SERVERS.map((server, idx) => (
               <button
                 key={server.name}
-                onClick={() => setActiveServer(idx)}
+                onClick={() => handleServerChange(idx)}
                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                   activeServer === idx 
                     ? "bg-primary text-background shadow-md scale-105" 
