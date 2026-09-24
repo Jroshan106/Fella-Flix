@@ -8,9 +8,10 @@ import { ArrowLeft, Server } from "lucide-react";
 
 const SERVERS = [
   { name: "Server 1 (Peachify)", url: (id: string) => `https://peachify.pro/embed/movie/${id}` },
-  { name: "Server 2 (SmashyStream)", url: (id: string) => `https://player.smashy.stream/movie/${id}` },
-  { name: "Server 3 (VidLink)", url: (id: string) => `https://vidlink.pro/movie/${id}` },
+  { name: "Server 2 (2Embed)", url: (id: string) => `https://www.2embed.cc/embed/${id}` },
+  { name: "Server 3 (VidSrc.me)", url: (id: string) => `https://vidsrc.me/embed/movie?tmdb=${id}` },
   { name: "Server 4 (AutoEmbed)", url: (id: string) => `https://autoembed.co/movie/tmdb/${id}` },
+  { name: "Server 5 (Asia Fast CDN)", url: (id: string) => `https://vidsrc.in/embed/movie/${id}` },
 ];
 
 export default function WatchMovie() {
