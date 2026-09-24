@@ -7,11 +7,10 @@ import { mockMovies } from "@/app/data/movies";
 import { ArrowLeft, Server } from "lucide-react";
 
 const SERVERS = [
-  { name: "Server 1 (Stellar)", url: (id: string) => `https://stellar.rip/en/watch/embed/movie/${id}` },
-  { name: "Server 2 (VidPhantom)", url: (id: string) => `https://vidphantom.com/movie/${id}` },
-  { name: "Server 3 (NHD Embed)", url: (id: string) => `https://nhdapi.st/movie/${id}?key=YOUR_API_KEY` },
-  { name: "Server 4 (CineSrc)", url: (id: string) => `https://cinesrc.st/embed/movie/${id}` },
-  { name: "Server 5 (Peachify)", url: (id: string) => `https://peachify.pro/embed/movie/${id}` },
+  { name: "Server 1 (VidLink)", url: (id: string) => `https://vidlink.pro/movie/${id}` },
+  { name: "Server 2 (VidSrc)", url: (id: string) => `https://vidsrc.to/embed/movie/${id}` },
+  { name: "Server 3 (SuperEmbed)", url: (id: string) => `https://multiembed.mov/?video_id=${id}&tmdb=1` },
+  { name: "Server 4 (2Embed)", url: (id: string) => `https://www.2embed.cc/embed/${id}` },
 ];
 
 export default function WatchMovie() {
