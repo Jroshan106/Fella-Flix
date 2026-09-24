@@ -7,7 +7,7 @@ import { mockMovies } from "@/app/data/movies";
 import { ArrowLeft, Server } from "lucide-react";
 
 const SERVERS = [
-  { name: "Server 1 (MovieOfTheNight)", url: (id: string) => `https://developers.movieofthenight.com/movie/${id}?key=motn-key-v4-GvG4g5fxFZstJIVRa32MLQfCM3My7mQo` },
+  { name: "Server 1 (SuperEmbed Custom)", url: (id: string) => `/api/superembed?id=${id}` },
   { name: "Server 2 (Peachify)", url: (id: string) => `https://peachify.pro/embed/movie/${id}` },
   { name: "Server 3 (VidSrc SBS)", url: (id: string) => `https://vidsrc.sbs/embed/movie/${id}` },
   { name: "Server 4 (EmbedMaster)", url: (id: string) => `https://embedmaster.link/movie/${id}` },
