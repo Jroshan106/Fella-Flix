@@ -1,3 +1,4 @@
+import Image from "next/image";
 "use client";
 
 import { useSearchParams } from "next/navigation";
@@ -78,11 +79,7 @@ function SearchResults() {
             <motion.div key={movie.id} variants={item}>
               <Link href={`/watch/${movie.id}`} className="group block relative rounded-xl overflow-hidden bg-card shadow-lg hover:shadow-primary/20 transition-all duration-300 transform hover:-translate-y-2">
                 <div className="aspect-[2/3] relative bg-black">
-                  <img 
-                    src={movie.poster_path} 
-                    alt={movie.title}
-                    className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110 opacity-90 group-hover:opacity-100"
-                  />
+                  <Image src={movie.poster_path} alt={movie.title} fill sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 20vw" className="object-cover transition-transform duration-500 group-hover:scale-110" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
                     <PlayCircle className="w-12 h-12 text-primary mx-auto mb-4 transform scale-50 group-hover:scale-100 transition-transform duration-300" />
                     <p className="text-white text-xs line-clamp-3 mb-2">{movie.overview}</p>

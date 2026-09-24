@@ -42,10 +42,12 @@ const MovieGrid = ({ title, items, viewAllLink }: { title: string, items: typeof
         <motion.div key={movie.id} variants={item}>
           <Link href={`/watch/${movie.id}`} className="group block relative rounded-xl overflow-hidden bg-card shadow-lg hover:shadow-primary/20 transition-all duration-300 transform hover:-translate-y-2">
             <div className="aspect-[2/3] relative">
-              <img 
+              <Image 
                 src={movie.poster_path} 
                 alt={movie.title}
-                className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110"
+                fill
+                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 20vw"
+                className="object-cover transition-transform duration-500 group-hover:scale-110"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
                 <PlayCircle className="w-12 h-12 text-primary mx-auto mb-4 transform scale-50 group-hover:scale-100 transition-transform duration-300" />
@@ -97,11 +99,7 @@ export default function Home() {
               className="absolute inset-0 z-0"
               style={{ pointerEvents: index === currentSlide ? 'auto' : 'none' }}
             >
-              <img 
-                src={movie.backdrop_path} 
-                alt={movie.title} 
-                className="w-full h-full object-cover transform scale-105"
-              />
+              <Image src={movie.backdrop_path} alt={movie.title} fill priority={index === 0} className="object-cover transform scale-105" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent"></div>
               <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/30 to-transparent"></div>
               
