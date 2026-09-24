@@ -5,7 +5,7 @@ import { mockMovies } from "../data/movies";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Star, PlayCircle, Search } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const container = {
   hidden: { opacity: 0 },
@@ -30,6 +30,22 @@ export default function AnimePage() {
   // Filter based on local search
   const filteredMovies = sortedMovies.filter(movie => 
     movie.title.toLowerCase().includes(localSearch.toLowerCase())
+  );
+
+
+  // Pagination
+  const ITEMS_PER_PAGE = 24;
+  const [currentPage, setCurrentPage] = useState(1);
+  
+  // Reset page when searching
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [localSearch]);
+
+  const totalPages = Math.ceil(filteredMovies.length / ITEMS_PER_PAGE);
+  const paginatedMovies = filteredMovies.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
   );
 
   return (
@@ -57,22 +73,18 @@ export default function AnimePage() {
       </div>
 
       {filteredMovies.length > 0 ? (
+        <>
         <motion.div 
           variants={container}
           initial="hidden"
           animate="show"
           className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4"
         >
-          {filteredMovies.map((movie) => (
+          {paginatedMovies.map((movie) => (
             <motion.div key={movie.id} variants={item}>
               <Link href={`/watch/${movie.id}`} className="group block relative rounded-xl overflow-hidden bg-card shadow-md hover:shadow-primary/20 transition-all duration-300 transform hover:-translate-y-1">
                 <div className="aspect-[2/3] relative bg-black">
-                  <img 
-                    src={movie.poster_path} 
-                    alt={movie.title}
-                    loading="lazy"
-                    className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110 opacity-90 group-hover:opacity-100"
-                  />
+                  <Image src={movie.poster_path} alt={movie.title} fill sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 16vw" className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110 opacity-90 group-hover:opacity-100 object-cover" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3">
                     <PlayCircle className="w-10 h-10 text-primary mx-auto mb-2 transform scale-50 group-hover:scale-100 transition-transform duration-300" />
                   </div>
@@ -91,6 +103,36 @@ export default function AnimePage() {
             </motion.div>
           ))}
         </motion.div>
+
+        {totalPages > 1 && (
+          <div className="flex justify-center items-center mt-12 gap-4">
+            <button 
+              onClick={() => {
+                setCurrentPage(p => Math.max(1, p - 1));
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              disabled={currentPage === 1}
+              className="px-4 py-2 bg-card border border-primary/20 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-primary/10 transition-colors text-foreground font-medium"
+            >
+              Previous
+            </button>
+            <span className="text-foreground/70 font-medium text-sm">
+              Page {currentPage} of {totalPages}
+            </span>
+            <button 
+              onClick={() => {
+                setCurrentPage(p => Math.min(totalPages, p + 1));
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              disabled={currentPage === totalPages}
+              className="px-4 py-2 bg-card border border-primary/20 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-primary/10 transition-colors text-foreground font-medium"
+            >
+              Next
+            </button>
+          </div>
+        )}
+
+      </>
       ) : (
         <div className="flex flex-col items-center justify-center py-20 text-center">
           <img src="/images/no-results.png" alt="No Results" className="w-40 h-auto mb-6 drop-shadow-xl" />
