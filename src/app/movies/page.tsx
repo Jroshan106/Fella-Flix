@@ -22,15 +22,20 @@ const item = {
 
 export default function MoviesPage() {
   const [localSearch, setLocalSearch] = useState("");
+  const [selectedGenre, setSelectedGenre] = useState("All");
+
+  const allGenres = Array.from(new Set(mockMovies.filter(m => m.type === ("movie")).flatMap(m => m.genres || []))).sort();
 
   // Filter for movies and sort alphabetically
   const allTypeMovies = mockMovies.filter(m => m.type === "movie");
   const sortedMovies = [...allTypeMovies].sort((a, b) => a.title.localeCompare(b.title));
 
   // Filter based on local search
-  const filteredMovies = sortedMovies.filter(movie => 
-    movie.title.toLowerCase().includes(localSearch.toLowerCase())
-  );
+  const filteredMovies = sortedMovies.filter(movie => {
+      const matchesSearch = movie.title.toLowerCase().includes(localSearch.toLowerCase());
+      const matchesGenre = selectedGenre === "All" || (movie.genres && movie.genres.includes(selectedGenre));
+      return matchesSearch && matchesGenre;
+    });
 
 
   // Pagination
@@ -40,7 +45,7 @@ export default function MoviesPage() {
   // Reset page when searching
   useEffect(() => {
     setCurrentPage(1);
-  }, [localSearch]);
+  }, [localSearch, selectedGenre]);
 
   const totalPages = Math.ceil(filteredMovies.length / ITEMS_PER_PAGE);
   const paginatedMovies = filteredMovies.slice(
@@ -58,7 +63,16 @@ export default function MoviesPage() {
           <p className="text-foreground/70 mt-2">All cinematic movies in alphabetical order ({allTypeMovies.length} total)</p>
         </div>
         
-        <div className="relative w-full md:w-72">
+        <div className="flex items-center gap-4 w-full md:w-auto">
+          <select 
+            value={selectedGenre} 
+            onChange={(e) => setSelectedGenre(e.target.value)}
+            className="block w-full md:w-48 pl-3 pr-8 py-2.5 border border-primary/30 rounded-xl bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all shadow-sm"
+          >
+            <option value="All">All Genres</option>
+            {allGenres.map(g => <option key={g} value={g}>{g}</option>)}
+          </select>
+          <div className="relative w-full md:w-72">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             <Search className="h-5 w-5 text-foreground/40" />
           </div>
@@ -69,6 +83,7 @@ export default function MoviesPage() {
             placeholder="Filter library..."
             className="block w-full pl-10 pr-3 py-2.5 border border-primary/30 rounded-xl bg-card text-foreground placeholder-foreground/40 focus:outline-none focus:ring-2 focus:ring-primary transition-all shadow-sm"
           />
+        </div>
         </div>
       </div>
 

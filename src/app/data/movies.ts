@@ -9,6 +9,7 @@ export interface Movie {
   release_date: string;
   vote_average: number;
   type: "movie" | "anime";
+  genres?: string[];
 }
 
 export const mockMovies = movies as Movie[];

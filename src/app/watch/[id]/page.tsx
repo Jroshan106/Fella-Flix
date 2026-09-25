@@ -75,6 +75,15 @@ export default function WatchMovie() {
           {movie && (
             <div className="mb-6">
               <h1 className="text-3xl md:text-5xl font-black text-foreground mb-2">{movie.title}</h1>
+              {movie.genres && movie.genres.length > 0 && (
+                <div className="flex flex-wrap gap-2 mt-2 mb-3">
+                  {movie.genres.map((g: string) => (
+                    <span key={g} className="px-3 py-1 text-xs font-semibold bg-primary/20 text-primary rounded-full border border-primary/20">
+                      {g}
+                    </span>
+                  ))}
+                </div>
+              )}
               <p className="text-foreground/70 max-w-3xl">{movie.overview}</p>
             </div>
           )}
