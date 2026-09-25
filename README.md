@@ -29,4 +29,4 @@ We utilize free, third-party **Streaming APIs** (such as Vidcore, Vidsrc, and Au
 
 ## ⚠️ Disclaimer
 
-FellaFLIX is a UI concept and educational project. **We do not host, upload, or control any of the video content.** All media is streamed directly from third-party APIs and services. We highly recommend using an ad-blocker (like uBlock Origin or the Brave Browser) when interacting with free third-party embeds to prevent intrusive popups.
+FellaFLIX is a UI concept and educational project. **I do not host, upload, or control any of the video content.** All media is streamed directly from third-party APIs and services. We highly recommend using an ad-blocker (like uBlock Origin or the Brave Browser) when interacting with free third-party embeds to prevent intrusive popups.
