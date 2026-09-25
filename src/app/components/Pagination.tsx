@@ -45,7 +45,7 @@ export function Pagination({ currentPage, totalPages, onPageChange }: { currentP
               return (
                 <div key={`ellipsis-${idx}`} className="inline-block">
                   <div className="min-h-9 min-w-9 flex justify-center items-center text-foreground/50 p-2 text-sm rounded-lg">
-                    <span className="text-xs">•••</span>
+                    <span className="text-xs">...</span>
                   </div>
                 </div>
               );
