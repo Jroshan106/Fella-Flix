@@ -1,16 +1,23 @@
-const https = require('https');
-const options = {
-  hostname: 'tmdb-id-lookup-proxy.dpegan20.workers.dev',
-  path: '/3/movie/popular?language=en-US&page=1',
-  method: 'GET',
-  headers: {
-    'Origin': 'https://davecollections.github.io',
-    'User-Agent': 'Mozilla/5.0'
+const fs = require('fs');
+
+function injectPagination(file) {
+  let content = fs.readFileSync(file, 'utf8');
+
+  // Add import
+  if (!content.includes('Pagination')) {
+    content = content.replace(
+      'import Link from "next/link";',
+      'import Link from "next/link";\nimport { Pagination } from "../components/Pagination";'
+    );
   }
-};
-const req = https.request(options, res => {
-  let data = '';
-  res.on('data', chunk => data += chunk);
-  res.on('end', () => console.log(data.substring(0, 500)));
-});
-req.end();
+
+  // Replace old pagination
+  const regex = /\{totalPages > 1 && \([\s\S]*?<\/div>\s*\)\}/;
+  content = content.replace(regex, '<Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />');
+
+  fs.writeFileSync(file, content);
+}
+
+injectPagination('src/app/movies/page.tsx');
+injectPagination('src/app/anime/page.tsx');
+console.log("Pagination injected");

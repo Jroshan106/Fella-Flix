@@ -6,6 +6,7 @@ import { Moon, Sun, Search, Home, Film, Tv, MessageSquarePlus } from "lucide-rea
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { usePathname, useRouter } from "next/navigation";
+import { ThemeToggle } from "./ThemeToggle";
 
 export function Navbar() {
   const { theme, setTheme } = useTheme();
@@ -67,15 +68,7 @@ export function Navbar() {
               <Link href="/anime" className={`text-sm font-medium transition-colors ${pathname === '/anime' ? 'text-primary font-bold' : 'text-foreground hover:text-primary'}`}>Anime</Link>
               <Link href="/request" className={`text-sm font-medium whitespace-nowrap transition-colors ${pathname === '/request' ? 'text-primary font-bold' : 'text-foreground hover:text-primary'}`}>Request</Link>
               
-              <button
-                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                className="p-2 rounded-full hover:bg-card transition-colors bg-card/50 shadow-sm border border-primary/10"
-                aria-label="Toggle theme"
-              >
-                {mounted && (
-                  theme === "dark" ? <Sun className="w-4 h-4 text-primary" /> : <Moon className="w-4 h-4 text-primary" />
-                )}
-              </button>
+              <ThemeToggle />
             </div>
           </div>
         </div>
@@ -95,12 +88,7 @@ export function Navbar() {
               <div className="h-10 w-32 bg-foreground/10 animate-pulse rounded-md"></div>
             )}
           </Link>
-          <button
-            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className="p-2 rounded-full bg-card shadow-sm border border-primary/20 text-primary"
-          >
-            {mounted && (theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />)}
-          </button>
+          <ThemeToggle />
         </div>
         {pathname === '/' && (
           <form onSubmit={handleSearch} className="relative w-full">

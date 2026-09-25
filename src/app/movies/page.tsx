@@ -3,6 +3,7 @@ import Image from "next/image";
 
 import { mockMovies } from "../data/movies";
 import Link from "next/link";
+import { Pagination } from "../components/Pagination";
 import { motion } from "framer-motion";
 import { Star, PlayCircle, Search } from "lucide-react";
 import { useState, useEffect } from "react";
@@ -119,33 +120,7 @@ export default function MoviesPage() {
           ))}
         </motion.div>
 
-        {totalPages > 1 && (
-          <div className="flex justify-center items-center mt-12 gap-4">
-            <button 
-              onClick={() => {
-                setCurrentPage(p => Math.max(1, p - 1));
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
-              disabled={currentPage === 1}
-              className="px-4 py-2 bg-card border border-primary/20 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-primary/10 transition-colors text-foreground font-medium"
-            >
-              Previous
-            </button>
-            <span className="text-foreground/70 font-medium text-sm">
-              Page {currentPage} of {totalPages}
-            </span>
-            <button 
-              onClick={() => {
-                setCurrentPage(p => Math.min(totalPages, p + 1));
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
-              disabled={currentPage === totalPages}
-              className="px-4 py-2 bg-card border border-primary/20 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-primary/10 transition-colors text-foreground font-medium"
-            >
-              Next
-            </button>
-          </div>
-        )}
+        <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
 
       </>
       ) : (
