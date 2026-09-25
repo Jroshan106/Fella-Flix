@@ -4,6 +4,7 @@ import Image from "next/image";
 import { mockMovies } from "../data/movies";
 import Link from "next/link";
 import { Pagination } from "../components/Pagination";
+import { GenreDropdown } from "../components/GenreDropdown";
 import { motion } from "framer-motion";
 import { Star, PlayCircle, Search } from "lucide-react";
 import { useState, useEffect } from "react";
@@ -23,7 +24,7 @@ const item = {
 
 export default function AnimePage() {
   const [localSearch, setLocalSearch] = useState("");
-  const [selectedGenre, setSelectedGenre] = useState("All");
+  const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
 
   const allGenres = Array.from(new Set(mockMovies.filter(m => m.type === ("anime")).flatMap(m => m.genres || []))).sort();
 
@@ -34,7 +35,7 @@ export default function AnimePage() {
   // Filter based on local search
   const filteredMovies = sortedMovies.filter(movie => {
       const matchesSearch = movie.title.toLowerCase().includes(localSearch.toLowerCase());
-      const matchesGenre = selectedGenre === "All" || (movie.genres && movie.genres.includes(selectedGenre));
+      const matchesGenre = selectedGenres.length === 0 || (movie.genres && movie.genres.some(g => selectedGenres.includes(g)));
       return matchesSearch && matchesGenre;
     });
 
@@ -46,7 +47,7 @@ export default function AnimePage() {
   // Reset page when searching
   useEffect(() => {
     setCurrentPage(1);
-  }, [localSearch, selectedGenre]);
+  }, [localSearch, selectedGenres]);
 
   const totalPages = Math.ceil(filteredMovies.length / ITEMS_PER_PAGE);
   const paginatedMovies = filteredMovies.slice(
@@ -65,14 +66,7 @@ export default function AnimePage() {
         </div>
         
         <div className="flex items-center gap-4 w-full md:w-auto">
-          <select 
-            value={selectedGenre} 
-            onChange={(e) => setSelectedGenre(e.target.value)}
-            className="block w-full md:w-48 pl-3 pr-8 py-2.5 border border-primary/30 rounded-xl bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all shadow-sm"
-          >
-            <option value="All">All Genres</option>
-            {allGenres.map(g => <option key={g} value={g}>{g}</option>)}
-          </select>
+          <GenreDropdown allGenres={allGenres} selectedGenres={selectedGenres} onChange={setSelectedGenres} />
           <div className="relative w-full md:w-72">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             <Search className="h-5 w-5 text-foreground/40" />
