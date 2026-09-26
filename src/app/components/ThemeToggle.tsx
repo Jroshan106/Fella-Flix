@@ -1,4 +1,4 @@
-import { useTheme } from "next-themes";
+﻿import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
 export function ThemeToggle() {
@@ -7,31 +7,36 @@ export function ThemeToggle() {
 
   useEffect(() => setMounted(true), []);
 
-  if (!mounted) return <div className="w-[60px] h-[30px] rounded-full bg-card animate-pulse" />;
+  if (!mounted) return <div className="w-[46px] h-[46px] sm:w-[56px] sm:h-[56px] rounded-full bg-card animate-pulse" />;
 
   const isDark = theme === "dark";
 
   return (
-    <div className="relative inline-block w-[60px] h-[30px] rounded-[30px] bg-card border-2 border-primary overflow-hidden shadow-inner cursor-pointer" onClick={() => setTheme(isDark ? "light" : "dark")}>
-      {/* Sun/Moon Icons inside track */}
-      <div className="absolute w-full h-full flex justify-between items-center px-1.5 z-0">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary opacity-60">
-          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-        </svg>
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary opacity-60">
-          <circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-        </svg>
-      </div>
-      
-      {/* Thumb / Knob */}
-      <div className={`absolute top-0.5 left-0.5 w-[22px] h-[22px] bg-primary rounded-full z-10 transition-transform duration-300 ease-in-out ${isDark ? 'translate-x-[29px]' : 'translate-x-0'} shadow-md flex items-center justify-center`}>
-         {/* Little crater/ray details depending on theme */}
-         {isDark ? (
-           <div className="w-1.5 h-1.5 bg-background rounded-full opacity-60 transform -translate-x-0.5 -translate-y-0.5" />
-         ) : (
-           <div className="w-1.5 h-1.5 bg-background rounded-full opacity-60" />
-         )}
-      </div>
+    <div className="relative flex justify-center items-center">
+      <label htmlFor="theme-switch" className="w-[46px] h-[46px] sm:w-[56px] sm:h-[56px] rounded-full grid place-items-center cursor-pointer leading-none relative group hover:bg-primary/5 transition-colors">
+        <input 
+          type="checkbox" 
+          className="hidden" 
+          id="theme-switch" 
+          checked={!isDark} 
+          onChange={() => setTheme(isDark ? "light" : "dark")}
+        />
+        
+        {/* Moon Icon (Visible in Dark Mode) */}
+        <div className={`col-start-1 row-start-1 transition-transform duration-500 ease-in-out text-foreground/80 group-hover:text-primary ${!isDark ? 'rotate-[360deg] scale-0 delay-0' : 'delay-200 scale-100 rotate-0'}`}>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 sm:w-8 sm:h-8">
+            <path fillRule="evenodd" d="M9.528 1.718a.75.75 0 01.162.819A8.97 8.97 0 009 6a9 9 0 009 9 8.97 8.97 0 003.463-.69.75.75 0 01.981.98 10.503 10.503 0 01-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 01.818.162z" clipRule="evenodd" />
+          </svg>
+        </div>
+        
+        {/* Sun Icon (Visible in Light Mode) */}
+        <div className={`col-start-1 row-start-1 transition-transform duration-500 ease-in-out text-[#ffa500] ${!isDark ? 'delay-200 scale-100 rotate-[360deg]' : 'scale-0 rotate-0 delay-0'}`}>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 sm:w-8 sm:h-8">
+            <path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z" />
+          </svg>
+        </div>
+
+      </label>
     </div>
   );
 }
