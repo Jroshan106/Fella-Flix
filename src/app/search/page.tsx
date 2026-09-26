@@ -8,7 +8,8 @@ import { motion } from "framer-motion";
 import { Star, PlayCircle, SearchX, Search } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
+import { Pagination } from "../components/Pagination";
 
 const container = {
   hidden: { opacity: 0 },
@@ -28,10 +29,23 @@ function SearchResults() {
   const query = searchParams.get("q")?.toLowerCase() || "";
   const router = useRouter();
   const [localQuery, setLocalQuery] = useState(query);
+  
 
   const results = mockMovies.filter(movie => 
-    movie.title.toLowerCase().includes(query) || 
-    movie.overview.toLowerCase().includes(query)
+    movie.title.toLowerCase().includes(query)
+  );
+
+  const ITEMS_PER_PAGE = 24;
+  const [currentPage, setCurrentPage] = useState(1);
+  
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [query]);
+
+  const totalPages = Math.ceil(results.length / ITEMS_PER_PAGE);
+  const paginatedResults = results.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
   );
 
   const handleSearch = (e: React.FormEvent) => {
@@ -69,13 +83,14 @@ function SearchResults() {
       </div>
 
       {results.length > 0 ? (
+        <>
         <motion.div 
           variants={container}
           initial="hidden"
           animate="show"
           className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6"
         >
-          {results.map((movie) => (
+          {paginatedResults.map((movie) => (
             <motion.div key={movie.id} variants={item}>
               <Link href={`/watch/${movie.id}`} className="group block relative rounded-xl overflow-hidden bg-card shadow-lg hover:shadow-primary/20 transition-all duration-300 transform hover:-translate-y-2">
                 <div className="aspect-[2/3] relative bg-black">
@@ -99,6 +114,9 @@ function SearchResults() {
             </motion.div>
           ))}
         </motion.div>
+
+        <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
+        </>
       ) : (
         <div className="flex flex-col items-center justify-center py-10 text-center">
           <img src="/images/no-results.png" alt="No Results Found" className="w-48 h-auto mb-6 drop-shadow-2xl" />
