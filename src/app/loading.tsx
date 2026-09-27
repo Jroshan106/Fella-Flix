@@ -1,92 +1,31 @@
 ﻿export default function Loading() {
   return (
     <div className="flex items-center justify-center min-h-[70vh]">
-      <div className="sharingon">
-        <div className="ring">
-          <div className="to" />
-          <div className="to" />
-          <div className="to" />
-          <div className="circle" />
-        </div>
-      </div>
+      <div className="box"></div>
       <style>{`
-        .sharingon {
-          position: relative;
-          width: 6em;
-          height: 6em;
-          background-color: red;
-          border: 6px solid black;
-          animation: rot 1s ease-in-out infinite;
+        .box {
+          height: 5cm;
+          width: 5cm;
+          border: 5px solid #394d3e;
+          box-shadow: inset 0 0 0 #8fba96;
+          animation: load 2s ease-in-out infinite;
         }
 
-        .ring {
-          position: absolute;
-          content: "";
-          left: 50%;
-          top: 50%;
-          width: 3.5em;
-          height: 3.5em;
-          border: 4px solid rgba(110, 13, 13, 0.5);
-          transform: translate(-50%,-50%);
-        }
-
-        .sharingon, .ring, .to, .circle {
-          border-radius: 50%;
-        }
-
-        .to, .circle {
-          position: absolute;
-          content: "";
-          width: 0.9em;
-          height: 0.9em;
-          background-color: black;
-        }
-
-        .to:nth-child(1) {
-          top: -0.5em;
-          left: 50%;
-          transform: translate(-40%);
-        }
-
-        .to::before {
-          content: "";
-          position: absolute;
-          top: -0.5em;
-          right: -0.2em;
-          width: 1.1em;
-          height: 0.9em;
-          box-sizing: border-box;
-          border-left: 16px solid black;
-          border-radius: 100% 0 0;
-        }
-
-        .to:nth-child(2) {
-          bottom: 0.5em;
-          left: -0.35em;
-          transform: rotate(-120deg);
-        }
-
-        .to:nth-child(3) {
-          bottom: 0.5em;
-          right: -0.35em;
-          transform: rotate(120deg);
-        }
-
-        .circle {
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%,-50%);
-          box-shadow: 0 0 20px 1px;
-          width: 1em;
-          height: 1em;
-        }
-
-        @keyframes rot {
+        @keyframes load {
           0% {
-            transform: rotate(0deg);
+            box-shadow: inset -2.5cm -2.5cm 0 #8fba96;
+          }
+          25% {
+            box-shadow: inset 2.5cm -2.5cm 0 #394d3e;
+          }
+          50% {
+            box-shadow: inset 2.5cm 2.5cm 0 #8fba96;
+          }
+          75% {
+            box-shadow: inset -2.5cm 2.5cm 0 #394d3e;
           }
           100% {
-            transform: rotate(360deg);
+            box-shadow: inset -2.5cm -2.5cm 0 #8fba96;
           }
         }
       `}</style>
