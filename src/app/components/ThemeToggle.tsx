@@ -1,5 +1,6 @@
 ﻿import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
+import { Sun, Moon } from "lucide-react";
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
@@ -7,36 +8,22 @@ export function ThemeToggle() {
 
   useEffect(() => setMounted(true), []);
 
-  if (!mounted) return <div className="w-[46px] h-[46px] sm:w-[56px] sm:h-[56px] rounded-full bg-card animate-pulse" />;
+  if (!mounted) return <div className="w-10 h-10 rounded-full bg-card animate-pulse" />;
 
   const isDark = theme === "dark";
 
   return (
-    <div className="relative flex justify-center items-center">
-      <label htmlFor="theme-switch" className="w-[46px] h-[46px] sm:w-[56px] sm:h-[56px] rounded-full grid place-items-center cursor-pointer leading-none relative group hover:bg-primary/5 transition-colors">
-        <input 
-          type="checkbox" 
-          className="hidden" 
-          id="theme-switch" 
-          checked={!isDark} 
-          onChange={() => setTheme(isDark ? "light" : "dark")}
-        />
-        
-        {/* Moon Icon (Visible in Dark Mode) */}
-        <div className={`col-start-1 row-start-1 transition-transform duration-500 ease-in-out text-foreground/80 group-hover:text-primary ${!isDark ? 'rotate-[360deg] scale-0 delay-0' : 'delay-200 scale-100 rotate-0'}`}>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 sm:w-8 sm:h-8">
-            <path fillRule="evenodd" d="M9.528 1.718a.75.75 0 01.162.819A8.97 8.97 0 009 6a9 9 0 009 9 8.97 8.97 0 003.463-.69.75.75 0 01.981.98 10.503 10.503 0 01-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 01.818.162z" clipRule="evenodd" />
-          </svg>
-        </div>
-        
-        {/* Sun Icon (Visible in Light Mode) */}
-        <div className={`col-start-1 row-start-1 transition-transform duration-500 ease-in-out text-[#ffa500] ${!isDark ? 'delay-200 scale-100 rotate-[360deg]' : 'scale-0 rotate-0 delay-0'}`}>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 sm:w-8 sm:h-8">
-            <path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z" />
-          </svg>
-        </div>
-
-      </label>
-    </div>
+    <button
+      onClick={() => setTheme(isDark ? "light" : "dark")}
+      className="relative p-2 w-10 h-10 flex items-center justify-center rounded-full bg-card border border-primary/20 hover:border-primary/50 hover:bg-primary/10 transition-all focus:outline-none focus:ring-2 focus:ring-primary overflow-hidden"
+      aria-label="Toggle theme"
+    >
+      <div className={`absolute transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] ${isDark ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 -rotate-90 scale-50'}`}>
+        <Moon className="w-5 h-5 text-primary" />
+      </div>
+      <div className={`absolute transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] ${!isDark ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 rotate-90 scale-50'}`}>
+        <Sun className="w-5 h-5 text-[#ffa500]" />
+      </div>
+    </button>
   );
 }
