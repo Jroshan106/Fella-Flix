@@ -1,4 +1,6 @@
-@import "tailwindcss";
+const fs = require('fs');
+
+const content = `@import "tailwindcss";
 
 :root {
   --background: #ffffff;
@@ -45,3 +47,6 @@ body * {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }
+`;
+
+fs.writeFileSync('src/app/globals.css', content, 'utf8');
