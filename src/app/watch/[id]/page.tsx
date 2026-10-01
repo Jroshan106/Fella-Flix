@@ -8,9 +8,9 @@ import { ArrowLeft, Server } from "lucide-react";
 
 const SERVERS = [
   { name: "Server 1 (Peachify)", url: (id: string) => `https://peachify.pro/embed/movie/${id}` },
-  { name: "Server 3 (VidSrc.me)", url: (id: string) => `https://vidsrc.sh/embed/movie?tmdb=${id}` },
-  { name: "Server 4 (AutoEmbed)", url: (id: string) => `https://autoembed.co/movie/tmdb/${id}` },
-  { name: "Server 5 (Asia Fast CDN)", url: (id: string) => `https://vidsrc.in/embed/movie/${id}` },
+  { name: "Server 3 (VidSrc.sh)", url: (id: string) => `https://vidsrc.sh/embed/movie?tmdb=${id}` },
+  { name: "Server 4 (VidCore.io)", url: (id: string) => `https://vidcore.io/movie/tmdb/${id}` },
+  { name: "Server 5 (VidSrcAPI)", url: (id: string) => `https://vidsrcapi.com/embed/movie/${id}` },
 ];
 
 export default function WatchMovie() {
