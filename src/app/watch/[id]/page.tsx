@@ -88,7 +88,7 @@ export default function WatchMovie() {
             </div>
           )}
 
-          <div className="mb-4 flex flex-wrap items-center gap-3 bg-card p-3 rounded-xl border border-primary/20">
+          {SERVERS.length > 1 && (<div className="mb-4 flex flex-wrap items-center gap-3 bg-card p-3 rounded-xl border border-primary/20">
             <div className="flex items-center text-card-foreground/70 mr-2">
               <Server className="w-4 h-4 mr-2" />
               <span className="text-sm font-semibold">Change Server (If too many ads):</span>
@@ -106,7 +106,7 @@ export default function WatchMovie() {
                 {server.name}
               </button>
             ))}
-          </div>
+          </div>)}
 
           <div className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-2xl bg-black border border-primary/20 flex-grow max-h-[80vh]">
             <iframe
