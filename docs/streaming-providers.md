@@ -1,10 +1,9 @@
 # Streaming provider review — 19 October 2026
 
-These are six server options across five providers, not six verified ad-free video sources. No provider was verified through a complete movie. Provider marketing was checked against real browser observations on `/watch/550`.
+These are eight server options across seven providers, not six verified ad-free video sources. No provider was verified through a complete movie. Provider marketing was checked against real browser observations on `/watch/550`.
 
 | Provider | Primary documentation | Observed result |
 | --- | --- | --- |
-| PeeStream | https://providers.peestream.in/embed/ | Player controls loaded without an observed advertising overlay; source resolution was still pending. Playback not confirmed. |
 | Movies Nexus | https://www.moviesnexus.fun/ | HTTP 200; browser player remained on a loading spinner. Playback not confirmed. |
 | Nexus Multi-audio | https://www.moviesnexus.fun/ | Documented `sv=multi-audio` source selection, separate from automatic server selection. Playback not confirmed. |
 | YapGrid | https://github.com/enikqi/yapgrid | Advertises ad-free access, but browser inspection exposed an advertising link. Retained only as a protected fallback; not labeled ad-free. |
@@ -23,3 +22,15 @@ Rejected: FilmU and Stellar explicitly refused sandboxed playback in the browser
 - Stable provider IDs use a new preference key; the old numeric SuperEmbed selection is ignored. Invalid IDs do not produce an iframe URL.
 
 Run `node test-players.cjs` for configuration and protection checks. Live ad behavior and title availability must be rechecked periodically; provider claims are not guarantees.
+
+## Server list update
+
+PeeStream was removed at the user's request. YapGrid is first and is the default for new visitors and saved PeeStream selections. Other valid saved choices remain selected. Three providers were appended:
+
+| Provider | Documentation | Verification |
+| --- | --- | --- |
+| VidLink | https://vidlink.pro/ | Documented TMDB movie embed and color parameters; full playback and ad behavior not verified. |
+| VidFast | https://vidfast.vc/ | Documented movie embed and theme parameters; full playback and ad behavior not verified. |
+| Videasy | https://videasy.ws/docs.html | Documented movie iframe endpoint; full playback and ad behavior not verified. |
+
+All three retain the same iframe sandbox. They are alternatives, not certified ad-free sources; compatibility with the protected frame is not guaranteed.

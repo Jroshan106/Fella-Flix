@@ -13,7 +13,7 @@ We utilize free, third-party **Streaming APIs** (such as Vidcore, Vidsrc, and Au
 
 ## FellaFLIX Player integration
 
-The watch page offers six server options across five providers in a shared FellaFLIX player shell, with reload, next-server and fullscreen controls. SuperEmbed is no longer offered on the watch page. Its API route remains for backwards compatibility.
+The watch page offers eight server options across seven providers in a shared FellaFLIX player shell, with reload, next-server and fullscreen controls. SuperEmbed is no longer offered on the watch page. Its API route remains for backwards compatibility.
 
 The iframe sandbox permits scripts, same-origin functionality and presentation, but does not permit popups, top-level navigation, forms or downloads. This blocks popup windows and redirects out of the site; it does not remove advertisements inside a cross-origin player. Some providers may reject sandboxing. Switch servers if that happens; the app does not automatically loosen protection.
 
