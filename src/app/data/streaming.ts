@@ -3,9 +3,9 @@ export const STREAMING_SERVERS = [
   { id: "yapgrid", name: "YapGrid", url: (id: string) => `https://yapgrid.com/embed/movie/${id}?autoplay=0&lang=en` },
   { id: "nexus", name: "Movies Nexus", url: (id: string) => `https://www.moviesnexus.fun/movie/${id}?autoPlay=0` },
   { id: "nexus-multi", name: "Nexus Multi-audio", url: (id: string) => `https://www.moviesnexus.fun/movie/${id}?sv=multi-audio&autoPlay=0` },
-  { id: "vidcore", name: "VidCore", url: (id: string) => `https://vidcore.org/embed/movie/${id}?theme=8fba96&autoplay=false` },
+  { id: "vidcore", name: "VidCore(ads)", url: (id: string) => `https://vidcore.org/embed/movie/${id}?theme=8fba96&autoplay=false` },
   { id: "phantom", name: "VidPhantom", url: (id: string) => `https://vidphantom.com/movie/${id}?primaryColor=8fba96&accentColor=8fba96&secondaryColor=394d3e&backdropColor=000000&autoplay=false` },
-  { id: "vidlink", name: "VidLink", url: (id: string) => `https://vidlink.pro/movie/${id}?primaryColor=8fba96&secondaryColor=394d3e&autoplay=false` },
+  { id: "vidlink", name: "VidLink(ads)", url: (id: string) => `https://vidlink.pro/movie/${id}?primaryColor=8fba96&secondaryColor=394d3e&autoplay=false` },
   { id: "vidfast", name: "VidFast", url: (id: string) => `https://vidfast.vc/movie/${id}?theme=8fba96&autoPlay=false` },
   { id: "videasy", name: "Videasy", url: (id: string) => `https://player.videasy.ws/embed/movie/${id}?autoplay=0` },
 ] as const;
