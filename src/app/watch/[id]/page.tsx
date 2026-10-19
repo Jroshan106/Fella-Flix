@@ -1,17 +1,21 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState, useSyncExternalStore } from "react";
 import { motion } from "framer-motion";
 import { mockMovies } from "@/app/data/movies";
 import { ArrowLeft, Server } from "lucide-react";
+import FellaPlayer from "@/app/components/FellaPlayer";
 
 const SERVERS = [
   { name: "Server 1 (Peachify)", url: (id: string) => `https://peachify.pro/embed/movie/${id}` },
   { name: "Server 3 (VidSrc.sh)", url: (id: string) => `https://vidsrc.sh/embed/movie?tmdb=${id}` },
   { name: "Server 4 (VidCore.io)", url: (id: string) => `https://vidcore.io/movie/tmdb/${id}` },
   { name: "Server 5 (VidSrcAPI)", url: (id: string) => `https://vidsrcapi.com/embed/movie/${id}` },
+  { name: "FellaFLIX Player", url: (id: string) => `/api/superembed?id=${encodeURIComponent(id)}` },
 ];
+
+const subscribe = () => () => {};
 
 export default function WatchMovie() {
   const params = useParams();
@@ -19,23 +23,19 @@ export default function WatchMovie() {
   const router = useRouter();
   
   const movie = mockMovies.find(m => m.id.toString() === id);
-  const [mounted, setMounted] = useState(false);
-  const [activeServer, setActiveServer] = useState(0);
-
-  useEffect(() => {
-    setMounted(true);
-    const savedServer = localStorage.getItem("fellaflix_preferred_server");
-    if (savedServer !== null) {
-      const parsed = parseInt(savedServer, 10);
-      if (!isNaN(parsed) && parsed >= 0 && parsed < SERVERS.length) {
-        setActiveServer(parsed);
-      }
-    }
-  }, []);
+  const mounted = useSyncExternalStore(subscribe, () => true, () => false);
+  const [activeServer, setActiveServer] = useState(() => {
+    try {
+      const saved = localStorage.getItem("fellaflix_preferred_server");
+      const parsed = saved === null ? NaN : Number(saved);
+      if (Number.isInteger(parsed) && parsed >= 0 && parsed < SERVERS.length) return parsed;
+    } catch { /* Storage may be disabled or unavailable during server rendering. */ }
+    return SERVERS.length - 1;
+  });
 
   const handleServerChange = (index: number) => {
     setActiveServer(index);
-    localStorage.setItem("fellaflix_preferred_server", index.toString());
+    try { localStorage.setItem("fellaflix_preferred_server", index.toString()); } catch { /* Keep playback available. */ }
   };
 
   if (!mounted) return null;
@@ -91,11 +91,12 @@ export default function WatchMovie() {
           {SERVERS.length > 1 && (<div className="mb-4 flex flex-wrap items-center gap-3 bg-card p-3 rounded-xl border border-primary/20">
             <div className="flex items-center text-card-foreground/70 mr-2">
               <Server className="w-4 h-4 mr-2" />
-              <span className="text-sm font-semibold">Change Server (If too many ads):</span>
+              <span className="text-sm font-semibold">Choose player:</span>
             </div>
             {SERVERS.map((server, idx) => (
               <button
                 key={server.name}
+                aria-pressed={activeServer === idx}
                 onClick={() => handleServerChange(idx)}
                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                   activeServer === idx 
@@ -109,13 +110,15 @@ export default function WatchMovie() {
           </div>)}
 
           <div className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-2xl bg-black border border-primary/20 flex-grow max-h-[80vh]">
-            <iframe
+            {activeServer === SERVERS.length - 1 ? (
+              <FellaPlayer key={id} id={id} title={movie?.title || "Movie"} />
+            ) : <iframe
               src={SERVERS[activeServer].url(id)}
               className="absolute inset-0 w-full h-full"
               allowFullScreen
               allow="autoplay; fullscreen; picture-in-picture"
               title="Movie Player"
-            />
+            />}
           </div>
           
           <div className="text-center text-sm text-foreground/50 mt-6 pb-8 space-y-2">

@@ -7,9 +7,23 @@ Check out the live website here: **[https://fellaflix.vercel.app/](https://fella
 
 ## How It Works
 
-FellaFLIX is entirely front-end driven and does not host any video files or media content on its own servers. Instead, we act as a sleek aggregator UI. 
+FellaFLIX uses a Next.js interface and a server-side player resolver. It does not host video files or media content on its own servers.
 
 We utilize free, third-party **Streaming APIs** (such as Vidcore, Vidsrc, and AutoEmbed) to embed video players seamlessly into our application. By passing a movie's TMDB (The Movie Database) ID to these APIs, the player automatically serves the corresponding stream.
+
+## FellaFLIX Player integration
+
+The watch page now defaults to a FellaFLIX-branded SuperEmbed player for new visitors. Existing saved server preferences are preserved. Select **FellaFLIX Player** in the player selector to use it.
+
+- No API key is required. The server calls `https://getsuperembed.link/` with the movie's TMDB ID and FellaFLIX colors.
+- `GET /api/superembed?id=550&format=json` resolves the player URL; omitting `format=json` redirects to the player for iframe compatibility.
+- Invalid IDs return 400. Provider errors, invalid URLs, and requests exceeding 12 seconds return 502 with a retry message. Responses are not cached because player URLs may expire.
+- The resolver accepts HTTPS player URLs on `streamingnow.mov`, the host verified during integration. If SuperEmbed changes its player domain, verify the new host before updating the allowlist.
+- This is a branded wrapper around a third-party iframe, not a native MP4/HLS player. Playback, available titles, controls, and advertisements remain controlled by the provider. The other servers remain available if a stream fails.
+
+Provider documentation: [SuperEmbed installation guide](https://superembed.stream/) and [API limitations](https://www.superembed.stream/movie-streaming-api.html).
+
+Run `node test-streaming.cjs` to verify ID validation, player URL validation, JSON and redirect responses, and upstream failure handling without contacting the provider.
 
 ## Features
 
