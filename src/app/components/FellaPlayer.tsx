@@ -1,56 +1,63 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { LoaderCircle, RefreshCw } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { LoaderCircle, Maximize, RefreshCw, SkipForward } from "lucide-react";
+import { getMovieEmbedUrl, PLAYER_SANDBOX, type StreamingServer } from "@/app/data/streaming";
 
-export default function FellaPlayer({ id, title }: { id: string; title: string }) {
+export default function FellaPlayer({ id, title, server, onNext }: {
+  id: string; title: string; server: StreamingServer; onNext: () => void;
+}) {
+  const container = useRef<HTMLDivElement>(null);
   const [attempt, setAttempt] = useState(0);
-  const [url, setUrl] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [loaded, setLoaded] = useState(false);
+  const [slow, setSlow] = useState(false);
+  const [fullscreenError, setFullscreenError] = useState(false);
+  const url = getMovieEmbedUrl(server, id);
 
   useEffect(() => {
-    const controller = new AbortController();
-    async function load() {
-      try {
-        const response = await fetch(`/api/superembed?id=${encodeURIComponent(id)}&format=json`, {
-          signal: controller.signal, cache: "no-store",
-        });
-        const result = await response.json();
-        if (!response.ok || typeof result.url !== "string") {
-          throw new Error(result.error || "Unable to load the stream.");
-        }
-        if (!controller.signal.aborted) setUrl(result.url);
-      } catch (cause) {
-        if (!controller.signal.aborted) {
-          setError(cause instanceof Error ? cause.message : "Unable to load the stream.");
-        }
-      }
-    }
-    void load();
-    return () => controller.abort();
-  }, [id, attempt]);
+    if (loaded || !url) return;
+    const timer = setTimeout(() => setSlow(true), 15000);
+    return () => clearTimeout(timer);
+  }, [attempt, loaded, url]);
+
+  const reload = () => {
+    setLoaded(false);
+    setSlow(false);
+    setAttempt(value => value + 1);
+  };
 
   return (
-    <div className="absolute inset-0 flex flex-col bg-black text-white">
-      <div className="flex items-center justify-between gap-3 px-4 py-2 bg-zinc-950 border-b border-white/10">
-        <span className="text-sm font-black tracking-wider text-[#8fba96]">FellaFLIX Player</span>
-        <span className="text-xs text-white/50">Powered by SuperEmbed</span>
-      </div>
-      {url ? (
-        <iframe key={url} src={url} className="w-full flex-1 border-0" allowFullScreen
-          allow="autoplay; fullscreen; picture-in-picture" title={`${title} — FellaFLIX Player`} />
-      ) : (
-        <div className="flex-1 flex flex-col items-center justify-center gap-4 p-6 text-center" role="status" aria-live="polite">
-          {error ? <>
-            <p className="text-sm text-white/80">{error}</p>
-            <button className="flex items-center gap-2 rounded-lg bg-[#8fba96] px-4 py-2 text-black font-semibold"
-              onClick={() => { setError(null); setUrl(null); setAttempt(value => value + 1); }}>
-              <RefreshCw className="h-4 w-4" /> Retry stream
-            </button>
-            <p className="text-xs text-white/50">You can also select another server above.</p>
-          </> : <><LoaderCircle className="h-7 w-7 animate-spin text-[#8fba96]" /><p>Finding your stream…</p></>}
+    <div ref={container} className="absolute inset-0 flex flex-col bg-black text-white">
+      <div className="flex flex-wrap items-center justify-between gap-2 px-3 py-2 bg-zinc-950 border-b border-white/10">
+        <div className="min-w-0">
+          <span className="text-sm font-black tracking-wider text-[#8fba96]">FellaFLIX Player</span>
+          <span className="ml-3 text-xs text-white/60">{server.name}</span>
         </div>
-      )}
+        <div className="flex items-center gap-1">
+          <button onClick={reload} aria-label="Reload player" title="Reload player" className="p-2 rounded hover:bg-white/10"><RefreshCw className="h-4 w-4" /></button>
+          <button onClick={onNext} className="flex items-center gap-1 p-2 rounded text-xs hover:bg-white/10"><SkipForward className="h-4 w-4" />Next server</button>
+          <button aria-label="Fullscreen" title="Fullscreen" className="p-2 rounded hover:bg-white/10" onClick={async () => {
+            try {
+              if (document.fullscreenElement) await document.exitFullscreen();
+              else await container.current?.requestFullscreen();
+              setFullscreenError(false);
+            } catch { setFullscreenError(true); }
+          }}><Maximize className="h-4 w-4" /></button>
+        </div>
+      </div>
+      {fullscreenError && <p role="status" className="px-3 py-1 text-xs">Use the fullscreen control inside the video on this browser.</p>}
+      <div className="relative flex-1 min-h-0">
+        {url ? <iframe key={`${url}-${attempt}`} src={url} className="absolute inset-0 w-full h-full border-0"
+          sandbox={PLAYER_SANDBOX} referrerPolicy="strict-origin-when-cross-origin"
+          allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowFullScreen
+          title={`${title} — ${server.name} player`}
+          onLoad={() => { setLoaded(true); setSlow(false); }} /> :
+          <p role="alert" className="p-6 text-center">This movie ID is invalid. Return to browsing and select a movie.</p>}
+        {url && !loaded && <div className="absolute top-4 left-1/2 -translate-x-1/2 rounded-lg bg-zinc-900/95 px-4 py-3 text-center text-sm pointer-events-none" role="status">
+          <LoaderCircle className="inline mr-2 h-4 w-4 animate-spin text-[#8fba96]" />
+          {slow ? "Taking longer than expected. Try Next server above." : `Opening ${server.name}…`}
+        </div>}
+      </div>
     </div>
   );
 }

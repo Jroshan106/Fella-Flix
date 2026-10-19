@@ -6,14 +6,9 @@ import { motion } from "framer-motion";
 import { mockMovies } from "@/app/data/movies";
 import { ArrowLeft, Server } from "lucide-react";
 import FellaPlayer from "@/app/components/FellaPlayer";
+import { STREAMING_SERVERS, SERVER_STORAGE_KEY, getStreamingServer } from "@/app/data/streaming";
 
-const SERVERS = [
-  { name: "Server 1 (Peachify)", url: (id: string) => `https://peachify.pro/embed/movie/${id}` },
-  { name: "Server 3 (VidSrc.sh)", url: (id: string) => `https://vidsrc.sh/embed/movie?tmdb=${id}` },
-  { name: "Server 4 (VidCore.io)", url: (id: string) => `https://vidcore.io/movie/tmdb/${id}` },
-  { name: "Server 5 (VidSrcAPI)", url: (id: string) => `https://vidsrcapi.com/embed/movie/${id}` },
-  { name: "FellaFLIX Player", url: (id: string) => `/api/superembed?id=${encodeURIComponent(id)}` },
-];
+
 
 const subscribe = () => () => {};
 
@@ -25,17 +20,17 @@ export default function WatchMovie() {
   const movie = mockMovies.find(m => m.id.toString() === id);
   const mounted = useSyncExternalStore(subscribe, () => true, () => false);
   const [activeServer, setActiveServer] = useState(() => {
-    try {
-      const saved = localStorage.getItem("fellaflix_preferred_server");
-      const parsed = saved === null ? NaN : Number(saved);
-      if (Number.isInteger(parsed) && parsed >= 0 && parsed < SERVERS.length) return parsed;
-    } catch { /* Storage may be disabled or unavailable during server rendering. */ }
-    return SERVERS.length - 1;
+    try { return getStreamingServer(localStorage.getItem(SERVER_STORAGE_KEY)).id; }
+    catch { return STREAMING_SERVERS[0].id; }
   });
-
-  const handleServerChange = (index: number) => {
-    setActiveServer(index);
-    try { localStorage.setItem("fellaflix_preferred_server", index.toString()); } catch { /* Keep playback available. */ }
+  const server = getStreamingServer(activeServer);
+  const handleServerChange = (serverId: typeof activeServer) => {
+    setActiveServer(serverId);
+    try { localStorage.setItem(SERVER_STORAGE_KEY, serverId); } catch { /* Storage is optional. */ }
+  };
+  const nextServer = () => {
+    const index = STREAMING_SERVERS.findIndex(item => item.id === server.id);
+    handleServerChange(STREAMING_SERVERS[(index + 1) % STREAMING_SERVERS.length].id);
   };
 
   if (!mounted) return null;
@@ -88,18 +83,18 @@ export default function WatchMovie() {
             </div>
           )}
 
-          {SERVERS.length > 1 && (<div className="mb-4 flex flex-wrap items-center gap-3 bg-card p-3 rounded-xl border border-primary/20">
+          {STREAMING_SERVERS.length > 1 && (<div className="mb-4 flex flex-wrap items-center gap-3 bg-card p-3 rounded-xl border border-primary/20">
             <div className="flex items-center text-card-foreground/70 mr-2">
               <Server className="w-4 h-4 mr-2" />
               <span className="text-sm font-semibold">Choose player:</span>
             </div>
-            {SERVERS.map((server, idx) => (
+            {STREAMING_SERVERS.map((server) => (
               <button
                 key={server.name}
-                aria-pressed={activeServer === idx}
-                onClick={() => handleServerChange(idx)}
+                aria-pressed={activeServer === server.id}
+                onClick={() => handleServerChange(server.id)}
                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                  activeServer === idx 
+                  activeServer === server.id
                     ? "bg-primary text-background shadow-md scale-105" 
                     : "bg-background text-foreground hover:bg-primary/20"
                 }`}
@@ -110,25 +105,13 @@ export default function WatchMovie() {
           </div>)}
 
           <div className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-2xl bg-black border border-primary/20 flex-grow max-h-[80vh]">
-            {activeServer === SERVERS.length - 1 ? (
-              <FellaPlayer key={id} id={id} title={movie?.title || "Movie"} />
-            ) : <iframe
-              src={SERVERS[activeServer].url(id)}
-              className="absolute inset-0 w-full h-full"
-              allowFullScreen
-              allow="autoplay; fullscreen; picture-in-picture"
-              title="Movie Player"
-            />}
+            <FellaPlayer key={`${id}-${server.id}`} id={id} title={movie?.title || "Movie"} server={server} onNext={nextServer} />
           </div>
           
           <div className="text-center text-sm text-foreground/50 mt-6 pb-8 space-y-2">
-            <p>Streaming provided by third-party APIs. FellaFLIX does not host or own these files.</p>
-            <p className="text-xs max-w-2xl mx-auto">
-              <strong>Desktop Tip:</strong> We strongly recommend using an adblocker like <a href="https://ublockorigin.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-bold">uBlock Origin</a> to block intrusive popups.
-            </p>
-            <p className="text-xs max-w-2xl mx-auto">
-              <strong>Mobile Tip:</strong> Use the <a href="https://brave.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-bold">Brave Browser</a> on your phone for a seamless, ad-free streaming experience!
-            </p>
+            <p>Popups and page redirects are blocked. If a server stalls, choose Next server.</p>
+            <p className="text-xs">No server is guaranteed ad-free. Try another if you see an overlay or playback fails.</p>
+            <p className="text-xs">Playback controls are supplied by the selected provider inside the FellaFLIX player.</p>
           </div>
         </motion.div>
       </div>
