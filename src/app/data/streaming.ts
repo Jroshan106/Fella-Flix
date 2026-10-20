@@ -11,6 +11,17 @@ export const STREAMING_SERVERS = [
 ] as const;
 
 export type StreamingServer = typeof STREAMING_SERVERS[number];
+// TV embeds use TMDB TV IDs followed by the selected season and episode.
+const SERIES_URLS: Record<StreamingServer["id"], (id: string, season: number, episode: number) => string> = {
+  yapgrid: (id, season, episode) => `https://yapgrid.com/embed/tv/${id}/${season}/${episode}?autoplay=0&lang=en`,
+  nexus: (id, season, episode) => `https://www.moviesnexus.fun/tv/${id}/${season}/${episode}?autoPlay=0&autoNext=0`,
+  "nexus-multi": (id, season, episode) => `https://www.moviesnexus.fun/tv/${id}/${season}/${episode}?sv=multi-audio&autoPlay=0&autoNext=0`,
+  vidcore: (id, season, episode) => `https://vidcore.org/embed/tv/${id}/${season}/${episode}?theme=8fba96&autoplay=false`,
+  phantom: (id, season, episode) => `https://vidphantom.com/tv/${id}/${season}/${episode}?primaryColor=8fba96&accentColor=8fba96&secondaryColor=394d3e&backdropColor=000000&autoplay=false`,
+  vidlink: (id, season, episode) => `https://vidlink.pro/tv/${id}/${season}/${episode}?primaryColor=8fba96&secondaryColor=394d3e&autoplay=false`,
+  vidfast: (id, season, episode) => `https://vidfast.vc/tv/${id}/${season}/${episode}?theme=8fba96&autoPlay=false`,
+  videasy: (id, season, episode) => `https://player.videasy.ws/embed/tv/${id}/${season}/${episode}?autoplay=0`,
+};
 export const PLAYER_SANDBOX = "allow-scripts allow-same-origin allow-presentation";
 export const SERVER_STORAGE_KEY = "fellaflix_streaming_provider_v2";
 
@@ -20,4 +31,10 @@ export function getStreamingServer(id: string | null): StreamingServer {
 
 export function getMovieEmbedUrl(server: StreamingServer, movieId: string): string | null {
   return /^[1-9]\d{0,9}$/.test(movieId) ? server.url(movieId) : null;
+}
+
+export function getSeriesEmbedUrl(server: StreamingServer, id: string, season: number, episode: number): string | null {
+  if (!/^[1-9]\d{0,9}$/.test(id) || !Number.isInteger(season) || season < 0 || season > 9999 ||
+      !Number.isInteger(episode) || episode < 1 || episode > 9999) return null;
+  return SERIES_URLS[server.id](id, season, episode);
 }

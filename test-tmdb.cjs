@@ -30,6 +30,10 @@ function mock() {
   global.fetch = async (url, options) => {
     calls.push({ url, options });
     if (url.pathname.endsWith('/genre/movie/list')) return Response.json({ genres: [{ id: 16, name: 'Animation' }] });
+    if (url.pathname.endsWith('/genre/tv/list')) return Response.json({ genres: [{ id: 18, name: 'Drama' }] });
+    if (url.pathname === '/3/tv/1396/season/1') return Response.json({ season_number: 1, episodes: [{ episode_number: 1, name: 'Pilot', air_date: '2008-01-20' }, { episode_number: 2, name: 'Episode Two', air_date: null }] });
+    if (url.pathname === '/3/tv/1396') return Response.json({ id: 1396, name: 'Fixture Series', first_air_date: '2008-01-20', genres: [{ id: 18, name: 'Drama' }], seasons: [{ season_number: 0, name: 'Specials', episode_count: 1 }, { season_number: 1, name: 'Season 1', episode_count: 7 }] });
+    if (url.pathname.endsWith('/tv')) return Response.json({ results: [{ id: 1396, name: 'Fixture Series', first_air_date: '2008-01-20', genre_ids: [18] }], total_pages: 2, total_results: 21 });
     if (url.pathname.endsWith('/movie/550')) return Response.json(fixture);
     return Response.json({ results: [fixture], total_pages: 900, total_results: 18000 });
   };
@@ -54,7 +58,7 @@ function mock() {
   assert.equal(result.results[0].poster_path, '/images/no-results.png');
   assert.equal(result.results[0].backdrop_path, '');
   assert.equal(result.results[0].vote_average, 0);
-  assert.equal(result.results[0].type, 'anime');
+  assert.equal(result.results[0].type, 'movie');
   assert.deepEqual(result.results[0].genres, ['Animation']);
   assert.equal(calls.at(-1).url.searchParams.get('with_genres'), '16|28');
   assert.equal(calls.at(-1).options.headers.Authorization, 'Bearer fixture-token');
@@ -63,9 +67,24 @@ function mock() {
   await api.getCatalog(new URLSearchParams({ q: 'Test & movie' }));
   assert.equal(calls.at(-1).url.pathname, '/3/search/movie');
   assert.equal(calls.at(-1).url.searchParams.get('query'), 'Test & movie');
-  await api.getCatalog(new URLSearchParams({ kind: 'anime' }));
-  assert.equal(calls.at(-1).url.searchParams.get('with_original_language'), 'ja');
-  assert.equal(calls.at(-1).url.searchParams.get('with_genres'), '16');
+  result = await api.getCatalog(new URLSearchParams({ kind: 'series', genres: '18' }));
+  assert.equal(calls.at(-1).url.pathname, '/3/discover/tv');
+  assert.equal(calls.at(-1).url.searchParams.has('with_original_language'), false);
+  assert.equal(calls.at(-1).url.searchParams.get('with_genres'), '18');
+  assert.equal(result.results[0].type, 'series');
+  assert.equal(result.results[0].title, 'Fixture Series');
+  assert.equal(result.results[0].release_date, '2008-01-20');
+  assert.deepEqual(result.results[0].genres, ['Drama']);
+  result = await route.GET(request('kind=series&q=Test'));
+  assert.equal(result.status, 200);
+  assert.equal(calls.at(-1).url.pathname, '/3/search/tv');
+  result = await route.GET(request('kind=series&id=1396'));
+  assert.equal((await result.json()).movie.seasons[1].episode_count, 7);
+  result = await route.GET(request('kind=series&id=1396&season=1'));
+  assert.equal((await result.json()).season.episodes[0].name, 'Pilot');
+  for (const query of ['kind=series&id=1396&season=-1', 'kind=series&id=1396&season=1/credits', 'kind=series&season=1', 'id=550&season=1', 'view=genres&kind=invalid', 'id=1396&kind=invalid']) {
+    assert.equal((await route.GET(request(query))).status, 400, query);
+  }
   for (const query of ['page=0', 'page=501', 'page=abc', 'kind=tv', 'genres=bad', 'q=x&genres=16', 'kind=anime&q=x']) {
     assert.equal((await route.GET(request(query))).status, 400);
   }
@@ -78,7 +97,8 @@ function mock() {
   result = await route.GET(request('view=home'));
   const home = await result.json();
   assert.equal(home.movies.length, 1);
-  assert.equal(home.anime.length, 1);
+  assert.equal(home.series.length, 1);
+  assert.equal(home.series[0].type, 'series');
   delete process.env.TMDB_API_READ_ACCESS_TOKEN;
   process.env.TMDB_API_KEY = 'fixture-key';
   await api.getMovie('550');

@@ -1,5 +1,9 @@
 # Streaming provider review — 19 October 2026
 
+## TV series support — 20 October 2026
+
+All eight player options now have separate TV URLs using the TV ID, season, and episode. Movies retain their movie endpoints. TV URL formats were checked against provider documentation: [YapGrid](https://github.com/enikqi/yapgrid), [Movies Nexus](https://www.moviesnexus.fun/), [VidCore](https://vidcore.org/), [VidPhantom](https://vidphantom.com/), [VidLink](https://vidlink.pro/), [VidFast](https://vidfast.vc/), and [Videasy](https://videasy.ws/docs.html). Full episode playback and title availability have not been verified. Season and episode choices come from TMDB, including season 0 specials when available.
+
 These are eight server options across seven providers, not six verified ad-free video sources. No provider was verified through a complete movie. Provider marketing was checked against real browser observations on `/watch/550`.
 
 | Provider | Primary documentation | Observed result |

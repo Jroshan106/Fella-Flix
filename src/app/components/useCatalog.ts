@@ -13,10 +13,10 @@ export function useCatalog<T>(url: string) {
       try {
         const response = await fetch(url, { signal: controller.signal });
         const data = await response.json();
-        if (!response.ok) throw new Error(data.error || "Unable to load movies.");
+        if (!response.ok) throw new Error(data.error || "Unable to load titles.");
         if (!controller.signal.aborted) setState({ key, data });
       } catch (error) {
-        if (!controller.signal.aborted) setState({ key, error: error instanceof Error ? error.message : "Unable to load movies." });
+        if (!controller.signal.aborted) setState({ key, error: error instanceof Error ? error.message : "Unable to load titles." });
       }
     }, 250);
     return () => { clearTimeout(timer); controller.abort(); };

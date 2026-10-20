@@ -15,10 +15,11 @@ Do not use a `NEXT_PUBLIC_` prefix or commit credentials. `.env.example` contain
 
 ## Behavior
 
-- Home: popular movies and Japanese animated films.
+- Home: popular movies and TV series.
 - Movies: popular movies, TMDB title search, genre filters and API pagination (up to TMDB's 500-page limit).
 - Search: uses `/search/movie`, including translated and alternate titles. Genre filters are hidden while searching because that endpoint does not support discover filters.
-- Anime: `/discover/movie` with animation genre 16 and Japanese original language. This is a movie-only approximation of anime, not a TV-series catalog.
+- Series: `/discover/tv`, `/search/tv`, and `/genre/tv/list` provide TV browsing, search, and genre filters. `/anime` redirects to `/series`.
+- Series watch pages use `/watch/series/{id}` to keep TV IDs separate from movie IDs. `/tv/{id}` supplies show details; `/tv/{id}/season/{season}` supplies episodes for the season and episode selectors. Changing episodes reloads the selected provider with its TV endpoint.
 - Watch pages: `/movie/{id}` provides title, artwork and genres. Existing streaming server selection uses the same movie ID.
 - TMDB supplies metadata, not video streams; catalog presence does not guarantee playback on a third-party server.
 - Successful upstream responses are cached for 15 minutes; requests time out after 10 seconds. Errors never expose upstream URLs, credentials or raw error bodies.

@@ -42,7 +42,7 @@ const MovieGrid = ({ title, items, viewAllLink }: { title: string, items: Movie[
     >
       {items.map((movie) => (
         <motion.div key={movie.id} variants={item}>
-          <Link href={`/watch/${movie.id}`} className="group block relative rounded-xl overflow-hidden bg-card shadow-md transition-all duration-500 hover:scale-[1.03] hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(143,186,150,0.4)] hover:ring-2 hover:ring-primary/50">
+          <Link href={movie.type === "series" ? `/watch/series/${movie.id}` : `/watch/${movie.id}`} className="group block relative rounded-xl overflow-hidden bg-card shadow-md transition-all duration-500 hover:scale-[1.03] hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(143,186,150,0.4)] hover:ring-2 hover:ring-primary/50">
             <div className="aspect-[2/3] relative">
               <Image 
                 src={movie.poster_path} 
@@ -74,9 +74,9 @@ const MovieGrid = ({ title, items, viewAllLink }: { title: string, items: Movie[
 );
 
 export default function Home() {
-  const { data, error, loading, retry } = useCatalog<{ movies: Movie[]; anime: Movie[] }>("/api/catalog?view=home");
+  const { data, error, loading, retry } = useCatalog<{ movies: Movie[]; series: Movie[] }>("/api/catalog?view=home");
   const movies = data?.movies ?? [];
-  const anime = data?.anime ?? [];
+  const series = data?.series ?? [];
   const sliderMovies = movies.filter(movie => movie.backdrop_path).slice(0, 5);
 
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -154,14 +154,14 @@ export default function Home() {
       )}
 
       <MovieGrid title="Featured Movies" items={movies} viewAllLink="/movies" />
-      <MovieGrid title="Featured Anime Movies" items={anime} viewAllLink="/anime" />
+      <MovieGrid title="Featured Series" items={series} viewAllLink="/series" />
       
       <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mt-8">
         <Link href="/movies" className="w-full sm:w-auto px-8 py-4 bg-primary text-background font-black rounded-full hover:bg-primary/90 hover:scale-105 transition-all shadow-lg shadow-primary/20 text-center">
           BROWSE MOVIES
         </Link>
-        <Link href="/anime" className="w-full sm:w-auto px-8 py-4 bg-card text-foreground font-black rounded-full border-2 border-primary/20 hover:border-primary/60 hover:scale-105 transition-all shadow-lg text-center">
-          BROWSE ANIME
+        <Link href="/series" className="w-full sm:w-auto px-8 py-4 bg-card text-foreground font-black rounded-full border-2 border-primary/20 hover:border-primary/60 hover:scale-105 transition-all shadow-lg text-center">
+          BROWSE SERIES
         </Link>
       </div>
     </div>

@@ -1,6 +1,6 @@
 # FellaFLIX 
 
-Welcome to **FellaFLIX** — a beautifully designed, "movie nerd" style streaming platform. Built for cinema enthusiasts, FellaFLIX provides a sleek, dark-themed cinematic interface to discover and watch your favorite movies and anime.
+Welcome to **FellaFLIX** — a beautifully designed, "movie nerd" style streaming platform. Built for cinema enthusiasts, FellaFLIX provides a sleek, dark-themed cinematic interface to discover and watch your favorite movies and TV series.
 
 ### Live Demo
 Check out the live website here: **[https://fellaflix.vercel.app/](https://fellaflix.vercel.app/)**

@@ -60,7 +60,7 @@ export default function RequestMovie() {
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label htmlFor="movieName" className="block text-sm font-medium text-card-foreground mb-2">
-                Movie or Anime Title *
+                Movie or Series Title *
               </label>
               <input
                 type="text"

@@ -12,7 +12,7 @@ export function Footer() {
               <span className="text-3xl font-black text-primary tracking-tighter uppercase">Fella<span className="text-foreground">Flix</span></span>
             </Link>
             <p className="text-sm text-foreground/70 max-w-xs mb-4">
-              Your premium destination for free cinematic movies and anime. Experience ad-free tracking and a massive library.
+              Your premium destination for free cinematic movies and series. Experience ad-free tracking and a massive library.
             </p>
             
             {/* Socials */}
@@ -115,7 +115,7 @@ export function Footer() {
               <ul className="space-y-2">
                 <li><Link href="/" className="text-sm text-foreground/70 hover:text-primary transition-colors">Home</Link></li>
                 <li><Link href="/movies" className="text-sm text-foreground/70 hover:text-primary transition-colors">Movies</Link></li>
-                <li><Link href="/anime" className="text-sm text-foreground/70 hover:text-primary transition-colors">Anime</Link></li>
+                <li><Link href="/series" className="text-sm text-foreground/70 hover:text-primary transition-colors">Series</Link></li>
                 <li><Link href="/request" className="text-sm text-foreground/70 hover:text-primary transition-colors">Request</Link></li>
               </ul>
             </div>

@@ -1,3 +1,3 @@
-import CatalogBrowser from "../components/CatalogBrowser";
+import { redirect } from "next/navigation";
 
-export default function Page() { return <CatalogBrowser kind="anime" />; }
+export default function Page() { redirect("/series"); }

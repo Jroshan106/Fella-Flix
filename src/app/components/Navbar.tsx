@@ -65,7 +65,7 @@ export function Navbar() {
 
               <Link href="/" className={`text-sm font-medium transition-colors ${pathname === '/' ? 'text-primary font-bold' : 'text-foreground hover:text-primary'}`}>Home</Link>
               <Link href="/movies" className={`text-sm font-medium transition-colors ${pathname === '/movies' ? 'text-primary font-bold' : 'text-foreground hover:text-primary'}`}>Movies</Link>
-              <Link href="/anime" className={`text-sm font-medium transition-colors ${pathname === '/anime' ? 'text-primary font-bold' : 'text-foreground hover:text-primary'}`}>Anime</Link>
+              <Link href="/series" className={`text-sm font-medium transition-colors ${pathname === '/series' ? 'text-primary font-bold' : 'text-foreground hover:text-primary'}`}>Series</Link>
               <Link href="/request" className={`text-sm font-medium whitespace-nowrap transition-colors ${pathname === '/request' ? 'text-primary font-bold' : 'text-foreground hover:text-primary'}`}>Request</Link>
               
               <ThemeToggle />
@@ -123,9 +123,9 @@ export function Navbar() {
             <span className="text-[10px] font-medium">Movies</span>
           </Link>
 
-          <Link href="/anime" className={`flex flex-col items-center justify-center w-16 h-12 rounded-xl transition-all ${pathname === '/anime' ? 'bg-primary/20 text-primary' : 'text-foreground/60 hover:text-primary hover:bg-primary/5'}`}>
-            <img src={theme === 'dark' ? '/images/anime_dark.png' : '/images/anime_light.png'} alt="Anime" className={`w-5 h-5 mb-1 ${pathname === '/anime' ? 'opacity-100' : 'opacity-60 grayscale'}`} />
-            <span className="text-[10px] font-medium">Anime</span>
+          <Link href="/series" className={`flex flex-col items-center justify-center w-16 h-12 rounded-xl transition-all ${pathname === '/series' ? 'bg-primary/20 text-primary' : 'text-foreground/60 hover:text-primary hover:bg-primary/5'}`}>
+            <Tv className="w-5 h-5 mb-1" />
+            <span className="text-[10px] font-medium">Series</span>
           </Link>
 
           <Link href="/request" className={`flex flex-col items-center justify-center w-16 h-12 rounded-xl transition-all ${pathname === '/request' ? 'bg-primary/20 text-primary' : 'text-foreground/60 hover:text-primary hover:bg-primary/5'}`}>

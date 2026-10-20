@@ -2,17 +2,18 @@
 
 import { useEffect, useRef, useState } from "react";
 import { LoaderCircle, Maximize, RefreshCw, SkipForward } from "lucide-react";
-import { getMovieEmbedUrl, PLAYER_SANDBOX, type StreamingServer } from "@/app/data/streaming";
+import { getMovieEmbedUrl, getSeriesEmbedUrl, PLAYER_SANDBOX, type StreamingServer } from "@/app/data/streaming";
 
-export default function FellaPlayer({ id, title, server, onNext }: {
+export default function FellaPlayer({ id, title, server, onNext, season, episode }: {
   id: string; title: string; server: StreamingServer; onNext: () => void;
+  season?: number; episode?: number;
 }) {
   const container = useRef<HTMLDivElement>(null);
   const [attempt, setAttempt] = useState(0);
   const [loaded, setLoaded] = useState(false);
   const [slow, setSlow] = useState(false);
   const [fullscreenError, setFullscreenError] = useState(false);
-  const url = getMovieEmbedUrl(server, id);
+  const url = season !== undefined ? getSeriesEmbedUrl(server, id, season, episode ?? 0) : getMovieEmbedUrl(server, id);
 
   useEffect(() => {
     if (loaded || !url) return;
@@ -52,7 +53,7 @@ export default function FellaPlayer({ id, title, server, onNext }: {
           allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowFullScreen
           title={`${title} — ${server.name} player`}
           onLoad={() => { setLoaded(true); setSlow(false); }} /> :
-          <p role="alert" className="p-6 text-center">This movie ID is invalid. Return to browsing and select a movie.</p>}
+          <p role="alert" className="p-6 text-center">This title or episode is invalid. Return to browsing and select a title.</p>}
         {url && !loaded && <div className="absolute top-4 left-1/2 -translate-x-1/2 rounded-lg bg-zinc-900/95 px-4 py-3 text-center text-sm pointer-events-none" role="status">
           <LoaderCircle className="inline mr-2 h-4 w-4 animate-spin text-[#8fba96]" />
           {slow ? "Taking longer than expected. Try Next server above." : `Opening ${server.name}…`}
