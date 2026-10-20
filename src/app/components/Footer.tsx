@@ -137,7 +137,6 @@ export function Footer() {
           <section aria-label="Data credits" className="flex flex-col items-center gap-3 text-center text-xs text-foreground/60">
             <a href="https://www.themoviedb.org" target="_blank" rel="noopener noreferrer"><Image src="/images/tmdb.svg" alt="TMDB" width={100} height={40} className="h-auto" /></a>
             <p>This product uses the TMDB API but is not endorsed or certified by TMDB.</p>
-            <p>Additional movie information from <a href="https://www.omdbapi.com/" target="_blank" rel="noopener noreferrer" className="underline">OMDb API</a>.</p>
           </section>
           <p className="text-sm font-semibold text-foreground/60 text-center">
             &copy; {new Date().getFullYear()} FellaFLIX. All rights reserved.

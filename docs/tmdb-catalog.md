@@ -1,6 +1,6 @@
 # TMDB catalog setup
 
-OMDb is also supported and takes precedence for browsing/search when `OMDB_API_KEY` is set. See [OMDb setup and limitations](omdb-catalog.md).
+TMDB is the only catalog provider. An old `OMDB_API_KEY` setting is ignored and can be removed from your deployment. Existing IMDb (`tt…`) watch links must be replaced with links from the TMDB catalog.
 
 The catalog is now loaded from the official TMDB v3 API. The old `src/app/data/movies.json` list and manual catalog editing have been removed from the application. There is no static fallback.
 

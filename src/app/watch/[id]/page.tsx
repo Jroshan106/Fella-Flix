@@ -21,7 +21,7 @@ export default function WatchMovie() {
   
   const { data, error, loading, retry } = useCatalog<{ movie: Movie }>(`/api/catalog?id=${encodeURIComponent(id)}`);
   const movie = data?.movie;
-  // Existing player providers require numeric TMDB IDs; OMDb uses IMDb IDs.
+  // Player providers require a valid numeric TMDB movie ID.
   const hasPlayer = /^[1-9]\d{0,9}$/.test(id);
   const mounted = useSyncExternalStore(subscribe, () => true, () => false);
   const [activeServer, setActiveServer] = useState(() => {

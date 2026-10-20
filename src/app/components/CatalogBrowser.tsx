@@ -16,7 +16,6 @@ export default function CatalogBrowser({ kind = "movie", initialQuery = "" }: {
   const [page, setPage] = useState(1);
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
   const genres = useCatalog<{ genres: { id: number; name: string }[]; provider: string }>("/api/catalog?view=genres");
-  const isOMDb = genres.data?.provider === "omdb";
   const genreList = genres.data?.genres ?? [];
   const genreIds = genreList.filter(genre => selectedGenres.includes(genre.name)).map(genre => genre.id);
   const params = new URLSearchParams({ kind, page: String(page) });
@@ -28,9 +27,7 @@ export default function CatalogBrowser({ kind = "movie", initialQuery = "" }: {
     <div className="flex flex-wrap items-end justify-between gap-6 mb-8">
       <div className="border-l-4 border-primary pl-4">
         <h1 className="text-4xl font-black">{kind === "anime" ? "Anime Movies" : initialQuery ? "Search Results" : "Movies"}</h1>
-        <p className="mt-2 text-foreground/70">{isOMDb
-          ? kind === "anime" ? "Featured anime films · Movie information from OMDb" : "Featured selections · Search OMDb for more movies"
-          : kind === "anime" ? "Japanese animated films" : "Discover and search movies"}</p>
+        <p className="mt-2 text-foreground/70">{kind === "anime" ? "Japanese animated films from TMDB" : "Discover and search movies on TMDB"}</p>
       </div>
       <div className="flex flex-wrap items-center gap-3">
         {!query.trim() && genreList.length > 0 && <GenreDropdown allGenres={genreList.map(genre => genre.name)}

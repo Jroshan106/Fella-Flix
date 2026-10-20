@@ -16,12 +16,14 @@ function load(file, overrides = {}) {
   return mod.exports;
 }
 const api = load('src/lib/tmdb.ts', { 'server-only': {} });
-const route = load('src/app/api/catalog/route.ts', { '@/lib/catalog': { ...api, getCatalogProvider: () => 'tmdb' } });
+const catalog = load('src/lib/catalog.ts', { 'server-only': {}, './tmdb': api });
+const route = load('src/app/api/catalog/route.ts', { '@/lib/catalog': catalog });
 const { NextRequest } = require('next/server');
 const fixture = { id: 550, title: 'Fixture Movie', genre_ids: [16], original_language: 'ja', adult: false };
 const nativeFetch = global.fetch;
 const originalToken = process.env.TMDB_API_READ_ACCESS_TOKEN;
 const originalKey = process.env.TMDB_API_KEY;
+const originalOMDbKey = process.env.OMDB_API_KEY;
 const calls = [];
 const request = query => new NextRequest(`http://localhost/api/catalog?${query}`);
 function mock() {
@@ -33,12 +35,19 @@ function mock() {
   };
 }
 (async () => {
+  // A leftover OMDb credential must never switch the application away from TMDB.
+  process.env.OMDB_API_KEY = 'unused-omdb-key';
+  assert.equal(catalog.getCatalogProvider(), 'tmdb');
   delete process.env.TMDB_API_READ_ACCESS_TOKEN;
   delete process.env.TMDB_API_KEY;
   global.fetch = async () => { throw Error('Unexpected fetch'); };
   assert.equal((await route.GET(request(''))).status, 503);
   process.env.TMDB_API_READ_ACCESS_TOKEN = 'fixture-token';
   mock();
+  const genresResponse = await route.GET(request('view=genres'));
+  assert.deepEqual(await genresResponse.json(), { genres: [{ id: 16, name: 'Animation' }], provider: 'tmdb' });
+  assert.equal((await route.GET(request('q=Test'))).status, 200);
+  assert.ok(calls.every(call => call.url.origin === 'https://api.themoviedb.org'));
   let result = await api.getCatalog(new URLSearchParams({ page: '2', genres: '16,28' }));
   assert.equal(result.total_pages, 500);
   assert.equal(result.page, 2);
@@ -60,7 +69,7 @@ function mock() {
   for (const query of ['page=0', 'page=501', 'page=abc', 'kind=tv', 'genres=bad', 'q=x&genres=16', 'kind=anime&q=x']) {
     assert.equal((await route.GET(request(query))).status, 400);
   }
-  for (const id of ['0', '-1', '550/credits', 'abc']) {
+  for (const id of ['0', '-1', '550/credits', 'abc', 'tt0111161']) {
     assert.equal((await route.GET(request(`id=${encodeURIComponent(id)}`))).status, 400);
   }
   result = await route.GET(request('id=550'));
@@ -95,4 +104,6 @@ function mock() {
   else process.env.TMDB_API_READ_ACCESS_TOKEN = originalToken;
   if (originalKey === undefined) delete process.env.TMDB_API_KEY;
   else process.env.TMDB_API_KEY = originalKey;
+  if (originalOMDbKey === undefined) delete process.env.OMDB_API_KEY;
+  else process.env.OMDB_API_KEY = originalOMDbKey;
 });
