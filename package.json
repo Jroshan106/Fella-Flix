@@ -6,9 +6,7 @@
                     "dev":  "next dev",
                     "build":  "next build",
                     "start":  "next start",
-                    "lint":  "eslint",
-                    "fetch-5000":  "node scripts/fetch-5000.js",
-                    "fetch-anime":  "node scripts/fetch-500-anime.js"
+                    "lint":  "eslint"
                 },
     "dependencies":  {
                          "framer-motion":  "^13.4.0",

@@ -3,7 +3,9 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { mockMovies } from "./data/movies";
+import type { Movie } from "./data/movies";
+import { useCatalog } from "./components/useCatalog";
+import { CatalogStatus } from "./components/CatalogStatus";
 import { Star, PlayCircle } from "lucide-react";
 import Image from "next/image";
 
@@ -22,7 +24,7 @@ const item = {
   show: { opacity: 1, y: 0 }
 };
 
-const MovieGrid = ({ title, items, viewAllLink }: { title: string, items: typeof mockMovies, viewAllLink?: string }) => (
+const MovieGrid = ({ title, items, viewAllLink }: { title: string, items: Movie[], viewAllLink?: string }) => (
   <div className="mb-12">
     <div className="flex items-center justify-between mb-6 border-l-4 border-primary pl-4">
       <h2 className="text-3xl font-bold text-foreground tracking-tight">{title}</h2>
@@ -72,9 +74,10 @@ const MovieGrid = ({ title, items, viewAllLink }: { title: string, items: typeof
 );
 
 export default function Home() {
-  const movies = mockMovies.filter(m => m.type === "movie").slice(0, 10);
-  const anime = mockMovies.filter(m => m.type === "anime").slice(0, 10);
-  const sliderMovies = mockMovies.filter(m => m.backdrop_path && m.backdrop_path.includes("tmdb.org")).slice(0, 5);
+  const { data, error, loading, retry } = useCatalog<{ movies: Movie[]; anime: Movie[] }>("/api/catalog?view=home");
+  const movies = data?.movies ?? [];
+  const anime = data?.anime ?? [];
+  const sliderMovies = movies.filter(movie => movie.backdrop_path).slice(0, 5);
 
   const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -85,6 +88,8 @@ export default function Home() {
     }, 6000);
     return () => clearInterval(timer);
   }, [sliderMovies.length]);
+
+  if (loading || error) return <CatalogStatus error={error} retry={retry} />;
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
@@ -149,7 +154,7 @@ export default function Home() {
       )}
 
       <MovieGrid title="Featured Movies" items={movies} viewAllLink="/movies" />
-      <MovieGrid title="Trending Anime" items={anime} viewAllLink="/anime" />
+      <MovieGrid title="Popular Anime Movies" items={anime} viewAllLink="/anime" />
       
       <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mt-8">
         <Link href="/movies" className="w-full sm:w-auto px-8 py-4 bg-primary text-background font-black rounded-full hover:bg-primary/90 hover:scale-105 transition-all shadow-lg shadow-primary/20 text-center">

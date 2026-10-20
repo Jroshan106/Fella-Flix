@@ -1,5 +1,3 @@
-import movies from './movies.json';
-
 export interface Movie {
   id: number;
   title: string;
@@ -12,4 +10,11 @@ export interface Movie {
   genres?: string[];
 }
 
-export const mockMovies = movies as Movie[];
+export interface Genre { id: number; name: string }
+export interface CatalogPage {
+  results: Movie[];
+  page: number;
+  total_pages: number;
+  total_results: number;
+  genres: Genre[];
+}

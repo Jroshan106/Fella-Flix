@@ -1,5 +1,5 @@
 ﻿import Link from "next/link";
-import { Film, Tv } from "lucide-react";
+import Image from "next/image";
 
 export function Footer() {
   return (
@@ -134,6 +134,10 @@ export function Footer() {
           <p className="text-xs text-foreground/50 text-center max-w-2xl">
             Disclaimer: FellaFLIX does not store any files on our server, we only link to the media which is hosted on 3rd party services.
           </p>
+          <section aria-label="Data credits" className="flex flex-col items-center gap-3 text-center text-xs text-foreground/60">
+            <a href="https://www.themoviedb.org" target="_blank" rel="noopener noreferrer"><Image src="/images/tmdb.svg" alt="TMDB" width={100} height={40} className="h-auto" /></a>
+            <p>This product uses the TMDB API but is not endorsed or certified by TMDB.</p>
+          </section>
           <p className="text-sm font-semibold text-foreground/60 text-center">
             &copy; {new Date().getFullYear()} FellaFLIX. All rights reserved.
           </p>

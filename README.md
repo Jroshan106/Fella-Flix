@@ -5,9 +5,13 @@ Welcome to **FellaFLIX** — a beautifully designed, "movie nerd" style streamin
 ### Live Demo
 Check out the live website here: **[https://fellaflix.vercel.app/](https://fellaflix.vercel.app/)**
 
+## TMDB setup
+
+Set `TMDB_API_READ_ACCESS_TOKEN` (or `TMDB_API_KEY`) in `.env.local` and in your Vercel environment variables. Restart locally or redeploy after setting it. See [setup instructions](docs/tmdb-catalog.md). The static movie list has been removed; a credential is required to load movies.
+
 ## How It Works
 
-FellaFLIX uses a Next.js interface and a server-side player resolver. It does not host video files or media content on its own servers.
+FellaFLIX uses a Next.js interface, the TMDB API for its live movie catalog, and third-party video players. It does not host video files or media content on its own servers.
 
 We utilize free, third-party **Streaming APIs** (such as Vidcore, Vidsrc, and AutoEmbed) to embed video players seamlessly into our application. By passing a movie's TMDB (The Movie Database) ID to these APIs, the player automatically serves the corresponding stream.
 
@@ -29,7 +33,7 @@ See [provider research and verification](docs/streaming-providers.md). Run `node
 - **Dark/Light Mode:** Full theme support tailored for late-night binge-watching or daytime browsing.
 - **Multiple Streaming Servers:** Because third-party streaming APIs can be unreliable or riddled with ads, we provide an instant "Server Switcher" so users can hop between providers (Vidcore, Vidsrc, etc.) if one goes down.
 - **Request a Movie:** A dedicated public page for users to submit requests for movies they want added to the library.
-- **Hidden Admin Panel:** A secure, unlisted `/admin` dashboard that allows site administrators to quickly append new movies to the database via TMDB IDs.
+- **Admin Panel:** The protected `/admin` page manages movie requests. Catalog metadata updates automatically from TMDB.
 
 ## Tech Stack
 
@@ -37,7 +41,7 @@ See [provider research and verification](docs/streaming-providers.md). Run `node
 - **Styling:** Tailwind CSS
 - **Icons:** Lucide React
 - **Animations:** Framer Motion
-- **Database:** Local JSON File (`movies.json`)
+- **Catalog:** Official TMDB API, with server-side credentials and caching.
 
 ## ⚠️ Disclaimer
 

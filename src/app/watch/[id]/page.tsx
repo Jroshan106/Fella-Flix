@@ -3,7 +3,9 @@
 import { useParams, useRouter } from "next/navigation";
 import { useState, useSyncExternalStore } from "react";
 import { motion } from "framer-motion";
-import { mockMovies } from "@/app/data/movies";
+import type { Movie } from "@/app/data/movies";
+import { useCatalog } from "@/app/components/useCatalog";
+import { CatalogStatus } from "@/app/components/CatalogStatus";
 import { ArrowLeft, Server } from "lucide-react";
 import FellaPlayer from "@/app/components/FellaPlayer";
 import { STREAMING_SERVERS, SERVER_STORAGE_KEY, getStreamingServer } from "@/app/data/streaming";
@@ -17,7 +19,8 @@ export default function WatchMovie() {
   const id = params.id as string;
   const router = useRouter();
   
-  const movie = mockMovies.find(m => m.id.toString() === id);
+  const { data, error, loading, retry } = useCatalog<{ movie: Movie }>(`/api/catalog?id=${encodeURIComponent(id)}`);
+  const movie = data?.movie;
   const mounted = useSyncExternalStore(subscribe, () => true, () => false);
   const [activeServer, setActiveServer] = useState(() => {
     try { return getStreamingServer(localStorage.getItem(SERVER_STORAGE_KEY)).id; }
@@ -34,6 +37,7 @@ export default function WatchMovie() {
   };
 
   if (!mounted) return null;
+  if (loading || error) return <CatalogStatus error={error} retry={retry} />;
 
   return (
     <div className="w-full min-h-[calc(100vh-4rem)] bg-background flex flex-col">
