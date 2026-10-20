@@ -1,6 +1,8 @@
+import { currentViewer } from "@/lib/auth-server";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
+  if (!await currentViewer()) return NextResponse.json({ error: "Sign in to continue." }, { status: 401, headers: { "Cache-Control": "private, no-store" } });
   const id = req.nextUrl.searchParams.get("id");
   const json = req.nextUrl.searchParams.get("format") === "json";
   const headers = { "Cache-Control": "no-store" };

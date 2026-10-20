@@ -5,6 +5,10 @@ Welcome to **FellaFLIX** — a beautifully designed, "movie nerd" style streamin
 ### Live Demo
 Check out the live website here: **[https://fellaflix.vercel.app/](https://fellaflix.vercel.app/)**
 
+## Private access
+
+Viewers must sign in with an invited account. Run `node scripts/add-viewer.cjs username` to create one, then configure `AUTH_SESSION_SECRET` and `VIEWER_ACCOUNTS` on Vercel before deploying. See [private access setup](docs/private-access.md). Passwords and private configuration are excluded from Git.
+
 ## TMDB setup
 
 Set `TMDB_API_READ_ACCESS_TOKEN` (or `TMDB_API_KEY`) in `.env.local` and in your Vercel environment variables. Restart locally or redeploy after setting it. See [setup instructions](docs/tmdb-catalog.md). The static movie list has been removed; a credential is required to load movies.

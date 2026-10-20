@@ -1,0 +1,98 @@
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
+const Module = require('node:module');
+const ts = require('typescript');
+const { scryptSync } = require('node:crypto');
+const { NextRequest } = require('next/server');
+function load(file, overrides = {}) {
+  const filename = path.resolve(file);
+  const mod = new Module(filename, module);
+  mod.filename = filename; mod.paths = module.paths;
+  const original = mod.require.bind(mod);
+  mod.require = id => id in overrides ? overrides[id] : original(id);
+  mod._compile(ts.transpileModule(fs.readFileSync(filename, 'utf8'), { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020, esModuleInterop: true } }).outputText, filename);
+  return mod.exports;
+}
+const auth = load('src/lib/auth.ts', { 'server-only': {} });
+const gate = load('src/proxy.ts', { './lib/auth': auth });
+const login = load('src/app/api/auth/login/route.ts', { '@/lib/auth': auth });
+const logout = load('src/app/api/auth/logout/route.ts', { '@/lib/auth': auth });
+const original = Object.fromEntries(['VIEWER_ACCOUNTS', 'AUTH_SESSION_SECRET', 'ADMIN_PASSWORD', 'ADMIN_USERNAME'].map(key => [key, process.env[key]]));
+const salt = 'a'.repeat(32);
+const account = username => ({ username, passwordHash: `scrypt:${salt}:${scryptSync('fixture-password', salt, 64).toString('hex')}` });
+const accounts = [account('viewer-one'), account('viewer-two')];
+const request = (url, cookie, method = 'GET', authorization) => new NextRequest('https://example.test' + url, { method, headers: { ...(cookie ? { cookie: `${auth.SESSION_COOKIE}=${cookie}` } : {}), ...(authorization ? { authorization } : {}) } });
+const loginRequest = (username, password, next = '/series', origin = 'https://example.test') => {
+  const data = new FormData(); data.set('username', username); data.set('password', password); data.set('next', next);
+  return new NextRequest('https://example.test/api/auth/login', { method: 'POST', headers: { origin }, body: data });
+};
+(async () => {
+  delete process.env.AUTH_SESSION_SECRET; delete process.env.VIEWER_ACCOUNTS;
+  assert.equal(auth.authConfigured(), false);
+  assert.equal(auth.verifySession('fake'), null);
+  assert.equal((await login.POST(loginRequest('x','x'))).status, 503);
+  process.env.AUTH_SESSION_SECRET = 'fixture-secret-'.repeat(4);
+  process.env.VIEWER_ACCOUNTS = JSON.stringify(accounts);
+  process.env.ADMIN_USERNAME = 'admin'; process.env.ADMIN_PASSWORD = 'admin:password';
+  assert.equal(await auth.checkCredentials('viewer-one', 'wrong'), null);
+  assert.equal(await auth.checkCredentials('missing-viewer', 'fixture-password'), null);
+  assert.deepEqual(await auth.checkCredentials('VIEWER-ONE', 'fixture-password'), { username: 'viewer-one' });
+  const token = auth.createSession({ username: 'viewer-one' });
+  const second = auth.createSession({ username: 'viewer-two' });
+  assert.deepEqual(auth.verifySession(token), { username: 'viewer-one' });
+  assert.equal(auth.verifySession(token, Date.now() + (auth.SESSION_SECONDS + 1) * 1000), null);
+  for (const bad of ['', 'fake', token + '.extra', token.slice(0,-2) + 'xx', Buffer.from('{}').toString('base64url') + '.' + token.split('.')[1]]) assert.equal(auth.verifySession(bad), null);
+  for (const url of ['/', '/movies', '/series', '/watch/series/1396', '/request', '/admin', '/search?q=test', '/_next/data/test.json']) {
+    const response = gate.proxy(request(url));
+    assert.equal(response.status, 307, url);
+    assert.equal(new URL(response.headers.get('location')).pathname, '/login');
+    assert.equal(gate.proxy(request(url, token)).status, url === '/admin' ? 401 : 200);
+  }
+  assert.equal(gate.proxy(request('/api/catalog')).status, 401);
+  assert.equal(gate.proxy(request('/api/superembed?id=550')).status, 401);
+  assert.equal(gate.proxy(request('/request', undefined, 'POST')).status, 401);
+  assert.equal(gate.proxy(request('/login')).status, 200);
+  assert.equal(gate.proxy(request('/api/catalog', token)).status, 200);
+  const basic = 'Basic ' + Buffer.from('admin:admin:password').toString('base64');
+  assert.equal(gate.proxy(request('/admin', token, 'GET', basic)).status, 200);
+  assert.equal(auth.verifyAdminAuthorization('Basic malformed'), false);
+  assert.equal(auth.verifyAdminAuthorization('Bearer fake'), false);
+  const server = { currentViewer: async () => null, requireViewer: async () => { throw Error('Unauthorized'); } };
+  const catalog = load('src/app/api/catalog/route.ts', { '@/lib/catalog': {}, '@/lib/auth-server': server });
+  const player = load('src/app/api/superembed/route.ts', { '@/lib/auth-server': server });
+  assert.equal((await catalog.GET(request('/api/catalog'))).status, 401);
+  assert.equal((await player.GET(request('/api/superembed?id=550'))).status, 401);
+  const actions = load('src/app/actions.ts', { '@/lib/auth-server': server, '@/lib/auth': auth, 'next/headers': { headers: async () => new Headers() } });
+  await assert.rejects(actions.submitRequest(new FormData()), /Unauthorized/);
+  assert.deepEqual(await actions.getRequests(), []);
+  assert.deepEqual(await actions.deleteRequest('test'), { success: false });
+  assert.equal((await login.POST(loginRequest('viewer-one', 'wrong'))).status, 401);
+  assert.equal((await login.POST(loginRequest('viewer-one', 'fixture-password', '/', 'https://evil.test'))).status, 403);
+  const response = await login.POST(loginRequest('viewer-one', 'fixture-password', '/watch/series/1396'));
+  assert.equal(response.status, 200);
+  assert.deepEqual(await response.json(), { next: '/watch/series/1396' });
+  const cookie = response.headers.get('set-cookie');
+  assert.ok(cookie.includes('HttpOnly')); assert.ok(cookie.includes('SameSite=lax')); assert.ok(cookie.includes('Path=/')); assert.ok(cookie.includes('Max-Age=28800'));
+  assert.ok(!cookie.includes('fixture-password'));
+  assert.equal(logout.GET, undefined);
+  assert.equal((await logout.POST(new NextRequest('https://example.test/api/auth/logout', { method: 'POST', headers: { origin:'https://evil.test' } }))).status, 403);
+  const signedOut = await logout.POST(new NextRequest('https://example.test/api/auth/logout', { method: 'POST', headers: { origin:'https://example.test' } }));
+  assert.equal(signedOut.status, 303); assert.ok(signedOut.headers.get('set-cookie').includes('Max-Age=0'));
+  for (const value of ['https://evil.test', '//evil.test', '/\\evil.test', '/%2f%2fevil.test', '/login', '/api/catalog', null]) assert.equal(auth.safeReturnPath(value), '/');
+  assert.equal(auth.safeReturnPath('/series?q=hello'), '/series?q=hello');
+  for (let i=0;i<8;i++) assert.equal(auth.takeLoginAttempt('throttle-test',1000), true);
+  assert.equal(auth.takeLoginAttempt('throttle-test',1000), false);
+  assert.equal(auth.takeLoginAttempt('throttle-test',1000 + 900001), true);
+  process.env.VIEWER_ACCOUNTS = JSON.stringify([{...accounts[0], passwordHash: account('viewer-one').passwordHash.replace(/^scrypt:a/, 'scrypt:b')}, accounts[1]]);
+  assert.equal(auth.verifySession(token), null); assert.ok(auth.verifySession(second));
+  process.env.VIEWER_ACCOUNTS = JSON.stringify([accounts[0]]);
+  assert.equal(auth.verifySession(second), null);
+  process.env.AUTH_SESSION_SECRET = 'a-different-secret-'.repeat(4);
+  assert.equal(auth.verifySession(token), null);
+  process.env.VIEWER_ACCOUNTS = 'broken'; assert.equal(auth.authConfigured(), false);
+  process.env.VIEWER_ACCOUNTS = JSON.stringify([accounts[0], accounts[0]]); assert.equal(auth.authConfigured(), false);
+  console.log('PASS: separate viewers, login/logout, throttling, safe redirects, page/API/action protection, admin isolation, tampering, expiry and revocation');
+})().catch(error => { console.error(error); process.exitCode = 1; }).finally(() => {
+  for (const [key,value] of Object.entries(original)) { if (value === undefined) delete process.env[key]; else process.env[key]=value; }
+});

@@ -17,7 +17,7 @@ function load(file, overrides = {}) {
 }
 const api = load('src/lib/tmdb.ts', { 'server-only': {} });
 const catalog = load('src/lib/catalog.ts', { 'server-only': {}, './tmdb': api });
-const route = load('src/app/api/catalog/route.ts', { '@/lib/catalog': catalog });
+const route = load('src/app/api/catalog/route.ts', { '@/lib/catalog': catalog, '@/lib/auth-server': { currentViewer: async () => ({ username: 'fixture' }) } });
 const { NextRequest } = require('next/server');
 const fixture = { id: 550, title: 'Fixture Movie', genre_ids: [16], original_language: 'ja', adult: false };
 const nativeFetch = global.fetch;

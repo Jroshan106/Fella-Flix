@@ -12,11 +12,12 @@ config.filename = filename;
 config.paths = module.paths;
 config._compile(compiled, filename);
 const { STREAMING_SERVERS: servers, getStreamingServer, getMovieEmbedUrl, getSeriesEmbedUrl, PLAYER_SANDBOX } = config.exports;
-assert.equal(servers.length, 8);
-assert.equal(new Set(servers.map(s => s.id)).size, 8);
+assert.equal(servers.length, 5);
+assert.equal(new Set(servers.map(s => s.id)).size, 5);
 assert.equal(servers[0].id, 'yapgrid');
 assert.equal(getStreamingServer('peestream').id, 'yapgrid');
-assert.deepEqual(servers.slice(-3).map(s => s.id), ['vidlink', 'vidfast', 'videasy']);
+assert.deepEqual(servers.map(s => s.id), ['yapgrid', 'nexus', 'nexus-multi', 'vidcore', 'vidlink']);
+for (const removed of ['phantom', 'vidfast', 'videasy']) assert.equal(getStreamingServer(removed), servers[0]);
 assert.equal(getStreamingServer('0'), servers[0]);
 assert.equal(getStreamingServer('superembed'), servers[0]);
 assert.equal(getStreamingServer(null), servers[0]);
@@ -44,4 +45,4 @@ assert.ok(permissions.has('allow-presentation'));
 for (const permission of ['allow-popups', 'allow-popups-to-escape-sandbox', 'allow-top-navigation', 'allow-top-navigation-by-user-activation', 'allow-downloads']) {
   assert.equal(permissions.has(permission), false);
 }
-console.log('PASS: eight server options, YapGrid default, removed-server fallback, URL validation and popup/navigation restrictions');
+console.log('PASS: five server options, YapGrid default, removed-server fallback, URL validation and popup/navigation restrictions');

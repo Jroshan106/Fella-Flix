@@ -3,20 +3,12 @@
 import fs from "fs";
 import path from "path";
 import { headers } from "next/headers";
+import { requireViewer } from "@/lib/auth-server";
+import { verifyAdminAuthorization } from "@/lib/auth";
 
 async function verifyAuth() {
-  const headersList = await headers();
-  const basicAuth = headersList.get('authorization');
-  if (!basicAuth) throw new Error("Unauthorized");
-  
-  const authValue = basicAuth.split(' ')[1];
-  const [user, pwd] = atob(authValue).split(':');
-  const validPassword = process.env.ADMIN_PASSWORD;
-  const validUser = process.env.ADMIN_USERNAME || 'admin';
-  
-  if (!validPassword || user !== validUser || pwd !== validPassword) {
-    throw new Error("Unauthorized");
-  }
+  await requireViewer();
+  if (!verifyAdminAuthorization((await headers()).get("authorization"))) throw new Error("Unauthorized");
 }
 
 // REQUEST SYSTEM
@@ -31,6 +23,7 @@ export interface MovieRequest {
 }
 
 export async function submitRequest(formData: FormData) {
+  await requireViewer();
   const newReq: MovieRequest = {
     id: Date.now().toString(),
     title: formData.get("title") as string,
