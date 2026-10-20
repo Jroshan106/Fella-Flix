@@ -10,7 +10,7 @@ export default function AdminPage() {
   useEffect(() => { void getRequests().then(setRequests); }, []);
   return <div className="max-w-5xl mx-auto w-full p-8">
     <h1 className="text-3xl font-black mb-4">Catalog & requests</h1>
-    <p className="mb-6 text-foreground/70">The catalog now loads automatically from TMDB. Movies no longer need to be added or edited here.</p>
+    <p className="mb-6 text-foreground/70">Movie information loads from the connected movie database. Movies do not need to be added or edited here.</p>
     <Link href="/movies" className="text-primary underline">Browse the live catalog</Link>
     <h2 className="text-2xl font-bold mt-10 mb-4">Movie requests</h2>
     {status && <p role="status">{status}</p>}

@@ -62,7 +62,7 @@ const MovieGrid = ({ title, items, viewAllLink }: { title: string, items: Movie[
                 <span className="text-xs text-card-foreground/70">{movie.release_date.split('-')[0]}</span>
                 <div className="flex items-center text-primary">
                   <Star className="w-3 h-3 mr-1 fill-current" />
-                  <span className="text-xs font-semibold">{movie.vote_average.toFixed(1)}</span>
+                  <span className="text-xs font-semibold">{movie.has_rating === false ? "Unrated" : movie.vote_average.toFixed(1)}</span>
                 </div>
               </div>
             </div>
@@ -154,7 +154,7 @@ export default function Home() {
       )}
 
       <MovieGrid title="Featured Movies" items={movies} viewAllLink="/movies" />
-      <MovieGrid title="Popular Anime Movies" items={anime} viewAllLink="/anime" />
+      <MovieGrid title="Featured Anime Movies" items={anime} viewAllLink="/anime" />
       
       <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mt-8">
         <Link href="/movies" className="w-full sm:w-auto px-8 py-4 bg-primary text-background font-black rounded-full hover:bg-primary/90 hover:scale-105 transition-all shadow-lg shadow-primary/20 text-center">

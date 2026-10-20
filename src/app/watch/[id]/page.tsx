@@ -21,6 +21,8 @@ export default function WatchMovie() {
   
   const { data, error, loading, retry } = useCatalog<{ movie: Movie }>(`/api/catalog?id=${encodeURIComponent(id)}`);
   const movie = data?.movie;
+  // Existing player providers require numeric TMDB IDs; OMDb uses IMDb IDs.
+  const hasPlayer = /^[1-9]\d{0,9}$/.test(id);
   const mounted = useSyncExternalStore(subscribe, () => true, () => false);
   const [activeServer, setActiveServer] = useState(() => {
     try { return getStreamingServer(localStorage.getItem(SERVER_STORAGE_KEY)).id; }
@@ -87,7 +89,7 @@ export default function WatchMovie() {
             </div>
           )}
 
-          {STREAMING_SERVERS.length > 1 && (<div className="mb-4 flex flex-wrap items-center gap-3 bg-card p-3 rounded-xl border border-primary/20">
+          {hasPlayer && STREAMING_SERVERS.length > 1 && (<div className="mb-4 flex flex-wrap items-center gap-3 bg-card p-3 rounded-xl border border-primary/20">
             <div className="flex items-center text-card-foreground/70 mr-2">
               <Server className="w-4 h-4 mr-2" />
               <span className="text-sm font-semibold">Choose player:</span>
@@ -109,14 +111,15 @@ export default function WatchMovie() {
           </div>)}
 
           <div className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-2xl bg-black border border-primary/20 flex-grow max-h-[80vh]">
-            <FellaPlayer key={`${id}-${server.id}`} id={id} title={movie?.title || "Movie"} server={server} onNext={nextServer} />
+            {hasPlayer ? <FellaPlayer key={`${id}-${server.id}`} id={id} title={movie?.title || "Movie"} server={server} onNext={nextServer} /> :
+              <p role="status" className="p-8 text-center text-white/70">Movie information is available, but a player is not available for this title.</p>}
           </div>
           
-          <div className="text-center text-sm text-foreground/50 mt-6 pb-8 space-y-2">
+          {hasPlayer && <div className="text-center text-sm text-foreground/50 mt-6 pb-8 space-y-2">
             <p>Popups and page redirects are blocked. If a server stalls, choose Next server.</p>
             <p className="text-xs">No server is guaranteed ad-free. Try another if you see an overlay or playback fails.</p>
             <p className="text-xs">Playback controls are supplied by the selected provider inside the FellaFLIX player.</p>
-          </div>
+          </div>}
         </motion.div>
       </div>
     </div>

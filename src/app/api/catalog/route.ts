@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { CatalogError, getCatalog, getMovie, getGenres } from "@/lib/tmdb";
+import { CatalogError, getCatalog, getMovie, getGenres, getCatalogProvider } from "@/lib/catalog";
 
 export async function GET(request: NextRequest) {
   try {
     const params = request.nextUrl.searchParams;
-    if (params.get("view") === "genres") return NextResponse.json({ genres: await getGenres() });
+    if (params.get("view") === "genres") return NextResponse.json({ genres: await getGenres(), provider: getCatalogProvider() });
     const id = params.get("id");
     if (id !== null) return NextResponse.json({ movie: await getMovie(id) });
     if (params.get("view") === "home") {

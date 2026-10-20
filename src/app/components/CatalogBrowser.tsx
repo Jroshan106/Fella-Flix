@@ -15,8 +15,8 @@ export default function CatalogBrowser({ kind = "movie", initialQuery = "" }: {
   const [query, setQuery] = useState(initialQuery);
   const [page, setPage] = useState(1);
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
-  // Genre options come from TMDB and are retained while a new results page loads.
-  const genres = useCatalog<{ genres: { id: number; name: string }[] }>("/api/catalog?view=genres");
+  const genres = useCatalog<{ genres: { id: number; name: string }[]; provider: string }>("/api/catalog?view=genres");
+  const isOMDb = genres.data?.provider === "omdb";
   const genreList = genres.data?.genres ?? [];
   const genreIds = genreList.filter(genre => selectedGenres.includes(genre.name)).map(genre => genre.id);
   const params = new URLSearchParams({ kind, page: String(page) });
@@ -28,12 +28,14 @@ export default function CatalogBrowser({ kind = "movie", initialQuery = "" }: {
     <div className="flex flex-wrap items-end justify-between gap-6 mb-8">
       <div className="border-l-4 border-primary pl-4">
         <h1 className="text-4xl font-black">{kind === "anime" ? "Anime Movies" : initialQuery ? "Search Results" : "Movies"}</h1>
-        <p className="mt-2 text-foreground/70">{kind === "anime" ? "Japanese animated films from TMDB" : "Discover and search movies on TMDB"}</p>
+        <p className="mt-2 text-foreground/70">{isOMDb
+          ? kind === "anime" ? "Featured anime films · Movie information from OMDb" : "Featured selections · Search OMDb for more movies"
+          : kind === "anime" ? "Japanese animated films" : "Discover and search movies"}</p>
       </div>
       <div className="flex flex-wrap items-center gap-3">
-        {!query.trim() && <GenreDropdown allGenres={genreList.map(genre => genre.name)}
+        {!query.trim() && genreList.length > 0 && <GenreDropdown allGenres={genreList.map(genre => genre.name)}
           selectedGenres={selectedGenres} onChange={value => { setSelectedGenres(value); setPage(1); }} />}
-        {kind === "movie" ? <input aria-label="Search TMDB movies" placeholder="Search movies…"
+        {kind === "movie" ? <input aria-label="Search movies" placeholder="Search movies…"
           value={query} maxLength={200} onChange={event => { setQuery(event.target.value); setSelectedGenres([]); setPage(1); }}
           className="rounded-xl border border-primary/30 bg-card px-4 py-3 text-foreground" /> :
           <Link href="/search" className="text-primary underline">Search all movies</Link>}
@@ -51,7 +53,7 @@ export default function CatalogBrowser({ kind = "movie", initialQuery = "" }: {
           <div className="p-3">
             <h2 className="font-bold truncate" title={movie.title}>{movie.title}</h2>
             <div className="flex justify-between mt-2 text-xs text-foreground/70">
-              <span>{movie.release_date.slice(0, 4) || "Date TBA"}</span><span>★ {movie.vote_average.toFixed(1)}</span>
+              <span>{movie.release_date.slice(0, 4) || "Date TBA"}</span><span>{movie.has_rating === false ? "Unrated" : `★ ${movie.vote_average.toFixed(1)}`}</span>
             </div>
           </div>
         </Link>)}

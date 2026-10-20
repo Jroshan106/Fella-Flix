@@ -1,5 +1,7 @@
 # TMDB catalog setup
 
+OMDb is also supported and takes precedence for browsing/search when `OMDB_API_KEY` is set. See [OMDb setup and limitations](omdb-catalog.md).
+
 The catalog is now loaded from the official TMDB v3 API. The old `src/app/data/movies.json` list and manual catalog editing have been removed from the application. There is no static fallback.
 
 ## Credentials
