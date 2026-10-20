@@ -4,10 +4,7 @@ export const STREAMING_SERVERS = [
   { id: "nexus", name: "Movies Nexus", url: (id: string) => `https://www.moviesnexus.fun/movie/${id}?autoPlay=0` },
   { id: "nexus-multi", name: "Nexus Multi-audio", url: (id: string) => `https://www.moviesnexus.fun/movie/${id}?sv=multi-audio&autoPlay=0` },
   { id: "vidcore", name: "VidCore(ads)", url: (id: string) => `https://vidcore.org/embed/movie/${id}?theme=8fba96&autoplay=false` },
-  { id: "phantom", name: "VidPhantom", url: (id: string) => `https://vidphantom.com/movie/${id}?primaryColor=8fba96&accentColor=8fba96&secondaryColor=394d3e&backdropColor=000000&autoplay=false` },
   { id: "vidlink", name: "VidLink(ads)", url: (id: string) => `https://vidlink.pro/movie/${id}?primaryColor=8fba96&secondaryColor=394d3e&autoplay=false` },
-  { id: "vidfast", name: "VidFast", url: (id: string) => `https://vidfast.vc/movie/${id}?theme=8fba96&autoPlay=false` },
-  { id: "videasy", name: "Videasy", url: (id: string) => `https://player.videasy.ws/embed/movie/${id}?autoplay=0` },
 ] as const;
 
 export type StreamingServer = typeof STREAMING_SERVERS[number];
@@ -17,10 +14,7 @@ const SERIES_URLS: Record<StreamingServer["id"], (id: string, season: number, ep
   nexus: (id, season, episode) => `https://www.moviesnexus.fun/tv/${id}/${season}/${episode}?autoPlay=0&autoNext=0`,
   "nexus-multi": (id, season, episode) => `https://www.moviesnexus.fun/tv/${id}/${season}/${episode}?sv=multi-audio&autoPlay=0&autoNext=0`,
   vidcore: (id, season, episode) => `https://vidcore.org/embed/tv/${id}/${season}/${episode}?theme=8fba96&autoplay=false`,
-  phantom: (id, season, episode) => `https://vidphantom.com/tv/${id}/${season}/${episode}?primaryColor=8fba96&accentColor=8fba96&secondaryColor=394d3e&backdropColor=000000&autoplay=false`,
   vidlink: (id, season, episode) => `https://vidlink.pro/tv/${id}/${season}/${episode}?primaryColor=8fba96&secondaryColor=394d3e&autoplay=false`,
-  vidfast: (id, season, episode) => `https://vidfast.vc/tv/${id}/${season}/${episode}?theme=8fba96&autoPlay=false`,
-  videasy: (id, season, episode) => `https://player.videasy.ws/embed/tv/${id}/${season}/${episode}?autoplay=0`,
 };
 export const PLAYER_SANDBOX = "allow-scripts allow-same-origin allow-presentation";
 export const SERVER_STORAGE_KEY = "fellaflix_streaming_provider_v2";
