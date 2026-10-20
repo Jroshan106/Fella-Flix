@@ -1,9 +1,7 @@
-import { currentViewer } from "@/lib/auth-server";
 import { NextRequest, NextResponse } from "next/server";
 import { CatalogError, getCatalog, getMovie, getGenres, getSeason, getCatalogProvider } from "@/lib/catalog";
 
 export async function GET(request: NextRequest) {
-  if (!await currentViewer()) return NextResponse.json({ error: "Sign in to continue." }, { status: 401, headers: { "Cache-Control": "private, no-store" } });
   try {
     const params = request.nextUrl.searchParams;
     const kind = params.get("kind") || "movie";

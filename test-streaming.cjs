@@ -9,8 +9,6 @@ const compiled = ts.transpileModule(fs.readFileSync(filename, 'utf8'), { compile
 const route = new Module(filename, module);
 route.filename = filename;
 route.paths = module.paths;
-const originalRequire = route.require.bind(route);
-route.require = id => id === '@/lib/auth-server' ? { currentViewer: async () => ({ username: 'fixture' }) } : originalRequire(id);
 route._compile(compiled, filename);
 const request = (query) => new NextRequest('http://localhost/api/superembed?' + query);
 (async () => {

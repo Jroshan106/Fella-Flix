@@ -3,11 +3,9 @@
 import fs from "fs";
 import path from "path";
 import { headers } from "next/headers";
-import { requireViewer } from "@/lib/auth-server";
-import { verifyAdminAuthorization } from "@/lib/auth";
+import { verifyAdminAuthorization } from "@/lib/admin-auth";
 
 async function verifyAuth() {
-  await requireViewer();
   if (!verifyAdminAuthorization((await headers()).get("authorization"))) throw new Error("Unauthorized");
 }
 
@@ -23,7 +21,6 @@ export interface MovieRequest {
 }
 
 export async function submitRequest(formData: FormData) {
-  await requireViewer();
   const newReq: MovieRequest = {
     id: Date.now().toString(),
     title: formData.get("title") as string,

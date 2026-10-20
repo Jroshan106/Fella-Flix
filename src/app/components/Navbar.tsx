@@ -6,7 +6,6 @@ import { Moon, Sun, Search, Home, Film, Tv, MessageSquarePlus } from "lucide-rea
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { usePathname, useRouter } from "next/navigation";
-import { LogoutButton } from "./LogoutButton";
 import { ThemeToggle } from "./ThemeToggle";
 
 export function Navbar() {
@@ -17,8 +16,6 @@ export function Navbar() {
   const pathname = usePathname();
 
   useEffect(() => setMounted(true), []);
-
-  if (pathname === "/login") return null;
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -71,7 +68,6 @@ export function Navbar() {
               <Link href="/series" className={`text-sm font-medium transition-colors ${pathname === '/series' ? 'text-primary font-bold' : 'text-foreground hover:text-primary'}`}>Series</Link>
               <Link href="/request" className={`text-sm font-medium whitespace-nowrap transition-colors ${pathname === '/request' ? 'text-primary font-bold' : 'text-foreground hover:text-primary'}`}>Request</Link>
               
-              <LogoutButton />
               <ThemeToggle />
             </div>
           </div>
@@ -92,7 +88,7 @@ export function Navbar() {
               <div className="h-10 w-32 bg-foreground/10 animate-pulse rounded-md"></div>
             )}
           </Link>
-          <div className="flex items-center gap-4"><LogoutButton /><ThemeToggle /></div>
+          <ThemeToggle />
         </div>
         {pathname === '/' && (
           <form onSubmit={handleSearch} className="relative w-full">
