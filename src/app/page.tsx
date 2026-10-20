@@ -8,6 +8,7 @@ import { useCatalog } from "./components/useCatalog";
 import { CatalogStatus } from "./components/CatalogStatus";
 import { Star, PlayCircle } from "lucide-react";
 import Image from "next/image";
+import { UpcomingBadge } from "./components/UpcomingBadge";
 
 const container = {
   hidden: { opacity: 0 },
@@ -55,6 +56,7 @@ const MovieGrid = ({ title, items, viewAllLink }: { title: string, items: Movie[
                 <PlayCircle className="w-12 h-12 text-primary mx-auto mb-4 transform scale-50 group-hover:scale-100 transition-transform duration-300" />
                 <p className="text-white text-sm line-clamp-3 mb-2">{movie.overview}</p>
               </div>
+              <UpcomingBadge releaseDate={movie.release_date} kind={movie.type} className="absolute top-3 left-3 z-10" />
             </div>
             <div className="p-4 relative z-10 bg-card">
               <h3 className="font-bold text-card-foreground truncate" title={movie.title}>{movie.title}</h3>
@@ -126,6 +128,7 @@ export default function Home() {
                   <span className="flex items-center text-primary"><Star className="w-5 h-5 mr-1 fill-current" /> {movie.vote_average.toFixed(1)}</span>
                   <span>{movie.release_date.split('-')[0]}</span>
                   <span className="px-2 py-1 bg-primary/20 text-primary border border-primary/30 rounded text-xs uppercase tracking-wider">{movie.type}</span>
+                  <UpcomingBadge releaseDate={movie.release_date} kind={movie.type} />
                 </motion.div>
                 <motion.div
                   initial={{ y: 20, opacity: 0 }}

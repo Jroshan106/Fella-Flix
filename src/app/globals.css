@@ -29,6 +29,12 @@ body {
   color: var(--foreground);
 }
 
+@media (max-width: 639px) {
+  main:has([data-watch-page]), main:has([data-legal-page]) {
+    padding-top: 80px;
+  }
+}
+
 body * {
   transition-property: background-color, border-color, color, fill, stroke;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);

@@ -1,0 +1,32 @@
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const Module = require('node:module');
+const path = require('node:path');
+const ts = require('typescript');
+function load(file, overrides = {}) {
+  const filename = path.resolve(file);
+  const mod = new Module(filename, module); mod.filename = filename; mod.paths = module.paths;
+  const original = mod.require.bind(mod);
+  mod.require = id => id in overrides ? overrides[id] : original(id);
+  mod._compile(ts.transpileModule(fs.readFileSync(filename, 'utf8'), { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020, jsx: ts.JsxEmit.ReactJSX } }).outputText, filename);
+  return mod.exports;
+}
+const helpers = load('src/lib/catalog-presentation.ts');
+const { todayInColombo, isUpcoming, parseGenreIds } = helpers;
+assert.equal(todayInColombo(new Date('2026-10-20T18:29:59Z')), '2026-10-20');
+assert.equal(todayInColombo(new Date('2026-10-20T18:30:00Z')), '2026-10-21');
+assert.equal(isUpcoming('2026-10-22', '2026-10-21'), true);
+assert.equal(isUpcoming('2026-10-21', '2026-10-21'), false);
+assert.equal(isUpcoming('2026-10-20', '2026-10-21'), false);
+assert.equal(isUpcoming('2028-02-29', '2026-10-21'), true);
+for (const date of ['', 'TBA', '2026', '2027-02-29', '2026-13-01', '2026-02-30']) assert.equal(isUpcoming(date, '2026-01-01'), false, date);
+assert.deepEqual(parseGenreIds('878,28,878'), ['878', '28']);
+for (const value of [undefined, ['28'], '28|878', '28/x', '']) assert.deepEqual(parseGenreIds(value), []);
+const { renderToStaticMarkup } = require('react-dom/server');
+const { createElement } = require('react');
+const { UpcomingBadge } = load('src/app/components/UpcomingBadge.tsx', { '@/lib/catalog-presentation': helpers });
+assert.match(renderToStaticMarkup(createElement(UpcomingBadge, { releaseDate: '2099-01-01', kind: 'movie' })), /Upcoming/);
+assert.match(renderToStaticMarkup(createElement(UpcomingBadge, { releaseDate: '2099-01-01', kind: 'series' })), /Premieres 2099-01-01/);
+assert.equal(renderToStaticMarkup(createElement(UpcomingBadge, { releaseDate: '2000-01-01' })), '');
+assert.equal(renderToStaticMarkup(createElement(UpcomingBadge, { releaseDate: '' })), '');
+console.log('PASS: release date boundaries, Colombo midnight, unknown dates, movie/series badges and genre query validation');

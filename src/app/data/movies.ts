@@ -9,6 +9,7 @@ export interface Movie {
   has_rating?: boolean;
   type: "movie" | "series";
   genres?: string[];
+  genre_details?: Genre[];
   seasons?: Season[];
 }
 

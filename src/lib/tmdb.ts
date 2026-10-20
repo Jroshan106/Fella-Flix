@@ -48,6 +48,7 @@ async function tmdb<T>(path: string, params: Record<string, string> = {}): Promi
 
 export function normalizeMovie(movie: TMDBMovie, genres: Genre[] = [], kind: Movie["type"] = "movie"): Movie {
   const ids = movie.genre_ids ?? movie.genres?.map(genre => genre.id) ?? [];
+  const genreDetails = movie.genres ?? genres.filter(genre => ids.includes(genre.id));
   return {
     id: movie.id, title: movie.title || movie.name || "Untitled",
     poster_path: movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : "/images/no-results.png",
@@ -57,7 +58,8 @@ export function normalizeMovie(movie: TMDBMovie, genres: Genre[] = [], kind: Mov
     vote_average: Number.isFinite(movie.vote_average) ? movie.vote_average! : 0,
     type: kind,
     ...(kind === "series" ? { seasons: (movie.seasons ?? []).filter(season => season.season_number >= 0 && season.episode_count > 0) } : {}),
-    genres: movie.genres?.map(genre => genre.name) ?? genres.filter(genre => ids.includes(genre.id)).map(genre => genre.name),
+    genres: genreDetails.map(genre => genre.name),
+    genre_details: genreDetails,
   };
 }
 

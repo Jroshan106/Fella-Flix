@@ -8,19 +8,20 @@ import { useCatalog } from "./useCatalog";
 import { CatalogStatus } from "./CatalogStatus";
 import { GenreDropdown } from "./GenreDropdown";
 import { Pagination } from "./Pagination";
+import { UpcomingBadge } from "./UpcomingBadge";
 
-export default function CatalogBrowser({ kind = "movie", initialQuery = "" }: {
-  kind?: "movie" | "series"; initialQuery?: string;
+export default function CatalogBrowser({ kind = "movie", initialQuery = "", initialGenreIds = [] }: {
+  kind?: "movie" | "series"; initialQuery?: string; initialGenreIds?: string[];
 }) {
   const [query, setQuery] = useState(initialQuery);
   const [page, setPage] = useState(1);
-  const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
+  const [selectedGenreIds, setSelectedGenreIds] = useState(initialGenreIds);
   const genres = useCatalog<{ genres: { id: number; name: string }[]; provider: string }>(`/api/catalog?view=genres&kind=${kind}`);
   const genreList = genres.data?.genres ?? [];
-  const genreIds = genreList.filter(genre => selectedGenres.includes(genre.name)).map(genre => genre.id);
+  const selectedGenres = genreList.filter(genre => selectedGenreIds.includes(String(genre.id))).map(genre => genre.name);
   const params = new URLSearchParams({ kind, page: String(page) });
   if (query.trim()) params.set("q", query.trim());
-  else if (genreIds.length) params.set("genres", genreIds.join(","));
+  else if (selectedGenreIds.length) params.set("genres", selectedGenreIds.join(","));
   const { data, error, loading, retry } = useCatalog<CatalogPage>(`/api/catalog?${params}`);
 
   return <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
@@ -31,9 +32,9 @@ export default function CatalogBrowser({ kind = "movie", initialQuery = "" }: {
       </div>
       <div className="flex flex-wrap items-center gap-3">
         {!query.trim() && genreList.length > 0 && <GenreDropdown allGenres={genreList.map(genre => genre.name)}
-          selectedGenres={selectedGenres} onChange={value => { setSelectedGenres(value); setPage(1); }} />}
+          selectedGenres={selectedGenres} onChange={value => { setSelectedGenreIds(genreList.filter(genre => value.includes(genre.name)).map(genre => String(genre.id))); setPage(1); }} />}
         {<input aria-label={kind === "series" ? "Search series" : "Search movies"} placeholder={kind === "series" ? "Search series…" : "Search movies…"}
-          value={query} maxLength={200} onChange={event => { setQuery(event.target.value); setSelectedGenres([]); setPage(1); }}
+          value={query} maxLength={200} onChange={event => { setQuery(event.target.value); setSelectedGenreIds([]); setPage(1); }}
           className="rounded-xl border border-primary/30 bg-card px-4 py-3 text-foreground" />}
       </div>
     </div>
@@ -45,6 +46,7 @@ export default function CatalogBrowser({ kind = "movie", initialQuery = "" }: {
           <div className="aspect-[2/3] relative bg-black">
             <Image src={movie.poster_path} alt={movie.title} fill
               sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 16vw" className="object-cover" />
+            <UpcomingBadge releaseDate={movie.release_date} kind={movie.type} className="absolute top-2 left-2 z-10" />
           </div>
           <div className="p-3">
             <h2 className="font-bold truncate" title={movie.title}>{movie.title}</h2>

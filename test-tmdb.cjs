@@ -60,6 +60,7 @@ function mock() {
   assert.equal(result.results[0].vote_average, 0);
   assert.equal(result.results[0].type, 'movie');
   assert.deepEqual(result.results[0].genres, ['Animation']);
+  assert.deepEqual(result.results[0].genre_details, [{ id: 16, name: 'Animation' }]);
   assert.equal(calls.at(-1).url.searchParams.get('with_genres'), '16|28');
   assert.equal(calls.at(-1).options.headers.Authorization, 'Bearer fixture-token');
   assert.equal(calls.at(-1).options.next.revalidate, 900);
@@ -75,6 +76,7 @@ function mock() {
   assert.equal(result.results[0].title, 'Fixture Series');
   assert.equal(result.results[0].release_date, '2008-01-20');
   assert.deepEqual(result.results[0].genres, ['Drama']);
+  assert.deepEqual(result.results[0].genre_details, [{ id: 18, name: 'Drama' }]);
   result = await route.GET(request('kind=series&q=Test'));
   assert.equal(result.status, 200);
   assert.equal(calls.at(-1).url.pathname, '/3/search/tv');
