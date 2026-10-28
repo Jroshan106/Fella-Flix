@@ -14,7 +14,7 @@ const SERIES_URLS: Record<StreamingServer["id"], (id: string, season: number, ep
   nexus: (id, season, episode) => `https://www.moviesnexus.fun/tv/${id}/${season}/${episode}?autoPlay=0&autoNext=0`,
   "nexus-multi": (id, season, episode) => `https://www.moviesnexus.fun/tv/${id}/${season}/${episode}?sv=multi-audio&autoPlay=0&autoNext=0`,
   vidcore: (id, season, episode) => `https://vidcore.org/embed/tv/${id}/${season}/${episode}?theme=8fba96&autoplay=false`,
-  vidlink: (id, season, episode) => `https://vidlink.pro/tv/${id}/${season}/${episode}?primaryColor=8fba96&secondaryColor=394d3e&autoplay=false`,
+  vidlink: (id, season, episode) => `https://multiembed.mov/tv/${id}/${season}/${episode}?primaryColor=8fba96&secondaryColor=394d3e&autoplay=false`,
 };
 export const PLAYER_SANDBOX = "allow-scripts allow-same-origin allow-presentation";
 export const SERVER_STORAGE_KEY = "fellaflix_streaming_provider_v2";
